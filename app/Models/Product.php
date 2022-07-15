@@ -41,6 +41,15 @@ class Product extends Model
 
 
     // METODI
+    public static function categories() {
+        return [
+            'weapon' => 'Armi',
+            'spell' => 'Magie', 
+            'object' => 'Oggetti',
+            'wearable' => 'Accessori'
+        ];
+    }
+
     public function disable() {
         $this->update(['is_disabled' => true]);
     }
@@ -50,8 +59,11 @@ class Product extends Model
     }
 
     public function isDisabled() {
-        if ($this->is_disabled) return true;
-        else return false;
+        return $this->is_disabled;
+    }
+
+    public function isAvailable() {
+        return (! $this->isDisabled());
     }
 
 }
