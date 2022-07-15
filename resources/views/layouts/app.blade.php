@@ -11,12 +11,17 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src={{ asset('js/jquery-3.3.1.js') }}></script>
+    <script type="text/javascript" src="{{ asset('js/mdb.min.js') }}"></script>
+    <script src={{ asset('js/zonkoshop.js') }}></script>
+    
+    @yield('page-javascript')
 
 
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
     {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/> --}}
@@ -33,14 +38,14 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light">
+        <nav class="navbar navbar-expand-md navbar-light shadow-none">
             <div class="container">
 
                 {{-- ZONKO Logo --}}
                 <div class="col-md-3">
                     <a class="navbar-brand" href="{{ url('/') }}">
                         <!--{{ config('app.name', 'Zonko Shop') }}-->
-                        <img src={{ asset('images/zonkologo.png') }} style="max-height: 5rem;">
+                        <img src={{ asset('images/zonkologo.png') }} style="max-height: 4rem;">
                     </a>
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -140,27 +145,23 @@
 
         </nav>
 
+        
 
-        <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
-            <!-- Container wrapper -->
-            <div class="container-fluid">
-                <!-- Collapsible wrapper -->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarCenteredExample">
-                <!-- Left links -->
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    @php
-                        $categories = App\Models\Product::categories() //App\Category::orderBy('name')->get();
-                    @endphp
-                    @foreach ($categories as $key => $category)
-                        <li>
-                            <span class="col-md-3">
-                                <a class="btn btn-link btn-lg " data-ripple-color="dark" {{-- style="color: #f20707;" --}}
-                                href="{{ "/TODO:CATEGORY_VIEW/".$key }}">{{ $category }}</a>
-                            </span>
-                        </li>
-                    @endforeach
-                </ul>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid justify-content-center">
+                <!-- Tabs navs -->
+                <ul class="nav nav-tabs" id="ex-with-icons" role="tablist">
+                 @php
+                    $categories = App\Models\Product::categories() //App\Category::orderBy('name')->get();
+                @endphp
+                @foreach ($categories as $key => $category)
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" 
+                           id="{{ $key }}-view-tab" role="tab"
+                           href="{{ "/TODO:CATEGORY_VIEW/".$key }}"
+                        >{{ $category }}</a>
+                    </li>
+                @endforeach
             </div>
         </nav>
 
@@ -172,14 +173,14 @@
                 @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show">
                     <h4 class="alert-heading">Si sono verificati alcuni errori</h4>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li><b>{{ $error }}</b></li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li><b>{{ $error }}</b></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
             </div>
@@ -189,11 +190,6 @@
             </div>
         </main>
     </div>
-
-    <script type="text/javascript" src="{{ asset('js/mdb.min.js') }}"></script>
-    <script src={{ asset('js/zonkoshop.js') }}></script>
-    
-    @yield('page-javascript')
 
 
 </body>
