@@ -131,7 +131,7 @@ class ProductController extends Controller
         //Elaborazione
         $product->update($validated);
 
-        redirect('/products/'.$product->id);
+        return redirect('/products/'.$product->id);
 
     }
 
