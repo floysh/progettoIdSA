@@ -18,7 +18,7 @@
                 </h5>
             </a>
             <h4 class="card-text">
-                <span>{{ $product->price }}</span>
+                <span>@currency($product->price)</span>
                 <span><i class="fas fa-coins"></i></span>
             </h4>
 
