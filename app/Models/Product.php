@@ -36,9 +36,12 @@ class Product extends Model
 
 
     // RELAZIONI ELOQUENT
+    //  TODO: ordini
 
-    //  TODO: ordini, carrelli
-
+    public function cart() {
+        return $this->hasMany(Cart::class);
+    }
+    
 
     // METODI
     public static function categories() {

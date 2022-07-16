@@ -28,7 +28,12 @@
                     @if ($product->isDisabled())
                         <div>Non disponibile per l'acquisto</div>
                     @else
-                        <div id="add-to-cart-btn" class="btn btn-primary">Aggiungi al carrello</div>
+                        <form action="{{ action('CartController@store') }}" method="POST">
+                            @csrf()
+                            <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
+                            <input type="number" name="quantity" id="quantity" value="1">
+                            <button id="add-to-cart-btn" type="submit" class="btn btn-primary">Aggiungi al carrello</button>
+                        </form>
                     @endif
                 </div>
                 <div class="mb-2">

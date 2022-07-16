@@ -21,11 +21,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Products
+// Products
 Route::get('/products', 'ProductController@index');
-Route::get('/products/create', 'ProductController@create'); //mostra il form per la creazione
-Route::post('/products/create', 'ProductController@store'); //gestisce i dati inviati col form
+Route::get('/products/create', 'ProductController@create');
+Route::post('/products/create', 'ProductController@store');
 Route::get('/products/{product}', 'ProductController@show')->name('ShowProduct');
 Route::get('/products/{product}/edit', 'ProductController@edit')->name('EditProduct');
 Route::patch('/products/{product}', 'ProductController@update');
 Route::delete('/products/{product}', 'ProductController@destroy');
+
+// Cart
+Route::get('/cart', 'CartController@index')->middleware('auth')->name('CartPage');
+Route::post('/cart', 'CartController@store')->middleware('auth');
+Route::delete('/cart/{cart}', 'CartController@destroy')->middleware('auth');
+Route::patch('/cart/{cart}', 'CartController@update')->middleware('auth');

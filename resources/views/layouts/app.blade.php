@@ -78,7 +78,7 @@
                         <ul class="navbar-nav ml-auto">
                             @if ( !Auth::check() || !Auth::user()->isMerchant() )
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ "TODO:CUSTOMER_CART" }}">
+                                    <a class="nav-link" href="{{ action('CartController@index') }}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
                                 </li>
@@ -118,7 +118,7 @@
                                                 <span id="user-money">@currency(Auth::user()->money)</span>
                                                 <span><i class="fas fa-coins"></i></span>
                                             </p>
-                                            <a class="dropdown-item" href="{{ "TODO:CUSTOMER_CART" }}">
+                                            <a class="dropdown-item" href="{{ action('CartController@index') }}">
                                                 <span>Il mio carrello</span>
                                             </a>
                                             <a class="dropdown-item" href="{{ "TODO:CUSTOMER_ORDERS" }}">
