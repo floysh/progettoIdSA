@@ -44,8 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // RELAZIONI
+    public function cart() {
+        return $this->hasMany(Cart::class);
+    }
 
-    // Metodi
+
+    // METODI
     public function isMerchant() {
         if ($this->role == 'merchant') 
             return true;
