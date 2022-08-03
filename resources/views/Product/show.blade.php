@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="mb-2">
-                    @if ($product->isDisabled())
+                    @if ($product->isNotAvailable())
                         <div>Non disponibile per l'acquisto</div>
                     @else
                         <form action="{{ action('CartController@store') }}" method="POST">

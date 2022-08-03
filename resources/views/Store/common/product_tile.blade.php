@@ -26,7 +26,7 @@
 
         <div class="card-footer">
             @if (Auth::check())
-                @if ($product->isDisabled())
+                @if ($product->isNotAvailable())
                 <div class="container">
                     <div class="row">
                         <a class="btn btn-dark text-white">

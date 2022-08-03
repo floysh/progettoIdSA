@@ -15,6 +15,15 @@ class Product extends Model
     // soltanto questi attributi saranno modificabili attraverso controller@update
     protected $fillable = ['name','category', 'imagepath', 'quantity', 'description','price','is_disabled'];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_disabled' => false,
+        'imagepath' => 'images/dummy.png',
+    ];
 
     // QUERY SCOPE
     //metodi per definire filtri da applicare alle query
@@ -61,12 +70,12 @@ class Product extends Model
         $this->update(['is_disabled' => false]);
     }
 
-    public function isDisabled() {
-        return $this->is_disabled;
-    }
-
+    
     public function isAvailable() {
-        return (! $this->isDisabled());
+        return ($this->is_disabled == 0);
     }
-
+    
+    public function isNotAvailable() {
+        return (! $this->isAvailable());
+    }
 }

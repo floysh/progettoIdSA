@@ -62,7 +62,7 @@
             <div>
                 <label>Disponibile per l'acquisto</label>
             </div>
-            @if ($product->isDisabled())
+            @if ($product->NotAvailable())
                 <div class="custom-control custom-radio custom-control-inline">
                     <input class="form-check-input" type="radio" name="is_disabled" value="0">
                     <label class="form-label" class="form-check-label" for="inlineRadio1">Disponibile</label>
