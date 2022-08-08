@@ -31,12 +31,12 @@ class Product extends Model
 
     public function scopeAvailable($query) {
         /* I query scope devono restituire oggetti Builder o si perdono alcune funzioni (es. relazioni) */
-        return $query->where('is_disabled','=', 0);             //così restituisce un Builder
-        //return $query->where('is_disabled','=', 0)->get();    //così restituisce un Collection (praticamente un array, con questo non si possono più usare le relazioni)
+        return $query->where('is_disabled','=', false);             //così restituisce un Builder
+        //return $query->where('is_disabled','=', false)->get();    //così restituisce un Collection (praticamente un array, con questo non si possono più usare le relazioni)
     }
 
     public function scopeNotAvailable($query) {
-        return $query->where('is_disabled','=', 1);
+        return $query->where('is_disabled','=', true);
     }
 
     public function scopeOfCategory($query, $categoryID) {
@@ -63,16 +63,20 @@ class Product extends Model
     }
 
     public function disable() {
-        $this->update(['is_disabled' => true]);
+        //$this->update(['is_disabled' => true]); // aggiornava record DB ma non l'oggetto in memoria(?)
+        $this->is_disabled = true;
+        $this->update();
     }
 
     public function enable() {
-        $this->update(['is_disabled' => false]);
+        //$this->update(['is_disabled' => false]);
+        $this->is_disabled = false;
+        $this->update();
     }
 
     
     public function isAvailable() {
-        return ($this->is_disabled == 0);
+        return ($this->is_disabled == false);
     }
     
     public function isNotAvailable() {

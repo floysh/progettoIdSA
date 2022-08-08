@@ -27,14 +27,20 @@ class ProductTest extends TestCase
 
     public function test_availability_methods()
     {
-        $product = ProductFactory::new()->create();
+        $product = ProductFactory::new()->make();
         
         $this->assertTrue($product->isAvailable());
         $this->assertFalse($product->isNotAvailable());
 
+        // test disable method
         $product->disable();
         $this->assertFalse($product->isAvailable());
         $this->assertTrue($product->isNotAvailable());
+
+        // test re-enablement
+        $product->enable();
+        $this->assertTrue($product->isAvailable());
+        $this->assertFalse($product->isNotAvailable());
     }
 
     public function test_scope_available()
