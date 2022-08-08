@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -31,8 +32,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
-        'role'
+        'remember_token'
     ];
 
     /**
@@ -44,11 +44,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    // QUERY SCOPE
+    public function scopeCustomers($query) {
+        return $query->where('role','=','customer');
+    }
+    public function scopeMerchants($query) {
+        return $query->where('role','=','merchant');
+    }
+    
+
     // RELAZIONI
     public function cart() {
         return $this->hasMany(Cart::class);
     }
-
+    
 
     // METODI
     public function isMerchant() {

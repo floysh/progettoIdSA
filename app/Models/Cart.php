@@ -44,7 +44,7 @@ class Cart extends Model
         return $this->quantity * $this->product->price;
     }
 
-    public static function getTotalPrice() {
+    public static function getCheckoutPrice() {
         $total = 0.0;
         foreach(Cart::all() as $cart) {
             $total += ($cart->quantity * $cart->product->price);
