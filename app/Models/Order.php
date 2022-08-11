@@ -11,7 +11,7 @@ class Order extends Model
 
     //RELAZIONI ELOQUENT
     public function products() {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity')->as('order_properties');
     }
 
     public function user() {
@@ -27,5 +27,14 @@ class Order extends Model
         
     }
 
+    public function total() {
+        $this->update(); 
+
+        $total = 0.0;
+        foreach ($this->products()->get() as $item) {
+            $total += $item->price * $item->order_properties->quantity;
+        }
+        return $total;
+    }
 
 }

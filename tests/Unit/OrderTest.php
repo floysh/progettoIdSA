@@ -43,6 +43,19 @@ class OrderTest extends TestCase
 
     public function test_can_calculate_total_import() {
         $this->markTestIncomplete("TODO");
+        $order = Order::make();
+        $order->user_id = User::first()->id;
+        $order->save();
+        
+        $product1 = ProductFactory::new(['price' => 1.25])->create();
+        $product2 = ProductFactory::new(['price' => 3.5])->create();
+        
+        $order->add($product1, 2);
+        $order->add($product2, 3);
+        $order->update();
+
+        $expected_result = 2*1.25 + 3*3.5;
+        $this->assertEquals($expected_result, $order->total());
     }
 
     public function test_scope_on_current_user() {
