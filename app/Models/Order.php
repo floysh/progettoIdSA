@@ -18,18 +18,14 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    // GLOBAL SCOPE
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('current_user', function(Builder $builder)  {
-            if (Auth::check()) $builder->where('user_id', '=', Auth::user()->id);
-            else return $builder->where('user_id', '<', 0); //per fare una collection vuota
-        });
-    }
 
     // METODI
-    // [TODO]
+    public function add($product, $quantity = 1) {
+        if ($quantity > 0)
+            $this->products()->attach($product, ['quantity' => $quantity]);
+        else throw new ErrorException("invalid product quantity provided", 1);
+        
+    }
+
 
 }

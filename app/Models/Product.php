@@ -45,11 +45,14 @@ class Product extends Model
 
 
     // RELAZIONI ELOQUENT
-    //  TODO: ordini
-
     public function cart() {
-        return $this->hasMany(Cart::class);
+        return $this->belongsToMany(Cart::class);
     }
+
+    public function orders() {
+        return $this->belongsToMany(Order::class);
+    }
+
     
 
     // METODI
