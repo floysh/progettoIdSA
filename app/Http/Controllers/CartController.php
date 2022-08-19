@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,16 +22,6 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,35 +31,26 @@ class CartController extends Controller
     {
         // TODO: Validazione
 
-        Cart::create([
-            'user_id' => Auth::user()->id,
-            'product_id' => $request['product_id'],
-            'quantity' => $request['quantity']
-        ]);
+        $product = Product::available()->findOrFail($request['product_id']);
 
-        return redirect(action('CartController@index'));    
-    }
+        if ($product->isNotAvailable()) {
+            return back()->withErrors('"'.$product->name.'" non può essere acquistato');
+        }
+        elseif ($request['quantity'] > $product->quantity) {
+            
+            return back()->withErrors('Le scorte di "'.$product->name.'" non sono sufficienti');
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
+        // Aggiorna record esistente o crealo ex novo se non c'è 
+        // (niente duplicati)
+        Auth::user()->cart()
+                    ->updateOrCreate(['product_id' => $request['product_id']], ['quantity' => $request['quantity']]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
+        // Aggiorna disponibilità prodotto
+        $product->quantity -= $request['quantity'];
+        $product->update();
+
+        return back();    
     }
 
     /**
@@ -91,6 +73,16 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        // TODO: Validazione
+
+        
+        // Rimetti a posto l'oggetto
+        $cart->product->quantity += $cart->quantity;
+        $cart->product->update();
+        
+        // Elimina record
+        $cart->delete();
+        
+        return back();
     }
 }

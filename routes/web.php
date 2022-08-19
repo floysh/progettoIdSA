@@ -35,3 +35,8 @@ Route::get('/cart', 'CartController@index')->middleware('auth')->name('CartPage'
 Route::post('/cart', 'CartController@store')->middleware('auth');
 Route::delete('/cart/{cart}', 'CartController@destroy')->middleware('auth');
 Route::patch('/cart/{cart}', 'CartController@update')->middleware('auth');
+
+// Orders
+Route::get('/orders', 'OrderController@index')->middleware('auth');
+Route::post('/orders', 'OrderController@store')->middleware('auth');
+Route::get('/orders/{order}', 'OrderController@show')->middleware('auth');

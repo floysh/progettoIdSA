@@ -3,7 +3,7 @@
 @extends('layouts.app')
 
 @section('title')
-{{$cart->count()}} - Il mio carrello - {{ config('app.name', 'ZonkoShop') }}
+Il mio carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
 @endsection
 
 @section('content')
@@ -30,9 +30,6 @@
             <div class="mb-3">
                 <h1>Il mio carrello</h1>
             </div>
-            @php
-                $total = 0.0;
-            @endphp
             @foreach ($cart as $item)
             <div class="list-group-item cart-item border" id="cart-{{ $item->id }}">
                 <div class="" style="padding: 0.4rem">
@@ -43,12 +40,13 @@
                             </a>
                         </h4>
                         <span>
-                            <a class="remove-from-cart btn btn-sm btn-link btn-rounded text-danger"
-                                href="{{ action('CartController@destroy',$item->id) }}"
-                                data-id={{ $item->id }} data-ripple-color="danger"
-                            >
-                                <span><i class="fas fa-times"></i></span>
-                            </a>
+                            <form action="{{ action('CartController@destroy',$item->id) }}" method="POST">
+                                @method('DELETE')
+                                @csrf()
+                                <button type="submit" class="btn btn-sm btn-link btn-rounded text-danger">
+                                    <span><i class="fas fa-times"></i></span>
+                                </button>
+                            </form>
                         </span>
                     </div>
                     <br>
@@ -61,7 +59,7 @@
                                 route="{{ action('CartController@update',$item->id) }}"
                                 data-id="{{ $item->id }}"
                                 >
-                                    @for ($i=1; $i <= ($item->product_quantity + $item->quantity); $i++)
+                                    @for ($i=1; $i <= ($item->product->quantity + $item->quantity); $i++)
                                         <option value="{{ $i }}"
                                         @if($item->quantity == $i)
                                             selected
@@ -87,9 +85,17 @@
                 <div class="d-flex w-100 justify-content-between mb-3">
                     <div class="h3">Totale</div>
                     <h3>
-                        <span id="purchase-total-amount" class="mr-1">@currency(App\Models\Cart::getTotalPrice())</span>
+                        <span id="purchase-total-amount" class="mr-1">@currency(App\Models\Cart::getCheckoutPrice())</span>
                         <span><i class="fas fa-coins"></i></span>
                     </h3>
+                </div>
+                <div class="justify-content-end d-flex">
+                <form action="{{ action('OrderController@store') }}" method="post">
+                        @csrf()
+                        <button id="purchase" type="submit" class="btn btn-primary">
+                            Conferma Acquisto e Paga
+                        </button>
+                    </form>
                 </div>
         @endif
     </div>
