@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Aggiunge direttiva @currency() per formattare i $oldi
+        Blade::directive('currency', function ($amount) {
+            return "<?php echo number_format($amount, 2, ',', '.'); ?>";
+        });
     }
 }
