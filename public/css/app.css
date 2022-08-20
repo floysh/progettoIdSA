@@ -1,7 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);
 @import url(https://fonts.googleapis.com/css?family=Nunito:400,700);
-@charset "UTF-8";
-/*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
+@charset "UTF-8"; /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,
 .pagination-next,
@@ -10308,12 +10306,6 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem;
 }
 
-@media screen and (max-width: 786px) {
-  .section-title-with-actions {
-    display: block;
-    margin-bottom: 1.5rem;
-  }
-}
 .is-centered {
   display: flex;
   justify-content: center;

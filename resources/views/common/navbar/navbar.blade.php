@@ -3,7 +3,7 @@
   <div class="container is-widescreen">
     <div class="navbar-brand is-unselectable">
       <a class="navbar-item" href="/">
-        <img src={{ asset('images/zonkologo.png') }} style="max-height: 4rem;">
+        <img src={{ asset('images/zonkologo.png') }} style="max-height: 3.5rem;">
       </a>
       
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu">

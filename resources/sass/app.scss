@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
 // Variables
 @import 'variables';
@@ -9,13 +9,6 @@
 
 
 // Shared stuff
-
-@media screen and (max-width: 786px) {
-    .section-title-with-actions {
-        display: block;
-        margin-bottom: 1.5rem;
-    }
-}
 
 .is-centered {
     display:flex;
