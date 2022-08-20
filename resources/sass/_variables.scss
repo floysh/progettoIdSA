@@ -1,7 +1,19 @@
-// Body
-$body-bg: #f8fafc;
+@charset "utf-8";
 
-// Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Brand colors
+$blue: #0077c7;
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$primary: $blue;
+$link: $primary;
+$widescreen-enabled: true;
+$fullhd-enabled: true;

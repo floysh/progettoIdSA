@@ -4,5 +4,22 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Bulma
+@import "~bulma/bulma.sass";
+
+
+// Shared stuff
+
+@media screen and (max-width: 786px) {
+    .section-title-with-actions {
+        display: block;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.is-centered {
+    display:flex;
+    justify-content: center;
+    align-content: center;
+}
+
