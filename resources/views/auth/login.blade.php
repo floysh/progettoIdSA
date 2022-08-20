@@ -42,21 +42,27 @@
                     </div>
 
                     <div class="field has-text-left">
-                        <label class="label" for="remember">
-                            <input class="checkbox" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            {{ __('Remember Me') }}
-                        </label>
+                        <div class="control">
+                            <label class="checkbox" for="remember">
+                                <input class="checkbox" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                {{ __('Remember Me') }}
+                            </label>
+                        </div>
+                    </div>
 
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-block is-primary is-fullwidth">
+                                Login
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="button is-block is-primary is-fullwidth">
-                        Login
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    </button>
               </form>
             </div>
             <p class="has-text-grey m-3">
-                Non hai un account? <a href="{{ route('register') }}">Registati</a>
+                Non hai un account? <a href="{{ route('register') }}">Registrati</a>
             </p>
         </div>
       </div>
