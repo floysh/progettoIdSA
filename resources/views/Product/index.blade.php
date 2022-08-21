@@ -13,7 +13,7 @@
     <div class="container">
         <div class="list">
             @foreach ($products as $product)
-                <div class="list-item">
+                <div class="list-item block">
                     <div class="columns">
                         <div class="column is-1">
                             <img src="/images/prod/{{ $product->category }}.png" alt="{{ $product->category }}">

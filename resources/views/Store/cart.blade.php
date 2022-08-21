@@ -9,10 +9,10 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
 @section('content')
 
 <div class="section container">
-    @if (empty($cart))
-        <div class="columns">
-            <div class="column">
-                <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" class="img-fluid" style="height: 40rem">
+    @if ($cart->isEmpty())
+        <div class="columns is-flex">
+            <div class="column is-hidden-mobile">
+                <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" class="img-fluid">
             </div>
             <div class="column is-flex is-align-items-center">
                 <div class="container">
@@ -20,12 +20,15 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                     <p>
                         Quando trovi qualcosa che ti interessa fai click su <strong>Aggiungi al carrello<strong>
                     </p>
+                    <p class="mt-5">
+                        <a class="is-link" href="/products">Esplora i prodotti</a>
+                    </p>
                 </div>
             </div>
         </div>
         
     @else
-        <h3 class="title is-size-3">Carrello</h3>
+        <h3 class="title is-size-3 mb-6">Carrello</h3>
         
         <div class="list block">
             @foreach ($cart as $item)
@@ -42,7 +45,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                             </div>
                             <div class="is-size-6">
                                 <span><i class="fas fa-user"></i></span>
-                                <span>Helga Maga di Test-a</span>
+                                <span>$product->merchant->name</span>
                             </div>
                             <div class="is-size-6">
                                 <span><i class="fas fa-coins"></i></span>
@@ -67,7 +70,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                     <div class="field is-grouped">
                                         <div class="control">
                                             <label class="label">Quantità</label>
-                                            <div class="select">
+                                            <div class="select is-small">
                                                 <select name="quantity" 
                                                         onchange="event.preventDefault();
                                                                 document.getElementById('cart-edit-{{ $item->id }}-form').submit();">
@@ -110,7 +113,6 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
             @endforeach
         </div>
 
-        <hr>
 
         <div class="container has-text-right">
             <div class="block is-size-4 mt-4">
