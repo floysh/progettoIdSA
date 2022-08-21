@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+@import "~bulma/sass/utilities/initial-variables.sass";
+
 // Brand colors
 $blue: #0077c7;
 $purple: #8A4D76;
@@ -14,3 +16,6 @@ $primary: $blue;
 $link: $primary;
 $widescreen-enabled: true;
 $fullhd-enabled: true;
+
+// Update Bulma's derived variables
+$navbar-breakpoint: $tablet;

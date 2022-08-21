@@ -6,35 +6,60 @@
         <img src={{ asset('images/zonkologo.png') }} style="max-height: 3.5rem;">
       </a>
       
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" 
+          onclick="document.getElementById('navbar-menu').classList.toggle('is-active')"
+          data-target="navbar-menu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
     
-    {{-- LEFT SIDE --}}
-
+    
     <div id="navbar-menu" class="navbar-menu">
+      {{-- LEFT SIDE --}}
       <div class="navbar-start has-text-weight-bold">
-        @php
-            $categories = App\Models\Product::categories()
-        @endphp
-        @foreach ($categories as $cat_id => $category)
-        <a href="{{ action('ProductController@index', ['category' => $cat_id]) }}" class="navbar-item">{{ $cat_id }}</a>
-        @endforeach
+        <div class="navbar-item has-dropdown is-hoverable is-boxed">
+          <a class="navbar-link" href="/products">
+            Prodotti
+          </a>
+          <div class="navbar-dropdown is-boxed">
+              @php
+                $categories = App\Models\Product::categories()
+            @endphp
+            @foreach ($categories as $cat_id => $category)
+            <a class="navbar-item" href="{{ action('ProductController@index', ['category' => $cat_id]) }}" >{{ $cat_id }}</a>
+            @endforeach
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-item container-fluid">
+        <div class="field has-addons">
+          <div class="control has-icons-left">
+            <input class="input" type="text" placeholder="Cerca un prodotto">
+            <span class="icon is-left">
+              <i class="fas fa-hat-wizard"></i>
+            </span>
+          </div>
+          <div class="control">
+            <a class="button is-info">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
       {{-- RIGHT SIDE --}}
       <div class="navbar-end">
-      @if(!Auth::check())
+        @if(!Auth::check())
         <div class="navbar-item">
           <div class="buttons">
             {{--<a href="{{ route('register') }}" class="button is-primary">Sign up</a>--}}
             <a href="{{ route('login') }}" class="button">Login</a>
           </div>
         </div>
-      @else
+        @else
        
         <div class="navbar-item pl-0 is-hidden-mobile">
           <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
@@ -48,7 +73,7 @@
         <div id="account-menu" class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <span class="image mr-2 is-hidden-mobile is-hidden-desktop">
-              <img class="is-rounded" src="<%= asset_path("avatar-placeholder") %>" alt="profile picture placeholder">
+              <img class="is-rounded" src="{{ asset("avatar-placeholder") }}" alt="pp">
             </span>
             <span class="is-hidden-touch">
               <div><strong>{{ Auth::user()->name }}</strong></div>
@@ -73,6 +98,7 @@
         @endif
       </div>
     </div>
+
   </div>
 
 </nav>

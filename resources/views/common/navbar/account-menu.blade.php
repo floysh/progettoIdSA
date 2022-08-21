@@ -1,6 +1,6 @@
 <div class="account-menu">
 
-    <a class="navbar-item is-justify-content-left" href="<%= current_user_profile_url %>">
+    <div class="navbar-item is-justify-content-left">
       <span class="image pr-3 is-hidden-mobile">
         <img class="is-rounded" src="{{ asset('images/avatar-placeholder') }}" alt="pp">
       </span>
@@ -8,7 +8,7 @@
         <div class="has-text-weight-bold">{{ Auth::user()->name }}</div>
         <div>{{ Auth::user()->email  }}</div>
       </span>
-    </a>
+    </div>
 
     <div class="navbar-item is-justify-content-left">
       <span>
