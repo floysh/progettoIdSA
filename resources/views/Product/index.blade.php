@@ -36,7 +36,23 @@
                             </div>
                         </div>
                         <div class="column is-narrow has-text-right">
-                            @if ($product->isAvailable())
+                            @if ($product->isNotAvailable())
+                                <div class="field">
+                                    <div class="level container-fluid">
+                                        <div class="level-item">
+                                            <strong>Non disponibile</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($product->quantity == 0)
+                                <div class="field">
+                                    <div class="level container-fluid">
+                                        <div class="level-item">
+                                            <strong>Esaurito</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
                                 <form action="{{ action('CartController@store') }}" method="POST">
                                     @csrf()
                                     <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
