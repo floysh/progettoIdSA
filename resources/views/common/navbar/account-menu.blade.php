@@ -2,7 +2,7 @@
 
     <div class="navbar-item is-justify-content-left">
       <span class="image pr-3 is-hidden-mobile">
-        <img class="is-rounded" src="{{ asset('images/avatar-placeholder') }}" alt="pp">
+        <img class="is-rounded" src="{{ asset('images/avatar-placeholder.png') }}" alt="pp">
       </span>
       <span>
         <div class="has-text-weight-bold">{{ Auth::user()->name }}</div>

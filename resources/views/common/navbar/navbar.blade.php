@@ -61,7 +61,7 @@
         </div>
         @else
        
-        <div class="navbar-item pl-0 is-hidden-mobile">
+        <div class="navbar-item is-hidden-mobile">
           <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
             <i class="fas fa-shopping-cart"></i>
           </a>
@@ -73,7 +73,7 @@
         <div id="account-menu" class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <span class="image mr-2 is-hidden-mobile is-hidden-desktop">
-              <img class="is-rounded" src="{{ asset("avatar-placeholder") }}" alt="pp">
+              <img class="is-rounded" src="{{ asset("images/avatar-placeholder.png") }}" alt="pp">
             </span>
             <span class="is-hidden-touch">
               <div><strong>{{ Auth::user()->name }}</strong></div>
