@@ -10354,3 +10354,25 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   max-width: 28rem;
   min-width: 21rem;
 }
+
+.tiles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reel {
+  display: flex;
+  min-width: 100%;
+  min-height: 200px;
+  overflow-x: auto;
+}
+
+/* .reel::-webkit-scrollbar {
+  display: none;
+} */
+.tile {
+  flex-grow: 0;
+  margin: 5px;
+  padding: 5px;
+}

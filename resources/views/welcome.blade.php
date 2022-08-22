@@ -18,7 +18,13 @@
 <div class="section">
     <div class="title is-size-4">Le nostre magie preferite</div>
     <div class="container">
+        <div class="cards">
+            <div class="reel block mb-5">
+                
+                @include('Product._reel', ['products' => array()])
 
+            </div>
+        </div>
     </div>
     <div class="container has-text-right">
         <a href="#" class="button">Visualizza altro</a>
@@ -29,6 +35,8 @@
     <div class="title is-size-4">Affettali come burro</div>
     <div class="container">
 
+        @include('Product._reel', ['products' => array(15)])
+        
     </div>
     <div class="container has-text-right">
         <a href="#" class="button">Visualizza altro</a>
@@ -39,6 +47,8 @@
     <div class="title is-size-4">Shine on you, crazy diamond</div>
     <div class="container">
 
+        @include('Product._reel', ['products' => array(15)])
+        
     </div>
     <div class="container has-text-right">
         <a href="#" class="button">Visualizza altro</a>
