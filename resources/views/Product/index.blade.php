@@ -29,7 +29,10 @@
                 <div class="list-item block">
                     <div class="columns">
                         <div class="column is-1">
-                            <img src="/images/prod/{{ $product->category }}.png" alt="{{ $product->category }}">
+                            @php
+                                $image_path = 'images/products/'.$product->imagepath;
+                            @endphp
+                            <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product image">
                         </div>
                         <div class="column">
                             <div class="is-size-5 has-text-bold">
@@ -71,9 +74,6 @@
                                     <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
 
                                     <div class="field is-grouped">
-                                        <div class="control">
-                                            {{-- <input type="number" name="quantity" id="quantity" value="1" class="input" max="{{ $product->quantity }}"> --}}
-                                        </div>
                                         <div class="control has-icons-left">
                                             <div class="select">
                                                 <select id="quantity" name="quantity">

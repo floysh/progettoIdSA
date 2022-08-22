@@ -8,9 +8,12 @@
 @section('content')
     <div class="section">
         <div class="columns">
-            <div class="column is-4 has-text-centered">
-                <div class="image">
-                    <img src="{{ asset('images/dummy.png') }}" alt="product image">
+            <div class="column is-4 is-flex is-justify-content-center p-0">
+                <div class="image pt-5" style="max-width: 256px">
+                    @php
+                        $image_path = 'images/products/'.$product->imagepath;
+                    @endphp
+                    <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product">
                 </div>
             </div>
             <div class="column section pt-4">
