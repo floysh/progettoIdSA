@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     protected $validationRules = [
         "name" => "required | min:3",
-        "category" => "required | in:weapon,spell,object,wearable ",
+        "category" => "required | in:weapon,spell,object,wearable",
         "description" => "required | min: 5",
         "price" => "numeric | min:0 | max:999999999",
         "quantity" => "integer | max:999999999",
