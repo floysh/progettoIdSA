@@ -18,18 +18,27 @@
 <div class="content">
 <table class="table">
     <thead>
-    <th>Quantità</th>
-    <th>Prodotto</th>
-    <th>Mercante</th>
+        <th></th>
+        <th>Prodotto</th>
+        <th>Quantità</th>
+        <th>Mercante</th>
     </thead>
     <tbody>
     @foreach ($order->products as $product)
         <tr>
-        <td>{{ $product->order_properties->quantity }}x</td>
-        <td>
-            <a href="{{ action('ProductController@show',$product) }}">{{ $product->name }}</a>
-        </td>
-        <td>$product->merchant->name </td>
+            <td class="is-narrow">
+                @php
+                    $image_path = 'images/products/'.$product->imagepath;
+                @endphp
+                <div class="image is-32x32">
+                    <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product">
+                </div>
+            </td>
+            <td>
+                <a href="{{ action('ProductController@show',$product) }}">{{ $product->name }}</a>
+            </td>
+            <td>{{ $product->order_properties->quantity }}x</td>
+            <td>$product->merchant->name </td>
         </tr>
     @endforeach
     </tbody>

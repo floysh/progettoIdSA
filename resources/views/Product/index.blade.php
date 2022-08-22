@@ -28,43 +28,64 @@
             @foreach ($products as $product)
                 <div class="list-item block">
                     <div class="columns">
-                        <div class="column is-1">
-                            @php
-                                $image_path = 'images/products/'.$product->imagepath;
-                            @endphp
-                            <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product image">
-                        </div>
+                        
                         <div class="column">
-                            <div class="is-size-5 has-text-bold">
-                                <a href="{{ action('ProductController@show', $product) }}">
-                                    <strong>{{ $product->name }}</strong>
-                                </a>
-                            </div>
-                            <div class="is-size-5 has-text-bold">
-                                <span class="mr-5">
-                                    <span class="icon"><i class="fas fa-coins"></i></span>
-                                    <span>{{ $product->price }}</span>
-                                </span>
-                                <span class="ml-5 mr-5">
-                                    <span class="icon"><i class="fas fa-cubes"></i></span>
-                                    <span>x {{ $product->quantity }}</span>
-                                </span>
+                            <div class="columns is-mobile">
+                                <div class="column is-narrow">
+                                    @php
+                                        $image_path = 'images/products/'.$product->imagepath;
+                                    @endphp
+                                    <div class="image is-64x64">
+                                        <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product image">
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="mb-3 is-size-5 has-text-bold">
+                                        <a href="{{ action('ProductController@show', $product) }}">
+                                            <strong>{{ $product->name }}</strong>
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
+                                        <div class="column is-narrow">
+                                            <span class="icon"><i class="fas fa-question"></i></span>
+                                            <span>{{ \App\Models\Product::categories()[$product->category] }}</span>
+                                        </div>
+                                        <div class="column is-narrow">
+                                            <span class="icon"><i class="fas fa-cubes"></i></span>
+                                            <span>x {{ $product->quantity }}</span>
+                                        </div>
+                                        <span class="column is-narrow">
+                                            <span class="icon"><i class="fas fa-coins"></i></span>
+                                            <span>{{ $product->price }}</span>
+                                        </span>
+                                    </div>
+                    
+                                    <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
+                                        <div class="column is-narrow">
+                                            <span class="icon"><i class="fas fa-store"></i></span>
+                                            <span>$product->merchant->name</span>
+                                        </div>
+                                    </div>
+        
+                                </div>
                             </div>
                         </div>
+
                         <div class="column is-narrow is-centered has-text-right">
                             @if ($product->isNotAvailable())
                                 <div class="field">
                                     <div class="control">
-                                        <div class="button is-static">
-                                            <strong>Non disponibile</strong>
+                                        <div class="input is-static is-disabled">
+                                            <strong class="has-text-danger mr-5">Non disponibile</strong>
                                         </div>
                                     </div>
                                 </div>
                             @elseif($product->quantity == 0)
                                 <div class="field">
                                     <div class="control">
-                                        <div class="button is-static">
-                                            <strong>Esaurito</strong>
+                                        <div class="input is-static is-disabled">
+                                            <strong class="has-text-danger mr-5">Esaurito</strong>
                                         </div>
                                     </div>
                                 </div>

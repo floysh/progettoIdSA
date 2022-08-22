@@ -10,6 +10,8 @@
       </span>
     </div>
 
+    <hr class="navbar-divider"/>
+
     <div class="navbar-item is-justify-content-left">
       <span>
         <span class="icon">
@@ -22,7 +24,7 @@
     <hr class="navbar-divider"/>
   
   
-    @include('common/menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Ordini'])
+    @include('common/menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
     
     @include('common/menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
    
@@ -31,14 +33,18 @@
 
 
     <a class="navbar-item" href="{{ route('logout') }}"
-        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <div>
+          <span class="icon mr-2">
+            <i class="fas fa-sign-out"></i>
+          </span>
+          <span>{{ __('Logout') }}</span>
+        </div>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
     </a>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
   
   </div>
   
