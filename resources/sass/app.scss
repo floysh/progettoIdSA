@@ -1,8 +1,26 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Bulma
+@import "~bulma/bulma.sass";
+
+
+// Shared stuff
+
+.is-centered {
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.is-fullheight {
+    height: 100vh !important;
+}
+
+@import 'authentication.scss';
+@import 'horizontal_reel';

@@ -5,93 +5,137 @@
 @endsection
 
 @section('content')
-    <h1>Modifica dettagli prodotto</h1>
+    <div class="section">
+        <h1 class="title">Modifica dettagli prodotto</h1>
 
-    <form method="POST" action="{{ action('ProductController@update', $product->id) }}">
-        @method('PATCH')
-        @csrf()
-
-        <div class="form-group">
-            <label class="form-label" for="name">Nome</label>
-            <div>
-                <input type="text" class="form-control form-control-lg" name="name" value="{{ $product->name }}">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="name">Immagine</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">/images/prod/</div>
-                </div>
-                <input type="text" class="form-control form-control" name="imagepath" value="{{ $product->imagepath }}">
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col">
-                <label class="form-label" for="price">Prezzo</label>
-                <div>
-                    <div class="input-group mb-2">
-                            <input type="number" min="0" step="0.01" class="form-control" name="price" value="{{ $product->price }}">
-                        <div class="input-group-append">
-                            <div class="input-group-text"><i class="fas fa-coins"></i></div>
+        <div class="container">
+            <form action="{{ action('ProductController@update', $product->id) }}" method="POST">
+                @csrf()
+                @method('PATCH')
+                
+                <div class="field">
+                    <div class="control">
+                        <label class="label" for="name">Nome</label>
+                        <div>
+                            <input class="input" type="text" class="form-control form-control-lg" name="name" value="{{ $product->name }}">
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <label class="form-label" for="quantity">Quantità</label>
-                <input type="number" min="0" class="form-control" name="quantity" value="{{ $product->quantity }}">
-            </div>
+
+                <div class="field has-addons">
+                    <div class="control">
+                        <label class="label">Immagine</label>
+                      <div class="button is-static">/images/products/</div>
+                    </div>
+                    <div class="control is-expanded">
+                        <label class="label">&nbsp;</label>
+                      <input class="input" type="text" name="imagepath" value="{{ $product->imagepath }}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Immagine NEW!</label>
+                    <div class="control has-icons-left">
+                        <div class="select">
+                            <select>
+                                <option value="armor">Armor</option>
+                                <option value="mace">Mace</option>
+                                <option value="object">Object</option>
+                                <option value="potion">Potion</option>
+                                <option value="shield">Shield</option>
+                                <option value="spear">Spear</option>
+                                <option value="spell">Spell</option>
+                                <option value="sword">Sword</option>
+                                <option value="wearable">Wearable</option>
+                            </select>
+                        </div>
+                        <span class="icon is-left">
+                            <i class="fas fa-images"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <label class="label" for="price">Prezzo</label>
+                                <input type="number" min="0" step="0.01" class="input" name="price" value="{{ $product->price }}">
+                            </div>
+                            <div class="control">
+                                <label class="label" for="name">&nbsp;</label>
+                                <div class="button is-static">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <label class="label" for="quantity">Quantità</label>
+                                <input type="number" min="0" class="input" name="quantity" value="{{ $product->quantity }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="category">Categoria</label>
+                    <div class="control">
+                        <div class="select">
+                            <select class="form-control" name="category" id="category">
+                                @foreach (App\Models\Product::categories() as $category => $category_display_name)
+        
+                                    <option value="{{ $category }}" 
+                                        {{ ( old('category') == $category || $category == $product->category ) ? 'selected' : ''}} 
+                                        >
+                                        {{ $category_display_name }}
+                                    </option>
+
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Visibilità catalogo</label>
+
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="is_disabled" value="0" {{ $product->isAvailable() ? 'checked' : '' }}>
+                            Disponibile per l'acquisto
+                        </label>
+                    </div>
+                    <div class="control">
+                        <label class="radio">
+                            <input class="radio" type="radio" name="is_disabled" value="1" {{ $product->isNotAvailable() ? 'checked' : '' }}>
+                            Non disponibile
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="label" for="content" class="form-field">Descrizione</label>
+                        <div>
+                            <textarea class="textarea" name="description" id="description" cols="30" rows="10">{{ $product->description }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-grouped is-inline">
+                    <button type="submit" class="button is-primary">Salva modifiche</button>
+                    <a href="." class="button">Annulla</a>
+                </div>
+
+
+
+
+            </form>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="category">Categoria</label>
-            <select class="form-control" name="category" id="category">
-                @foreach (App\Models\Product::categories() as $category => $category_name)
-                    @if ( old('category') == $category || $category == $product->category)
-                        <option value="{{ $category }}" selected>{{ $category_name }}</option>
-                    @else
-                        <option value="{{ $category }}" >{{ $category_name }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <div>
-                <label>Disponibile per l'acquisto</label>
-            </div>
-            @if ($product->NotAvailable())
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="form-check-input" type="radio" name="is_disabled" value="0">
-                    <label class="form-label" class="form-check-label" for="inlineRadio1">Disponibile</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="form-check-input" type="radio" name="is_disabled" value="1" checked>
-                    <label class="form-label" class="form-check-label">Non Disponibile</label>
-                </div>
-                @else
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="form-check-input" type="radio" name="is_disabled" value="0" checked>
-                    <label class="form-label" class="form-check-label">Disponibile</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="form-check-input" type="radio" name="is_disabled" value="1">
-                    <label class="form-label" class="form-check-label">Non disponibile</label>
-                </div>
-                @endif
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="content" class="form-field">Descrizione</label>
-            <div>
-                <textarea class="form-control" name="description" id="description" cols="30" rows="10">{{ $product->description }}</textarea>
-            </div>
-        </div>
-        <div class="form-group form-group-inline">
-            <button type="submit" class="btn btn-primary">Aggiorna dettagli</button>
-            <a href="." class="btn btn-light btn-grey">Annulla</a>
-        </div>
+    </div>
 
-    </form>
 @endsection

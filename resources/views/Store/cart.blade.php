@@ -3,100 +3,136 @@
 @extends('layouts.app')
 
 @section('title')
-Il mio carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
+Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
 @endsection
 
 @section('content')
-    <div class="container">
-        @if ($cart->count() == 0)
-            <div class="row">
-                <div class="col mb-5 justify-content-center d-none d-lg-inline">
-                    <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" class="img-fluid" style="height: 40rem">
 
-                </div>
-                <div class="col-lg-6 mb-4 text-center text-lg-left d-flex align-items-center">
-                    <div class="col">
-                        <div class="padding d-lg-none d-block mt-5"></div>
-                        <h1 class="title mb-4">Il carrello è vuoto</h1>
-                        <p>
-                            Quando trovi qualcosa che ti interessa fai click su <strong>Aggiungi al carrello<strong>
-                        </p>
-                    </div>
+<div class="section container">
+    @if ($cart->isEmpty())
+        <div class="columns">
+            <div class="column has-text-right is-hidden-mobile">
+                <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" style="max-height: 70vh">
+            </div>
+            <div class="column has-text-centered is-hidden-tablet">
+                <img src="{{ asset('images/emptycart.jpg') }}" alt="" style="max-height: 33vh">
+            </div>
+            <div class="column is-flex is-align-items-center">
+                <div class="container">
+                    <h1 class="title is-size-3">Il carrello è vuoto</h1>
+                    <p>
+                        Quando trovi qualcosa che ti interessa fai click su <strong>Aggiungi al carrello<strong>
+                    </p>
+                    <p class="mt-5">
+                        <a class="is-link" href="/products">Esplora i prodotti</a>
+                    </p>
                 </div>
             </div>
-
-        @else
-        <ul class="list-group">
-            <div class="mb-3">
-                <h1>Il mio carrello</h1>
-            </div>
+        </div>
+        
+    @else
+        <h3 class="title is-size-3 mb-6">Carrello</h3>
+        
+        <div class="list block">
             @foreach ($cart as $item)
-            <div class="list-group-item cart-item border" id="cart-{{ $item->id }}">
-                <div class="" style="padding: 0.4rem">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h4 class="mb-1">
-                            <a href="{{ action('ProductController@show',$item->product_id) }}">
-                                {{ $item->product->name }}
-                            </a>
-                        </h4>
-                        <span>
+                <div class="list-item cart-item block" id="cart-{{ $item->id }}">
+                    <div class="columns">
+                        <div class="column is-1">
+                            <img src="/images/prod/{{ $item->product->category }}.png" alt="{{ $item->product->category }}">
+                        </div>
+                        <div class="column">
+                            <div class="block is-size-5 has-text-bold">
+                                <a href="{{ action('ProductController@show', $item->product) }}">
+                                    <strong>{{ $item->product->name }}</strong>
+                                </a>
+                            </div>
+                            <div class="is-size-6">
+                                <span><i class="fas fa-user"></i></span>
+                                <span>$product->merchant->name</span>
+                            </div>
+                            <div class="is-size-6">
+                                <span><i class="fas fa-coins"></i></span>
+                                <span>{{ $item->product->price }}</span>
+                            </div>
+                        </div>
+
+                        <div class="column is-narrow">
+                            <div class="block padding"></div>
+                            {{-- <div class="block is-size-5 has-text-bold">
+                                <span class="mr-5">
+                                    <span>{{ $item->quantity * $item->product->price }}</span>
+                                    <span class="icon"><i class="fas fa-coins"></i></span>
+                                </span>
+                            </div> --}}
+                            <span class="block ml-4">
+                                {{-- <strong><span>x {{ $item->quantity }}</span></strong> --}}
+                                <form action="{{ action('CartController@update', $item) }}" method="POST" id="cart-edit-{{ $item->id }}-form">
+                                    @method('PATCH')
+                                    @csrf()
+                                    
+                                    <div class="field is-grouped">
+                                        <div class="control">
+                                            <label class="label">Quantità</label>
+                                            <div class="select is-small">
+                                                <select name="quantity" 
+                                                        onchange="event.preventDefault();
+                                                                document.getElementById('cart-edit-{{ $item->id }}-form').submit();">
+                                                    
+                                                    @for ($i = 1; $i <= ($item->quantity + $item->product->quantity); $i++)
+                                                        <option value="{{$i}}" 
+                                                            @if($item->quantity == $i)
+                                                                selected
+                                                            @endif>{{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control ml-5">
+                                            <label class="label">Prezzo</label>
+                                            <div class="is-size-5">
+                                                <span><i class="fas fa-coins"></i></span>
+                                                <span><strong>{{ $item->product->price }}</strong></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </span>
+                        </div>
+                        
+                        <div class="column is-narrow has-text-right">
                             <form action="{{ action('CartController@destroy',$item->id) }}" method="POST">
                                 @method('DELETE')
                                 @csrf()
-                                <button type="submit" class="btn btn-sm btn-link btn-rounded text-danger">
+                                <button type="submit" class="button is-small is-danger is-light">
                                     <span><i class="fas fa-times"></i></span>
                                 </button>
                             </form>
-                        </span>
-                    </div>
-                    <br>
-                    <div class="d-flex w-100 justify-content-between">
-                        <span>
-                            <span class="mr-2">Quantità</span>
-                            <span class="mr-2">
-                                <select name="quantity"
-                                class="edit-quantity select"
-                                route="{{ action('CartController@update',$item->id) }}"
-                                data-id="{{ $item->id }}"
-                                >
-                                    @for ($i=1; $i <= ($item->product->quantity + $item->quantity); $i++)
-                                        <option value="{{ $i }}"
-                                        @if($item->quantity == $i)
-                                            selected
-                                        @endif
-                                        >{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </span>
-                        </span>
-
-                        <span class="h5">
-                            <span id="item-{{ $item->id }}-price" class="mr-1" >@currency($item->price())</span>
-                            <span><i class="fas fa-coins"></i></span>
-                        </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <hr> 
             @endforeach
+        </div>
 
-            <div class="mb-4"></div>
 
-            <div class="row" style="padding: 0.4rem">
-                <div class="d-flex w-100 justify-content-between mb-3">
-                    <div class="h3">Totale</div>
-                    <h3>
-                        <span id="purchase-total-amount" class="mr-1">@currency(App\Models\Cart::getCheckoutPrice())</span>
-                        <span><i class="fas fa-coins"></i></span>
-                    </h3>
-                </div>
-                <div class="justify-content-end d-flex">
-                <form action="{{ action('OrderController@store') }}" method="post">
-                        @csrf()
-                        <button id="purchase" type="submit" class="btn btn-primary">
-                            Conferma Acquisto e Paga
-                        </button>
-                    </form>
-                </div>
-        @endif
-    </div>
-
+        <div class="container has-text-right">
+            <div class="block is-size-4 mt-4">
+                <span><strong>Totale:</strong></span>
+                <span>@currency(App\Models\Cart::getCheckoutPrice())</span>
+                <span><i class="fas fa-coins"></i></span>
+            </div>
+            <div class="justify-content-end d-flex">
+                <form action="{{ action('OrderController@store') }}" method="POST">
+                    @csrf()
+                    <button id="purchase" type="submit" class="button is-primary">
+                        Conferma acquisto
+                    </button>
+                </form>
+            </div>
+        </div>
+    
+    @endif
+</div>
+@endsection()
