@@ -9,6 +9,15 @@
 @section('content')
 <div class="section">
     <h2 class="title is-size-3">{{ $title }}</h2>
+
+    <div class="container block has-text-right">
+        <a href="{{ action('ProductController@create') }}" class="button">
+            <span class="icon">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span>Nuovo prodotto</span>
+        </a>
+    </div>
     
     <div class="container">
         <div class="list">

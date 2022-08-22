@@ -85,12 +85,14 @@
                     <div class="control">
                         <div class="select">
                             <select class="form-control" name="category" id="category">
-                                @foreach (App\Models\Product::categories() as $category => $category_name)
-                                    @if ( old('category') == $category || $category == $product->category)
-                                        <option value="{{ $category }}" selected>{{ $category_name }}</option>
-                                    @else
-                                        <option value="{{ $category }}" >{{ $category_name }}</option>
-                                    @endif
+                                @foreach (App\Models\Product::categories() as $category => $category_display_name)
+        
+                                    <option value="{{ $category }}" 
+                                        {{ ( old('category') == $category || $category == $product->category ) ? 'selected' : ''}} 
+                                        >
+                                        {{ $category_display_name }}
+                                    </option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -125,7 +127,7 @@
 
                 <div class="field is-grouped is-inline">
                     <button type="submit" class="button is-primary">Salva modifiche</button>
-                    <a href="." class="button is-light">Annulla</a>
+                    <a href="." class="button">Annulla</a>
                 </div>
 
 
