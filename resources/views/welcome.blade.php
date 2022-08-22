@@ -18,15 +18,11 @@
 <div class="section">
     <div class="title is-size-4">Le nostre magie preferite</div>
     <div class="container">
-        <div class="cards">
-            <div class="reel block mb-5">
-                
-                @include('Product._reel', ['products' => array()])
+        
+        @include('Product._reel', ['products' => App\Models\Product::all()])
 
-            </div>
-        </div>
     </div>
-    <div class="container has-text-right">
+    <div class="container has-text-right is-pulled-right">
         <a href="#" class="button">Visualizza altro</a>
     </div>
 </div>
@@ -35,10 +31,10 @@
     <div class="title is-size-4">Affettali come burro</div>
     <div class="container">
 
-        @include('Product._reel', ['products' => array(15)])
+        @include('Product._reel', ['products' => App\Models\Product::all()])
         
     </div>
-    <div class="container has-text-right">
+    <div class="container has-text-right is-pulled-right">
         <a href="#" class="button">Visualizza altro</a>
     </div>
 </div>
@@ -47,10 +43,10 @@
     <div class="title is-size-4">Shine on you, crazy diamond</div>
     <div class="container">
 
-        @include('Product._reel', ['products' => array(15)])
+        @include('Product._reel', ['products' => App\Models\Product::all()])
         
     </div>
-    <div class="container has-text-right">
+    <div class="container has-text-right is-pulled-right">
         <a href="#" class="button">Visualizza altro</a>
     </div>
 </div>

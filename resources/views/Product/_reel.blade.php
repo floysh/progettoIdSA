@@ -1,11 +1,13 @@
-<div class="cards">
-    <div class="reel block mb-5">
-        
-        @for ($i = 0; $i < 6; $i++)
-        <div class="tile">
+@isset($products)
+    <div class="cards">
+        <div class="reel block">
+            
+            @foreach ($products as $product)
+            <div class="tile">
                 @include('Product._reel_card')
             </div>
-        @endfor
+            @endforeach
 
+        </div>
     </div>
-</div>
+@endisset
