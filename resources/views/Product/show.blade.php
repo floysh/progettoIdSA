@@ -70,12 +70,28 @@
 
                 {{-- Controlli Mercante --}}
                 <div class="container block">
-                    <a href="{{ action('ProductController@edit', $product) }}" class="button is-dark">
-                        <span class="icon">
-                            <i class="fas fa-edit"></i>
-                        </span>
-                        <span>Modifica</span>
-                    </a>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <a href="{{ action('ProductController@edit', $product) }}" class="button is-dark">
+                                <span class="icon">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                <span>Modifica</span>
+                            </a>
+                        </div>
+                        <div class="control">
+                            <form action="{{ action('ProductController@destroy', $product) }}" method="post">
+                                @csrf()
+                                @method('DELETE')
+                                <button class="button is-danger" type="submit">
+                                    <span class="icon">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span>Elimina</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="container block">
                     <form action="{{ action('ProductController@update', $product) }}" method="POST">

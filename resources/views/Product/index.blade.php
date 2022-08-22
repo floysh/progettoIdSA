@@ -8,16 +8,20 @@
 
 @section('content')
 <div class="section">
-    <h2 class="title is-size-3">{{ $title }}</h2>
-
-    <div class="container block has-text-right">
-        <a href="{{ action('ProductController@create') }}" class="button">
-            <span class="icon">
-                <i class="fas fa-plus"></i>
-            </span>
-            <span>Nuovo prodotto</span>
-        </a>
+    
+    {{-- Controlli Mercante --}}
+    <div class="field mb-0 is-grouped is-grouped-right is-pulled-right">
+        <div class="control">
+            <a href="{{ action('ProductController@create') }}" class="button">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>Nuovo prodotto</span>
+            </a>
+        </div>
     </div>
+
+    <h2 class="title is-size-3">{{ $title }}</h2>
     
     <div class="container">
         <div class="list">
@@ -44,19 +48,19 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="column is-narrow has-text-right">
+                        <div class="column is-narrow is-centered has-text-right">
                             @if ($product->isNotAvailable())
                                 <div class="field">
-                                    <div class="level container-fluid">
-                                        <div class="level-item">
+                                    <div class="control">
+                                        <div class="button is-static">
                                             <strong>Non disponibile</strong>
                                         </div>
                                     </div>
                                 </div>
                             @elseif($product->quantity == 0)
                                 <div class="field">
-                                    <div class="level container-fluid">
-                                        <div class="level-item">
+                                    <div class="control">
+                                        <div class="button is-static">
                                             <strong>Esaurito</strong>
                                         </div>
                                     </div>
@@ -96,6 +100,7 @@
                         </div>
                     </div>
                 </div>
+                <hr/>
             @endforeach
         </div>
     </div>
