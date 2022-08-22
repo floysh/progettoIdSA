@@ -1,4 +1,11 @@
 // Login
+
+.login-background {
+    background-image: url("/images/login-background.svg");
+    width: 100vw;
+    height: 100vh;
+}
+
 .background-blur-filter {
     backdrop-filter: blur(15px);
 }

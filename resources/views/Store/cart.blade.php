@@ -10,9 +10,12 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
 
 <div class="section container">
     @if ($cart->isEmpty())
-        <div class="columns is-flex">
-            <div class="column is-hidden-mobile">
-                <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" class="img-fluid">
+        <div class="columns">
+            <div class="column has-text-right is-hidden-mobile">
+                <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="" style="max-height: 70vh">
+            </div>
+            <div class="column has-text-centered is-hidden-tablet">
+                <img src="{{ asset('images/emptycart.jpg') }}" alt="" style="max-height: 33vh">
             </div>
             <div class="column is-flex is-align-items-center">
                 <div class="container">

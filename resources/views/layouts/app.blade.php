@@ -27,27 +27,26 @@
         
         @include('common.navbar.navbar')
 
-        <main class="py-4">
-            <div class="container mb-4">
-                <!-- Alert bar for errors -->
-                @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show">
-                    <h4 class="alert-heading">Si sono verificati alcuni errori</h4>
-                    <div>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li><b>{{ $error }}</b></li>
-                            @endforeach
-                        </ul>
+        {{-- Error messages --}}
+        @if ($errors->any())
+            <div class="section pb-0">
+                <div class="message is-danger is-light">
+                    <div class="message-body">
+                        <div class="content">
+                            <p class="is-size-4">Si sono verificati alcuni errori:</p>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li><b>{{ $error }}</b></li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                @endif
             </div>
-
-            <div class="container">
-                @yield('content')
-            </div>
+            @endif
+            
+        <main class="container">
+            @yield('content')
         </main>
     </div>
 

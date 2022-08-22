@@ -2,9 +2,12 @@
 
 @section('content')
 <div class="section">
-    <div class="columns is-flex">
-        <div class="column">
-            <img src="{{ asset('images/emptycart-alt.jpg') }}" alt="">
+    <div class="columns">
+        <div class="column has-text-right is-hidden-mobile">
+            <img src="{{ asset('images/emptycart-alt.jpg') }}" style="max-height: 70vh">
+        </div>
+        <div class="column has-text-centered is-hidden-tablet">
+            <img src="{{ asset('images/404-dead-end.svg') }}" alt="" style="max-height: 33vh">
         </div>
         <div class="column is-flex is-align-items-center">
             <div class="container">
