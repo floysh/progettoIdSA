@@ -14,7 +14,7 @@
                     </div>
                     <div>
                         <span class="icon"><i class="fas fa-filter"></i></span>
-                        <span>{{ $product::categories()[$product->category] }}</span>
+                        <span>{{ $product->category() }}</span>
                     </div>
                 </div>
                 <div class="field">

@@ -90,4 +90,8 @@ class Product extends Model
         $image_path = 'images/products/'.$this->imagepath;
         return file_exists($image_path) ? asset($image_path) : asset('images/dummy.svg');
     }
+
+    public function category() {
+        return Product::categories()[$this->category];
+    }
 }
