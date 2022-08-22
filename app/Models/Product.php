@@ -85,4 +85,9 @@ class Product extends Model
     public function isNotAvailable() {
         return (! $this->isAvailable());
     }
+
+    public function imagePath() {
+        $image_path = 'images/products/'.$this->imagepath;
+        return file_exists($image_path) ? asset($image_path) : asset('images/dummy.svg');
+    }
 }

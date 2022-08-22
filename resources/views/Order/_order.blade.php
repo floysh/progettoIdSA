@@ -27,11 +27,8 @@
     @foreach ($order->products as $product)
         <tr>
             <td class="is-narrow">
-                @php
-                    $image_path = 'images/products/'.$product->imagepath;
-                @endphp
                 <div class="image is-32x32">
-                    <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product">
+                    <img src="{{ $product->imagePath() }}" alt="product">
                 </div>
             </td>
             <td>

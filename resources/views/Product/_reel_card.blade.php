@@ -2,10 +2,7 @@
     <a href="{{ action('ProductController@show', $product) }}">
         <div class="card p-4 is-unselectable">
             <div class="image block is-128x128 m-4">
-                @php
-                    $image_path = 'images/products/'.$product->imagepath;
-                @endphp
-                <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="">
+                <img src="{{ $product->imagePath() }}" alt="">
             </div>
             <hr class="mt-0">
             <div class="container">

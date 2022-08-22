@@ -32,11 +32,8 @@
                         <div class="column">
                             <div class="columns is-mobile">
                                 <div class="column is-narrow">
-                                    @php
-                                        $image_path = 'images/products/'.$product->imagepath;
-                                    @endphp
                                     <div class="image is-64x64">
-                                        <img src="{{ file_exists($image_path) ? asset($image_path) : asset('images/dummy.png') }}" alt="product image">
+                                        <img src="{{ $product->imagePath() }}" alt="product image">
                                     </div>
                                 </div>
                                 <div class="column">

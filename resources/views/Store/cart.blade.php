@@ -38,7 +38,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                 <div class="list-item cart-item block" id="cart-{{ $item->id }}">
                     <div class="columns">
                         <div class="column is-1">
-                            <img src="/images/prod/{{ $item->product->category }}.png" alt="{{ $item->product->category }}">
+                            <img src="{{ $item->product->imagePath() }}" alt="{{ $item->product->category }}">
                         </div>
                         <div class="column">
                             <div class="block is-size-5 has-text-bold">
