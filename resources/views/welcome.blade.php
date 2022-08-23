@@ -15,39 +15,20 @@
     @endif
 </div>
 
-<div class="section">
-    <div class="title is-size-4">Le nostre magie preferite</div>
-    <div class="container">
-        
-        @include('Product._reel', ['products' => App\Models\Product::all()])
+@for ($i = 0; $i < 3; $i++)
+    <div class="section">
+        <div class="container has-text-right is-pulled-right">
+            <a href="#" class="button">Visualizza altro</a>
+        </div>
+        <div class="title is-size-4">{{ Faker\Factory::create()->sentence() }}</div>
+        <div class="container">
+            
+            @include('Product._reel', ['products' => App\Models\Product::all()])
 
+        </div>
     </div>
-    <div class="container has-text-right is-pulled-right">
-        <a href="#" class="button">Visualizza altro</a>
-    </div>
-</div>
+@endfor
 
-<div class="section">
-    <div class="title is-size-4">Affettali come burro</div>
-    <div class="container">
 
-        @include('Product._reel', ['products' => App\Models\Product::all()])
-        
-    </div>
-    <div class="container has-text-right is-pulled-right">
-        <a href="#" class="button">Visualizza altro</a>
-    </div>
-</div>
-
-<div class="section">
-    <div class="title is-size-4">Shine on you, crazy diamond</div>
-    <div class="container">
-
-        @include('Product._reel', ['products' => App\Models\Product::all()])
-        
-    </div>
-    <div class="container has-text-right is-pulled-right">
-        <a href="#" class="button">Visualizza altro</a>
-    </div>
 </div>
 @endsection
