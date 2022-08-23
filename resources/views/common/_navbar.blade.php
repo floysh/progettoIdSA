@@ -24,11 +24,11 @@
             Prodotti
           </a>
           <div class="navbar-dropdown is-boxed">
-              @php
-                $categories = App\Models\Product::categories()
+            @php
+              $categories = App\Models\Product::categories()
             @endphp
             @foreach ($categories as $cat_id => $category)
-            <a class="navbar-item" href="{{ action('ProductController@index', ['category' => $cat_id]) }}" >{{ $cat_id }}</a>
+            <a class="navbar-item" href="{{ action('ProductController@index', ['category' => $cat_id]) }}" >{{ $category }}</a>
             @endforeach
           </div>
         </div>

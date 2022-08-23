@@ -37,15 +37,32 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::available()->get();
+        $products = [];
+        $title = "";
+        
+        // Vista per categoria
+        if($request['category']) {
+            if(array_key_exists($request['category'], Product::categories())) {
+                $products = Product::where('category', $request['category']);
+                $title = Product::categories()[$request['category']];
+            }
+            else return view('errors.404'); 
+        }
+        else {
+            // Tutti i prodotti acquistabili
+            $title = "Tutti i prodotti";
+            $products = Product::available();
+        }
+        
         return view('Product.index', [
-            'products' => $products,
-            'title' => 'Tutti i prodotti',
-            'tabname' => 'Tutti i prodotti'
+            'products' => $products->get(),
+            'title' => $title,
+            'tabname' => $title
         ]);
     }
 
