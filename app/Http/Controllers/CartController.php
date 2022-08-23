@@ -87,6 +87,13 @@ class CartController extends Controller
 
         // Aggiornamento
         if ($cart->user_id == Auth::id()) {
+            
+            // Rimetti a posto i prodotti rimossi
+            $cart->product->quantity += $cart->quantity;
+            $cart->product->quantity -= $validated['quantity'];
+            $cart->product->update();
+            
+            // Aggiorna il carrello
             $cart->update(['quantity' => $validated['quantity']]);
             return back();
         }

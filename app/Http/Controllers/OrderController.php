@@ -33,7 +33,7 @@ class OrderController extends Controller
         $user_cart = $user->cart()->where('user_id', $user->id)->get();
 
         // Validazione
-        if (empty($user_cart)) {
+        if ($user_cart->isEmpty()) {
             return back()->withErrors("Il carrello è vuoto");
         }
         if (Auth::user()->money < $user_cart->first()->getCheckoutPrice()) {
