@@ -88,7 +88,15 @@ class Product extends Model
 
     public function imagePath() {
         $image_path = 'images/products/'.$this->imagepath;
-        return file_exists($image_path) ? asset($image_path) : asset('images/dummy.svg');
+        $category_placeholder_path = 'images/placeholders/'.$this->category.'.svg';
+        
+        if (file_exists($image_path)) {
+            return asset($image_path);
+        }
+        elseif(file_exists($category_placeholder_path)) {
+            return asset($category_placeholder_path);
+        }
+        else return asset('images/placeholders/product.svg');
     }
 
     public function category() {
