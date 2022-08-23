@@ -1,0 +1,31 @@
+// Login
+
+.login-background {
+    background-image: url("/images/login-background.svg");
+    width: 100vw;
+    height: 100vh;
+}
+
+.background-blur-filter {
+    backdrop-filter: blur(15px);
+}
+
+.background-blur-filter-alt {
+    backdrop-filter: blur(40px); //70
+}
+
+.background-dim-filter {
+    backdrop-filter: contrast(0.65);
+}
+
+.background-gradient {
+    background: #3483AF;
+    background: -webkit-linear-gradient(top left, #3483AF, #6A72C7);
+    background: -moz-linear-gradient(top left, #3483AF, #6A72C7);
+    background: linear-gradient(to bottom right, #3483AF, #6A72C7);
+}
+
+.login-controls-container {
+    max-width: 28rem;
+    min-width: 21rem;
+}

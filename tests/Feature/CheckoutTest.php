@@ -20,7 +20,7 @@ class CheckoutTest extends TestCase
     {
         parent::setUp();
 
-        $product1 = ProductFactory::new(['quantity' => 20, 'price' => 2])->create();
+        $product1 = Product::Factory()::new(['quantity' => 20, 'price' => 2])->create();
         $product2 = ProductFactory::new(['quantity' => 20])->create();
         $product3 = ProductFactory::new()->create();
         $product_na = ProductFactory::new(['name' => 'Missingno', 'is_disabled' => true])->create();
@@ -28,7 +28,7 @@ class CheckoutTest extends TestCase
         $user = UserFactory::new()->create(['role' => 'customer', 'money' => 500]);
     }
 
-    public function test_checkout_failure_when_user_credit_is_not_enough()
+    public function test_no_order_created_if_user_credit_is_not_enough()
     {
         $user = UserFactory::new()->create(['role' => 'customer', 'money' => 5]);
         $this->actingAs($user);
@@ -37,13 +37,19 @@ class CheckoutTest extends TestCase
         $response = $this->post('/cart', ['product_id' => 1, 'quantity' => 7]);
         $response->assertValid();
         
-        // Confirm purchase
+        // Controlla che l'acquisto fallisca
         $response = $this->post('/orders');
         $response->assertInvalid();
 
+        // Il credito dell'utente non deve essere toccato
+        $this->assertEquals(5, $user->money);
+
+        // I prodotti devono restare nel carrello
+        $this->assertFalse($user->cart->isEmpty());
+
     }
 
-    public function test_checkout_no_empty_orders()
+    public function test_checkout_fails_when_user_cart_is_empty()
     {
         $user = User::find(1);
         $this->actingAs($user);
@@ -51,23 +57,12 @@ class CheckoutTest extends TestCase
         $this->assertEmpty($user->cart);
         
         $response = $this->post('/orders');
+        $response->assertInvalid();
+
+        // Eventuali ordini temporanei non devono restare nel DB
         $this->assertEmpty($user->orders);
     }
 
-    public function test_cart_store_failure_when_invalid_product_quantity()
-    {
-        $this->markTestIncomplete('Remove or move to CartControllerTest ?');     
-
-        $user = User::find(1);
-        $this->actingAs($user);
-
-        $response = $this->post('/cart', ['product_id' => 1, 'quantity' => -12]);
-        $response->assertInvalid();
-
-        $response = $this->post('/cart', ['product_id' => 1, 'quantity' => 0]);
-        $response->assertInvalid();
-
-    }
 
     public function test_checkout()
     {

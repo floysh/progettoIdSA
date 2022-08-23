@@ -16,7 +16,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::all();
+        $cart = Cart::with('product')->get();
         return view('Store.cart', ['cart' => $cart]);
 
     }
@@ -29,25 +29,43 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Validazione
+        // Validazione
+        $validated = $request->validate([
+            'product_id' => 'required | numeric | min:1',
+            'quantity' => 'required | numeric | min:1'
+            ]);
 
-        $product = Product::available()->findOrFail($request['product_id']);
-
-        if ($product->isNotAvailable()) {
+        $product = Product::findOrFail($validated['product_id']);
+        if (!$product || $product->isNotAvailable()) {
             return back()->withErrors('"'.$product->name.'" non può essere acquistato');
         }
-        elseif ($request['quantity'] > $product->quantity) {
+        elseif ($validated['quantity'] > $product->quantity) {
             
             return back()->withErrors('Le scorte di "'.$product->name.'" non sono sufficienti');
         }
 
-        // Aggiorna record esistente o crealo ex novo se non c'è 
-        // (niente duplicati)
-        Auth::user()->cart()
-                    ->updateOrCreate(['product_id' => $request['product_id']], ['quantity' => $request['quantity']]);
+        //
+        // Nel carrello non devono esserci prodotti duplicati
+        //
+        $cart_item = Auth::user()->cart()
+                    ->where('product_id', $validated['product_id'])
+                    ->first();
+        
+        if($cart_item) { // Aggiornamento record esistente
+            $product->quantity += $cart_item->quantity;
+            $cart_item->update(['quantity' => $validated['quantity']]);
+        }
+        else { // Creazione nuovo record
+            $cart_item = Cart::make([
+                'product_id' => $validated['product_id'],
+                'quantity' => $validated['quantity'],
+            ]);
+            $cart_item->user_id = Auth::user()->id;
+            $cart_item->save();
+        }
 
         // Aggiorna disponibilità prodotto
-        $product->quantity -= $request['quantity'];
+        $product->quantity -= $validated['quantity'];
         $product->update();
 
         return back();    
@@ -62,7 +80,24 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
-        //
+        // Validazione
+        $validated = $request->validate([
+            'quantity' => 'required | numeric | min:1'
+            ]);
+
+        // Aggiornamento
+        if ($cart->user_id == Auth::id()) {
+            
+            // Rimetti a posto i prodotti rimossi
+            $cart->product->quantity += $cart->quantity;
+            $cart->product->quantity -= $validated['quantity'];
+            $cart->product->update();
+            
+            // Aggiorna il carrello
+            $cart->update(['quantity' => $validated['quantity']]);
+            return back();
+        }
+        else return back()->withErrors(['user' => 'Questo carrello non è tuo!']);
     }
 
     /**
@@ -73,16 +108,18 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        // TODO: Validazione
-
+        // Permessi
+        if ($cart->user_id == Auth::id()) {
+            // Rimetti a posto l'oggetto
+            $cart->product->quantity += $cart->quantity;
+            $cart->product->update();
+            
+            // Elimina record
+            $cart->delete();
+            
+            return back();
+        }
+        else return back()->withErrors(['user' => 'Questo carrello non è tuo!']);
         
-        // Rimetti a posto l'oggetto
-        $cart->product->quantity += $cart->quantity;
-        $cart->product->update();
-        
-        // Elimina record
-        $cart->delete();
-        
-        return back();
     }
 }

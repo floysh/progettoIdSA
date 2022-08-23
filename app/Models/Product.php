@@ -46,7 +46,7 @@ class Product extends Model
 
     // RELAZIONI ELOQUENT
     public function cart() {
-        return $this->belongsToMany(Cart::class);
+        return $this->hasMany(Cart::class);
     }
 
     public function orders() {
@@ -84,5 +84,22 @@ class Product extends Model
     
     public function isNotAvailable() {
         return (! $this->isAvailable());
+    }
+
+    public function imagePath() {
+        $image_path = 'images/products/'.$this->imagepath;
+        $category_placeholder_path = 'images/placeholders/'.$this->category.'.svg';
+        
+        if (file_exists($image_path)) {
+            return asset($image_path);
+        }
+        elseif(file_exists($category_placeholder_path)) {
+            return asset($category_placeholder_path);
+        }
+        else return asset('images/placeholders/product.svg');
+    }
+
+    public function category() {
+        return Product::categories()[$this->category];
     }
 }
