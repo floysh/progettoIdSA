@@ -16,7 +16,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::all();
+        $cart = Cart::with('product')->get();
         return view('Store.cart', ['cart' => $cart]);
 
     }
@@ -86,7 +86,7 @@ class CartController extends Controller
             ]);
 
         // Aggiornamento
-        if ($cart->user == Auth::user()) {
+        if ($cart->user_id == Auth::id()) {
             $cart->update(['quantity' => $validated['quantity']]);
             return back();
         }
@@ -102,7 +102,7 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         // Permessi
-        if ($cart->user == Auth::user()) {
+        if ($cart->user_id == Auth::id()) {
             // Rimetti a posto l'oggetto
             $cart->product->quantity += $cart->quantity;
             $cart->product->update();

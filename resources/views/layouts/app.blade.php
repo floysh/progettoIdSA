@@ -27,9 +27,22 @@
         
         @include('common._navbar')
 
+        {{-- Success messages --}}
+        @if(Session::has('success'))
+            <div class="section container pb-0">
+                <div class="message is-success is-light">
+                    <div class="message-body">
+                        <div class="content">
+                            <p class="is-size-4">{{ Session::get('success') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         {{-- Error messages --}}
         @if ($errors->any())
-            <div class="section pb-0">
+            <div class="section container pb-0">
                 <div class="message is-danger is-light">
                     <div class="message-body">
                         <div class="content">
@@ -43,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+        @endif
             
         <main class="container">
             @yield('content')

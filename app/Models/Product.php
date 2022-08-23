@@ -46,7 +46,7 @@ class Product extends Model
 
     // RELAZIONI ELOQUENT
     public function cart() {
-        return $this->belongsToMany(Cart::class);
+        return $this->hasMany(Cart::class);
     }
 
     public function orders() {
