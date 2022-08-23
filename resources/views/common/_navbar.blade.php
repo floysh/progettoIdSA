@@ -91,7 +91,7 @@
           </a>
           
           <div class="navbar-dropdown is-right is-boxed mr-2">
-            @include('common.navbar.account-menu')
+            @include('common.navbar._account-menu')
           </div>
 
         </div>

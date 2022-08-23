@@ -25,7 +25,7 @@
 <body class="has-navbar-fixed-top">
     <div id="app">
         
-        @include('common.navbar.navbar')
+        @include('common._navbar')
 
         {{-- Error messages --}}
         @if ($errors->any())

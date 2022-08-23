@@ -24,9 +24,9 @@
     <hr class="navbar-divider"/>
   
   
-    @include('common/menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
+    @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
     
-    @include('common/menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
+    @include('common.navbar._menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
    
   
     <hr class="navbar-divider"/>
