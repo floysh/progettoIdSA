@@ -43,8 +43,23 @@ class CartController extends Controller
 
         // Aggiorna record esistente o crealo ex novo se non c'è 
         // (niente duplicati)
-        Auth::user()->cart()
-                    ->updateOrCreate(['product_id' => $request['product_id']], ['quantity' => $request['quantity']]);
+        $cart_item = Auth::user()->cart()
+                    ->where('product_id', $request['product_id'])
+                    ->first();
+        
+        if($cart_item == null) {
+            $cart_item = Cart::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $request['product_id'],
+                'quantity' => $request['quantity'],
+            ]);
+        }
+        else {
+            $product->quantity += $cart_item->quantity;
+            $cart_item->update(['quantity' => $request['quantity']]);
+        }
+
+        
 
         // Aggiorna disponibilità prodotto
         $product->quantity -= $request['quantity'];
