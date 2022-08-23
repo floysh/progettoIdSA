@@ -54,7 +54,7 @@
                                         </div>
                                         <span class="column is-narrow">
                                             <span class="icon"><i class="fas fa-coins"></i></span>
-                                            <span>{{ $product->price }}</span>
+                                            <span> @currency($product->price) </span>
                                         </span>
                                     </div>
                     

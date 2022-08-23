@@ -10,7 +10,7 @@
                 <div class="field mb-5">
                     <div>
                         <span class="icon"><i class="fas fa-coins"></i></span>
-                        <span>{{ $product->price }}</span>
+                        <span> @currency($product->price) </span>
                     </div>
                     <div>
                         <span class="icon"><i class="fas fa-filter"></i></span>
