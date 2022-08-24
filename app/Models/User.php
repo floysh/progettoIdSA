@@ -66,9 +66,10 @@ class User extends Authenticatable
 
     // METODI
     public function isMerchant() {
-        if ($this->role == 'merchant') 
-            return true;
-        else 
-            return false;
+        return ($this->role == 'merchant');
+    }
+
+    public function isCustomer() {
+        return ($this->role == 'customer');
     }
 }

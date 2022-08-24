@@ -29,6 +29,9 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        // Chi non può usare il carrello non può creare ordini
+        $this->authorize('create', Cart::class);
+
         $user = Auth::user();
         $user_cart = $user->cart()->where('user_id', $user->id)->get();
 
