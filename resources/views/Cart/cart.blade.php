@@ -59,8 +59,12 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                 </a>
                             </div>
                             <div class="is-size-6">
-                                <span class="icon"><i class="fas fa-user"></i></span>
-                                <span>$product->merchant->name</span>
+                                <span class="icon"><i class="fas fa-scale-balanced"></i></span>
+                                <span>$item->product->merchant->name</span>
+                            </div>
+                            <div class="is-size-6">
+                                <span class="icon"><i class="fas fa-cubes"></i></span>
+                                <span>{{ $item->product->quantity }} disponibili</span>
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-coins"></i></span>
@@ -69,6 +73,13 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                         </div>
 
                         <div class="column is-one-quarter">
+                            {{-- DEBUG --}}
+                            <div class="field has-text-danger">
+                                <span>{{ $item->user->name }}</span>
+                            </div>
+                            <div class="field has-text-danger">
+                                <span>{{ $item->product->isNotAvailable() ? 'NON DISPONIBILE' : '' }}</span>
+                            </div>
                             <div class="block is-padding is-hidden-mobile"></div>
                             <form action="{{ action('CartController@update', $item) }}" method="POST" id="cart-edit-{{ $item->id }}-form">
                                 @method('PATCH')

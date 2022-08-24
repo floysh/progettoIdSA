@@ -20,7 +20,7 @@ class CartController extends Controller
         $this->authorize('create', Cart::class);
 
         $cart = Cart::with('product')->get();
-        return view('Store.cart', ['cart' => $cart]);
+        return view('Cart.cart', ['cart' => $cart]);
     }
 
     /**
