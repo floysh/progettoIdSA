@@ -16,25 +16,27 @@
             <div class="column section pt-4">
                 <h3 class="title is-size-3">{{ $product->name }}</h3>
                 
-                <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
-                    <div class="column is-narrow">
-                        <span class="icon"><i class="fas fa-question"></i></span>
-                        <span>{{ \App\Models\Product::categories()[$product->category] }}</span>
+                <div class="container mb-6">
+                    <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
+                        <div class="column is-narrow">
+                            <span class="icon"><i class="fas fa-question"></i></span>
+                            <span>{{ \App\Models\Product::categories()[$product->category] }}</span>
+                        </div>
+                        <div class="column is-narrow">
+                            <span class="icon"><i class="fas fa-cubes"></i></span>
+                            <span>{{ $product->quantity }} unità disponibili</span>
+                        </div>
+                        <span class="column is-narrow">
+                            <span class="icon"><i class="fas fa-coins"></i></span>
+                            <span>{{ $product->price }}</span>
+                        </span>
                     </div>
-                    <div class="column is-narrow">
-                        <span class="icon"><i class="fas fa-cubes"></i></span>
-                        <span>{{ $product->quantity }} unità disponibili</span>
-                    </div>
-                    <span class="column is-narrow">
-                        <span class="icon"><i class="fas fa-coins"></i></span>
-                        <span>{{ $product->price }}</span>
-                    </span>
-                </div>
-
-                <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
-                    <div class="column is-narrow">
-                        <span class="icon"><i class="fas fa-store"></i></span>
-                        <span>$product->merchant->name</span>
+    
+                    <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
+                        <div class="column is-narrow">
+                            <span class="icon"><i class="fas fa-store"></i></span>
+                            <span>$product->merchant->name</span>
+                        </div>
                     </div>
                 </div>
 
@@ -71,56 +73,62 @@
                 {{-- Controlli Mercante --}}
                 <div class="container block">
                     <div class="field is-grouped">
-                        <div class="control">
-                            <a href="{{ action('ProductController@edit', $product) }}" class="button is-dark">
-                                <span class="icon">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                <span>Modifica</span>
-                            </a>
-                        </div>
-                        <div class="control">
-                            <form action="{{ action('ProductController@destroy', $product) }}" method="post">
-                                @csrf()
-                                @method('DELETE')
-                                <button class="button is-danger" type="submit">
+                        @can('update', $product)
+                            <div class="control">
+                                <a href="{{ action('ProductController@edit', $product) }}" class="button is-dark">
                                     <span class="icon">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-edit"></i>
                                     </span>
-                                    <span>Elimina</span>
-                                </button>
-                            </form>
-                        </div>
+                                    <span>Modifica</span>
+                                </a>
+                            </div>
+                        @endcan
+                        @can('delete', $product)
+                            <div class="control">
+                                <form action="{{ action('ProductController@destroy', $product) }}" method="post">
+                                    @csrf()
+                                    @method('DELETE')
+                                    <button class="button is-danger" type="submit">
+                                        <span class="icon">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span>Elimina</span>
+                                    </button>
+                                </form>
+                            </div>
+                        @endcan
                     </div>
                 </div>
-                <div class="container block">
-                    <form action="{{ action('ProductController@update', $product) }}" method="POST">
-                        @csrf()
-                        @method('PATCH')
+                @can('update', $product)
+                    <div class="container block">
+                        <form action="{{ action('ProductController@update', $product) }}" method="POST">
+                            @csrf()
+                            @method('PATCH')
 
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <label class="label" for="quantity">Aggiungi scorte</label>
-                                <input class="input" type="number" name="quantity" id="quantity" value="" min="1">
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <label class="label" for="quantity">Aggiungi scorte</label>
+                                    <input class="input" type="number" name="quantity" id="quantity" value="" min="1">
+                                </div>
+                                <div class="control is-flex is-align-items-flex-end">
+                                    <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
+                                    <button id="restock-btn" type="submit" class="button is-primary">
+                                        <span class="icon">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                        <span>Rifornisci scorte</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="control is-flex is-align-items-flex-end">
-                                <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
-                                <button id="restock-btn" type="submit" class="button is-primary">
-                                    <span class="icon">
-                                        <i class="fas fa-plus"></i>
-                                    </span>
-                                    <span>Rifornisci scorte</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                @endcan
 
             </div>
         </div>
         <div class="notification content">
             <h5 class="title is-size-5">Descrizione</h5>
-            <p>{{ $product->description }}</p>
+            <p>{!! nl2br(e($product->description)) !!}</p>
         </div>
     </div>
 @endsection

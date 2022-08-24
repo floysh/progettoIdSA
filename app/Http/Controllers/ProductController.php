@@ -51,7 +51,7 @@ class ProductController extends Controller
                 $products = Product::where('category', $request['category']);
                 $title = Product::categories()[$request['category']];
             }
-            else return view('errors.404'); 
+            else return abort(404); 
         }
         else {
             // Tutti i prodotti acquistabili
@@ -73,6 +73,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class);
+
         return view('Product.create');
     }
 
@@ -85,6 +87,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //Log::info($request);
+        $this->authorize('create', Product::class);
 
         //Validazione
         $validated = Validator::make(
@@ -127,6 +130,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update',$product);
+
         return view('Product.edit', ['product' => $product]);
     }
 
@@ -139,6 +144,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update',$product);
+
         //Validazione
         $validated = Validator::make(
             $request->all(),
@@ -160,18 +167,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        // TODO: permessi cancellazione
-        /* if ( Auth::user()->isMerchant() && Auth::user == $product->merchant) {
-            $product->disable();
-            return json_encode(["status" => "OK"]);
-        }
-        else return json_encode([
-            "status" => "ERROR",
-            "statusText" => "Non sei il mercante",
-        ]); */
+        $this->authorize('delete',$product);
 
         $product->disable();
-        return json_encode(["status" => "OK"]);
+        return back();
 
     }
 }
