@@ -18,19 +18,21 @@
                         <span>{{ $product->category() }}</span>
                     </div>
                 </div>
-                <div class="field">
-                    <form action="{{action('CartController@store')}}" method="POST">
-                        @csrf()
-                        <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="quantity" id="quantity" value="1">
-                        <button type="submit" class="button is-primary">
-                            <span class="icon">
-                                <i class="fas fa-cart-arrow-down"></i>
-                            </span>
-                            <span>Aggiungi</span>
-                        </button>
-                    </form>
-                </div>
+                @can('create', App\Models\Cart::class)
+                    <div class="field">
+                        <form action="{{action('CartController@store')}}" method="POST">
+                            @csrf()
+                            <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="quantity" id="quantity" value="1">
+                            <button type="submit" class="button is-primary">
+                                <span class="icon">
+                                    <i class="fas fa-cart-arrow-down"></i>
+                                </span>
+                                <span>Aggiungi</span>
+                            </button>
+                        </form>
+                    </div>
+                @endcan
             </div>
         </div>
     </a>

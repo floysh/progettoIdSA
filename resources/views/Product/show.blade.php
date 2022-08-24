@@ -52,7 +52,7 @@
                         <div class="is-size-5 has-text-danger">Scorte esaurite</div>
                         <p>Questo prodotto non può essere acquistato perchè il mercante non ne ha più in magazzino.</p>
                     </div>
-                @else
+                @elseif(Auth::user()->can('create', App\Models\Cart::class))
                     <div class="container block">
                         <form action="{{ action('CartController@store') }}" method="POST">
                             @csrf()
@@ -68,6 +68,7 @@
                             </div>
                         </form>
                     </div>
+                @else
                 @endif
 
                 {{-- Controlli Mercante --}}

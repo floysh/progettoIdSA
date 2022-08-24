@@ -31,7 +31,7 @@ class CartPolicy
      */
     public function view(User $user, Cart $cart)
     {
-        //
+        return $user->is($cart->user);
     }
 
     /**

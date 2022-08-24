@@ -10376,6 +10376,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   display: none;
 } */
 .tile {
+  min-width: 163px;
   flex-grow: 0;
   margin: 0.5rem;
 }

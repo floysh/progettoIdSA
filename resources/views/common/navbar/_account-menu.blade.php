@@ -26,7 +26,9 @@
   
     @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
     
-    @include('common.navbar._menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
+    @can('create', Cart::class)
+      @include('common.navbar._menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
+    @endcan
    
   
     <hr class="navbar-divider"/>
