@@ -10313,6 +10313,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem;
 }
 
+.button .is_borderless {
+  border: none;
+}
+
 .is-centered {
   display: flex;
   justify-content: center;
@@ -10373,6 +10377,5 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 } */
 .tile {
   flex-grow: 0;
-  margin: 5px;
-  padding: 5px;
+  margin: 0.5rem;
 }

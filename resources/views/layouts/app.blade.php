@@ -22,7 +22,7 @@
     @yield('page-css')
 
 </head>
-<body class="has-navbar-fixed-top">
+<body class="has-navbar-fixed-top is-unselectable">
     <div id="app">
         
         @include('common._navbar')

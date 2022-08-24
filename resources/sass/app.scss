@@ -11,6 +11,12 @@
 
 // Shared stuff
 
+.button {
+    .is_borderless {
+        border: none;
+    }
+}
+
 .is-centered {
     display:flex;
     justify-content: center;

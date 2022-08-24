@@ -1,12 +1,13 @@
 @isset ($product)
+<div class="tile">
     <a href="{{ action('ProductController@show', $product) }}">
         <div class="card p-4 is-unselectable">
-            <div class="image block is-128x128 m-4">
+            <div class="image block m-4">
                 <img src="{{ $product->imagePath() }}" alt="">
             </div>
             <hr class="mt-0">
-            <div class="container">
-                <h6 class="title is-size-6 mb-4"><strong>{{ $product->name }}</strong></h6>
+            <div class="container has-text-weight-bold">
+                <h6 class="title is-size-6 mb-4"><strong>{{ Str::limit($product->name, 32, $end='...') }}</strong></h6>
                 <div class="field mb-5">
                     <div>
                         <span class="icon"><i class="fas fa-coins"></i></span>
@@ -33,4 +34,5 @@
             </div>
         </div>
     </a>
+</div>
 @endif

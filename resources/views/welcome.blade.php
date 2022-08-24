@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="section">
-    @if (Auth::check())
-    <div class="hero">
-        <div class="title is-size-3">Lietodì, {{ Auth::user()->name }}!</div>
-        <div class="subtitle is-size-5">Ricorda: troppe monete in tasca riducono l'agilità nei combattimenti.</div>
-    </div>
-    @else
-    <div class="hero">
-        <div class="title is-size-4">Dalle migliori botteghe, per i migliori avventurieri</div>
-        <div class="subtitle is-size-5">Che tu sia un mago, un ranger o un guaritore, ZonkoShop ha sempre quello che ti serve.</div>
-    </div>
-    @endif
+<div class="section pb-0">
+    @include('_spotlight', [
+        'title' => "Preparati per l'Ovest Proibito",
+        'subtitle' => "Fai scorta di pozioni prima di esplorare le pericolose montagne a ovest.",
+        'url' => '/products/1',
+        'backgroundImage' => 'https://i.pinimg.com/originals/ee/0a/47/ee0a47d7342f4ab1db5590793875d53c.png',
+    ])
 </div>
+
+<div class="section">
+    @include('_home_section', [
+        'title' => "Le nostre magie preferite TODO",
+        //'url' => "/search?category=spell",
+        'products' => App\Models\Product::where('category','spell')->where('price','>',100)->get()
+        ])
+</div>
+
 
 @for ($i = 0; $i < 3; $i++)
     <div class="section">
-        <div class="container has-text-right is-pulled-right">
-            <a href="#" class="button">Visualizza altro</a>
-        </div>
-        <div class="title is-size-4">{{ Faker\Factory::create()->sentence() }}</div>
-        <div class="container">
-            
-            @include('Product._reel', ['products' => App\Models\Product::all()])
-
-        </div>
+        @include('_home_section', [
+            'title' => Faker\Factory::create()->sentence(),
+            'url' => "/products",
+            'products' => App\Models\Product::all()
+            ])
     </div>
 @endfor
 
