@@ -4,10 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\ProductCategory;
 
 class Product extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'category' => ProductCategory::class,
+    ];
 
     // PROTEZIONE COLONNE
     // (solo) questi attributi NON saranno modificabili attraverso controller@update
@@ -56,14 +66,6 @@ class Product extends Model
     
 
     // METODI
-    public static function categories() {
-        return [
-            'weapon' => 'Armi',
-            'spell' => 'Magie', 
-            'object' => 'Oggetti',
-            'wearable' => 'Accessori'
-        ];
-    }
 
     public function disable() {
         //$this->update(['is_disabled' => true]); // aggiornava record DB ma non l'oggetto in memoria(?)
@@ -88,7 +90,7 @@ class Product extends Model
 
     public function imagePath() {
         $image_path = 'images/products/'.$this->imagepath;
-        $category_placeholder_path = 'images/placeholders/'.$this->category.'.svg';
+        $category_placeholder_path = 'images/placeholders/'.$this->category->value.'.svg';
         
         if (file_exists($image_path)) {
             return asset($image_path);
@@ -100,6 +102,6 @@ class Product extends Model
     }
 
     public function category() {
-        return Product::categories()[$this->category];
+        return $this->category->name;
     }
 }

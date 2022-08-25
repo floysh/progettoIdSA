@@ -20,7 +20,7 @@
                     <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
                         <div class="column is-narrow">
                             <span class="icon"><i class="fas fa-question"></i></span>
-                            <span>{{ \App\Models\Product::categories()[$product->category] }}</span>
+                            <span>{{ $product->category() }}</span>
                         </div>
                         <div class="column is-narrow">
                             <span class="icon"><i class="fas fa-cubes"></i></span>

@@ -24,11 +24,9 @@
             Prodotti
           </a>
           <div class="navbar-dropdown is-boxed">
-            @php
-              $categories = App\Models\Product::categories()
-            @endphp
-            @foreach ($categories as $cat_id => $category)
-            <a class="navbar-item" href="{{ action('ProductController@index', ['category' => $cat_id]) }}" >{{ $category }}</a>
+
+            @foreach (App\Enums\ProductCategory::cases() as $category)
+            <a class="navbar-item" href="{{ action('StoreController@category', ['category' => $category->value]) }}" >{{ $category->name }}</a>
             @endforeach
           </div>
         </div>
