@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -15,7 +16,8 @@ class ProductController extends Controller
         "price" => "numeric | min:0 | max:999999999",
         "quantity" => "integer | max:999999999",
         "imagepath" => "string",
-        "is_disabled" => "sometimes | boolean"
+        "is_disabled" => "sometimes | boolean",
+        "merchant_id" => "sometimes | integer",
     ];
     protected $validationMessages = [
         'name.required' => '\':attribute\' non può essere vuoto.',
@@ -74,7 +76,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //Log::info($request);
+        // Autorizzazione con Policy!
         $this->authorize('create', Product::class);
 
         //Validazione
@@ -90,9 +92,8 @@ class ProductController extends Controller
         if( ! $request->has('imagepath')) {
             $validated['imagepath'] = 'dummy.png'; // immagine generica
         }
-        $validated['is_disabled'] = 0;
-
-        $product = Product::create($validated);
+        // Associa il nuovo prodotto al mercante
+        $product = Auth::user()->products()->create($validated);
 
         return redirect('/products/'.$product->id);
 

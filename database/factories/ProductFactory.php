@@ -22,7 +22,8 @@ class ProductFactory extends Factory
             'quantity' => 15,
             'price' => 23.45,//$this->faker->float(),
             'description' => $this->faker->paragraph(),
-            'imagepath' => '/images/placeholders/product.svg'
+            'imagepath' => '/images/placeholders/product.svg',
+            'merchant_id' => 0
         ];
     }
 }

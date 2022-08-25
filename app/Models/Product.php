@@ -21,7 +21,7 @@ class Product extends Model
 
     // PROTEZIONE COLONNE
     // (solo) questi attributi NON saranno modificabili attraverso controller@update
-    protected $protected = ['id'];
+    protected $protected = ['id','merchant_id'];
     // soltanto questi attributi saranno modificabili attraverso controller@update
     protected $fillable = ['name','category', 'imagepath', 'quantity', 'description','price','is_disabled'];
 
@@ -61,6 +61,10 @@ class Product extends Model
 
     public function orders() {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function merchant() {
+        return $this->belongsTo(User::class, 'merchant_id');
     }
 
     

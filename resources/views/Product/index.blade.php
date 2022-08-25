@@ -62,7 +62,7 @@
                                     <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
                                         <div class="column is-narrow">
                                             <span class="icon"><i class="fas fa-store"></i></span>
-                                            <span>$product->merchant->name</span>
+                                            <span>{{ $product->merchant->name }}</span>
                                         </div>
                                     </div>
         

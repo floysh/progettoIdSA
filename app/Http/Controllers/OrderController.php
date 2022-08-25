@@ -50,19 +50,23 @@ class OrderController extends Controller
 
         $order = new Order();
         $user->orders()->save($order);
+        
+        // Pagamento
+        $user = Auth::user();
+        $user->money -= $order->total();
+        $user->update();
 
         // Conversione carrello -> ordine
         foreach ($cart_products as $product) {
             $order->products()->attach($product, ['quantity' => $product->cart->first()->quantity]);
+            // Accredito soldini al mercante
+            $product->merchant->money += $product->cart->first()->total();
+            $product->merchant->update();
         }
         
         $order->save();
         $user->cart()->delete();
 
-        // Pagamento
-        $user = Auth::user();
-        $user->money -= $order->total();
-        $user->update();
 
         return redirect('/')->with('success', "Grazie! Il tuo ordine è stato confermato");
     }

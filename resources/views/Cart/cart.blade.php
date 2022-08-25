@@ -60,7 +60,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-scale-balanced"></i></span>
-                                <span>$item->product->merchant->name</span>
+                                <span>Bottega di {{ $item->product->merchant->name }}</span>
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-cubes"></i></span>

@@ -36,7 +36,7 @@
                 <a href="{{ action('ProductController@show',$product) }}">{{ $product->name }}</a>
             </td>
             <td>{{ $product->order_properties->quantity }}x</td>
-            <td>$product->merchant->name </td>
+            <td>{{ $product->merchant->name }}</td>
             <td>
                 @can('create', App\Models\Cart::class)
                     @include('Cart._add_to_cart', ['buttonText' => 'Riacquista', 'sizeClass' => 'is-small'])

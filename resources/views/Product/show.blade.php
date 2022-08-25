@@ -34,8 +34,9 @@
     
                     <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
                         <div class="column is-narrow">
-                            <span class="icon"><i class="fas fa-store"></i></span>
-                            <span>$product->merchant->name</span>
+                            <span class="icon"><i class="fas fa-scale-balanced"></i></span>
+                            <span>Bottega di {{ $product->merchant->name ?? "Zonko" }}</span>
+                            <span> (ID: {{ $product->merchant_id ?? null }})</span>
                         </div>
                     </div>
                 </div>

@@ -62,6 +62,10 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function products() {
+        return $this->hasMany(Product::class, 'merchant_id');
+    }
     
 
     // METODI
