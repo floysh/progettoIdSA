@@ -85,9 +85,9 @@
                     <div class="select">
                         <select class="form-control" name="category" id="category">
                             <option selected hidden>-- scegli una categoria --</option>
-                            @foreach (App\Models\Product::categories() as $category => $category_display_name)
-                                <option value="{{ $category }}" {{ (old('category') == $category) ? 'selected' : ''}}>
-                                    {{ $category_display_name }}
+                            @foreach (App\Enums\ProductCategory::cases() as $category)
+                                <option value="{{ $category->value }}" {{ (old('category') == $category->value) ? 'selected' : ''}}>
+                                    {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
