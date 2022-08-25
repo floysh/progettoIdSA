@@ -90,7 +90,7 @@ fieldset[disabled] .file-name, fieldset[disabled] .select select, .select fields
 }
 
 .tabs:not(:last-child), .pagination:not(:last-child), .message:not(:last-child), .level:not(:last-child), .breadcrumb:not(:last-child), .block:not(:last-child), .title:not(:last-child), .tile-title:not(:last-child),
-.subtitle:not(:last-child), .table-container:not(:last-child), .table:not(:last-child), .progress:not(:last-child), .notification:not(:last-child), .spotlight:not(:last-child), .content:not(:last-child), .box:not(:last-child) {
+.subtitle:not(:last-child), .table-container:not(:last-child), .table:not(:last-child), .progress:not(:last-child), .notification:not(:last-child), .content:not(:last-child), .box:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
@@ -1965,100 +1965,97 @@ div.icon-text {
   width: 128px;
 }
 
-.notification, .spotlight {
+.notification {
   background-color: hsl(0deg, 0%, 96%);
   border-radius: 4px;
   position: relative;
   padding: 1.25rem 2.5rem 1.25rem 1.5rem;
 }
-.notification a:not(.button):not(.dropdown-item), .spotlight a:not(.button):not(.dropdown-item) {
+.notification a:not(.button):not(.dropdown-item) {
   color: currentColor;
   text-decoration: underline;
 }
-.notification strong, .spotlight strong {
+.notification strong {
   color: currentColor;
 }
-.notification code, .spotlight code,
-.notification pre,
-.spotlight pre {
+.notification code,
+.notification pre {
   background: hsl(0deg, 0%, 100%);
 }
-.notification pre code, .spotlight pre code {
+.notification pre code {
   background: transparent;
 }
-.notification > .delete, .spotlight > .delete {
+.notification > .delete {
   right: 0.5rem;
   position: absolute;
   top: 0.5rem;
 }
-.notification .title, .spotlight .title, .notification .tile-title, .spotlight .tile-title,
+.notification .title, .notification .tile-title,
 .notification .subtitle,
-.spotlight .subtitle,
-.notification .content,
-.spotlight .content {
+.notification .content {
   color: currentColor;
 }
-.notification.is-white, .is-white.spotlight {
+.notification.is-white {
   background-color: hsl(0deg, 0%, 100%);
   color: hsl(0deg, 0%, 4%);
 }
-.notification.is-black, .is-black.spotlight {
+.notification.is-black {
   background-color: hsl(0deg, 0%, 4%);
   color: hsl(0deg, 0%, 100%);
 }
-.notification.is-light, .is-light.spotlight {
+.notification.is-light {
   background-color: hsl(0deg, 0%, 96%);
   color: rgba(0, 0, 0, 0.7);
 }
-.notification.is-dark, .is-dark.spotlight {
+.notification.is-dark {
   background-color: hsl(0deg, 0%, 21%);
   color: #fff;
 }
-.notification.is-primary, .is-primary.spotlight {
+.notification.is-primary {
   background-color: #0077c7;
   color: #fff;
 }
-.notification.is-primary.is-light, .is-primary.is-light.spotlight {
+.notification.is-primary.is-light {
   background-color: #ebf7ff;
   color: #0089e6;
 }
-.notification.is-link, .is-link.spotlight {
+.notification.is-link {
   background-color: #0077c7;
   color: #fff;
 }
-.notification.is-link.is-light, .is-link.is-light.spotlight {
+.notification.is-link.is-light {
   background-color: #ebf7ff;
   color: #0089e6;
 }
-.notification.is-info, .is-info.spotlight {
+.notification.is-info {
   background-color: hsl(207deg, 61%, 53%);
   color: #fff;
 }
-.notification.is-info.is-light, .is-info.is-light.spotlight {
+.notification.is-info.is-light {
   background-color: #eff5fb;
   color: #296fa8;
 }
-.notification.is-success, .is-success.spotlight {
+.notification.is-success {
   background-color: hsl(153deg, 53%, 53%);
   color: #fff;
 }
-.notification.is-success.is-light, .is-success.is-light.spotlight {
+.notification.is-success.is-light {
   background-color: #effaf5;
   color: #257953;
 }
-.notification.is-warning, .is-warning.spotlight {
+.notification.is-warning {
   background-color: hsl(44deg, 100%, 77%);
   color: rgba(0, 0, 0, 0.7);
 }
-.notification.is-warning.is-light, .is-warning.is-light.spotlight {
+.notification.is-warning.is-light {
   background-color: #fffaeb;
   color: #946c00;
 }
-.notification.is-danger, .is-danger.spotlight {
+.notification.is-danger {
   background-color: hsl(348deg, 86%, 61%);
   color: #fff;
 }
-.notification.is-danger.is-light, .is-danger.is-light.spotlight {
+.notification.is-danger.is-light {
   background-color: #feecf0;
   color: #cc0f35;
 }
@@ -10393,28 +10390,4 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.spotlight {
-  padding-top: 4.5rem;
-  border-radius: 4px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.spotlight.has-background-dimmed {
-  box-shadow: inset 0 -27px 115px -28px black;
-}
-
-.spotlight-overlay {
-  bottom: 1.5rem;
-  left: 1.5rem;
-  position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
-}
-
-.spotlight-content {
-  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
-  min-height: inherit;
 }
