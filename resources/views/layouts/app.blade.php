@@ -46,7 +46,7 @@
                 <div class="message is-danger is-light">
                     <div class="message-body">
                         <div class="content">
-                            <p class="is-size-4">Si sono verificati alcuni errori:</p>
+                            <p class="is-size-4">{{ $errors->count() > 1 ? "Si sono verificati alcuni errori:" : "Si è verificato un errore" }}</p>
                             <ul>
                                 @foreach ($errors->all() as $error)
                                 <li><b>{{ $error }}</b></li>

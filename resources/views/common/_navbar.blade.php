@@ -3,7 +3,7 @@
   <div class="container is-widescreen">
     <div class="navbar-brand is-unselectable">
       <a class="navbar-item" href="/">
-        <img src={{ asset('images/zonkologo.png') }} style="max-height: 3.5rem;">
+        <img src={{ asset('images/zonkologo.png') }} style="max-height: 3rem;">
       </a>
       
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" 
@@ -28,6 +28,17 @@
             @foreach (App\Enums\ProductCategory::cases() as $category)
             <a class="navbar-item" href="{{ action('StoreController@category', ['category' => $category->value]) }}" >{{ $category->name }}</a>
             @endforeach
+
+            @can('create', App\Models\Product::class)
+            <hr class="navbar-divider"/>
+              <div class="navbar-item">
+                <a href="{{action('ProductController@create')}}" class="button">
+                  <span class="icon"><i class="fas fa-plus"></i></span>
+                  <span>Nuovo prodotto</span>
+                </a>
+              </div>
+            @endcan
+            
           </div>
         </div>
       </div>
@@ -75,16 +86,25 @@
             </span>
             <span class="is-hidden-touch">
               <div><strong>{{ Auth::user()->name }}</strong></div>
-             @if (Auth::user()->isMerchant())
-             <div>
-               <div class="tag is-black">
-                <span class="icon">
-                  <i class="fas fa-basket"></i>
-                </span>
-                <span>Mercante</span>
-               </div>
-             </div>
-             @endif
+              @if (Auth::user()->isMerchant())
+                <div>
+                  <div class="tag is-info is-light">
+                    <span class="icon">
+                      <i class="fas fa-scale-balanced"></i>
+                    </span>
+                    <span>Mercante</span>
+                  </div>
+                </div>
+              @elseif (Auth::user()->isCustomer())
+                <div>
+                  <div class="tag is-success is-light">
+                  <span class="icon">
+                    <i class="fas fa-coins"></i>
+                  </span>
+                  <span>@currency(Auth::user()->money)</span>
+                  </div>
+                </div>
+              @endif
             </span>
           </a>
           

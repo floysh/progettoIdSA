@@ -1,6 +1,6 @@
 <div class="container has-text-right is-pulled-right">
     @isset($url)
-    <a href="{{$url}}" class="">
+    <a href="{{ $url }}" class="pl-4">
         <span class="icon"><i class="fas fa-arrow-right"></i></span>
     </a>
     @endisset

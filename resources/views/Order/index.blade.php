@@ -6,6 +6,7 @@
 
 @section('content')
 <div class="section">
+  <h3 class="title is-size-3">I tuoi ordini</h3>
 
   @if ($orders->isEmpty())
     {{-- Nessun ordine --}}
@@ -23,13 +24,13 @@
     
     @else
     {{-- Elenco ordini --}}
-    @foreach($orders as $order)
-      <div class="list">
-        <div class="list-item mb-6">
+    <div class="list">
+      @foreach($orders as $order)
+        <div class="list-item mt-6 mb-6">
           @include('Order._order')
         </div>
-      </div>
-    @endforeach
+      @endforeach
+    </div>
   @endif
 
 </div>
