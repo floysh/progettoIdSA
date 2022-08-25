@@ -19,14 +19,19 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::redirect('/home', '/', 301);
+
+// Pagine negozio
+Route::get('/search', 'StoreController@search');
+Route::get('/products/category/{category}', 'StoreController@category');
 
 // Products
 Route::get('/products', 'ProductController@index');
 Route::get('/products/create', 'ProductController@create');
 Route::post('/products/create', 'ProductController@store');
-Route::get('/products/{product}', 'ProductController@show')->name('ShowProduct');
-Route::get('/products/{product}/edit', 'ProductController@edit')->name('EditProduct');
+Route::get('/products/{product}', 'ProductController@show');
+Route::get('/products/{product}/edit', 'ProductController@edit');
 Route::patch('/products/{product}', 'ProductController@update');
 Route::delete('/products/{product}', 'ProductController@destroy');
 

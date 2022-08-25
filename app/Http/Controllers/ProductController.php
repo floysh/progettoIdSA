@@ -42,22 +42,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = [];
-        $title = "";
         
-        // Vista per categoria
-        if($request['category']) {
-            if(array_key_exists($request['category'], Product::categories())) {
-                $products = Product::where('category', $request['category']);
-                $title = Product::categories()[$request['category']];
-            }
-            else return abort(404); 
-        }
-        else {
-            // Tutti i prodotti acquistabili
-            $title = "Tutti i prodotti";
-            $products = Product::available();
-        }
+        // Tutti i prodotti acquistabili
+        $title = "Tutti i prodotti";
+        $products = Product::available();
         
         return view('Product.index', [
             'products' => $products->get(),

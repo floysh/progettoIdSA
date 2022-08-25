@@ -2,9 +2,11 @@
 
 @extends('layouts.app')
 
-@section('title')
-    {{ $tabname }} - {{ config('app.name', 'ZonkoShop') }}
-@endsection
+@isset($tabname)
+    @section('title')
+        {{ $tabname }} - {{ config('app.name', 'ZonkoShop') }}
+    @endsection
+@endisset
 
 @section('content')
 <div class="section">
