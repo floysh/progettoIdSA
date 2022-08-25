@@ -54,7 +54,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        $user->is($product->merchant);
+        return $user->is($product->merchant);
     }
 
     /**
