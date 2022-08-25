@@ -13,7 +13,9 @@
                 <div class="content has-text-white is-hidden-mobile">
                     <div class="title is-size-4 is-size-5-mobile">{{ $title ?? Faker\Factory::create()->sentence() }}</div>
                     <div class="subtitle is-size-5 is-size-6-mobile mb-3">{{ $subtitle ?? Faker\Factory::create()->sentence() }}</div>
+                    @isset($spotlightUrl)
                     <div class="button is-outlined">Visualizza dettagli</div>
+                    @endisset
                 </div>
             </div>
         </div>

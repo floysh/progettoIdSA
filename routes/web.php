@@ -13,16 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::redirect('/home', '/', 301);
-
 // Pagine negozio
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', 'StoreController@home');
 Route::get('/search', 'StoreController@search');
 Route::get('/products/category/{category}', 'StoreController@category');
 
