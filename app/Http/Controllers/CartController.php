@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -55,22 +56,25 @@ class CartController extends Controller
                     ->where('product_id', $validated['product_id'])
                     ->first();
         
-        if($cart_item) { // Aggiornamento record esistente
-            $product->quantity += $cart_item->quantity;
-            $cart_item->update(['quantity' => $validated['quantity']]);
-        }
-        else { // Creazione nuovo record
-            $cart_item = Cart::make([
-                'product_id' => $validated['product_id'],
-                'quantity' => $validated['quantity'],
-            ]);
-            $cart_item->user_id = Auth::user()->id;
-            $cart_item->save();
-        }
-
-        // Aggiorna disponibilità prodotto
-        $product->quantity -= $validated['quantity'];
-        $product->update();
+        DB::transaction(function () use ($cart_item, $product, $validated): void {
+            
+            if($cart_item) { // Aggiornamento record esistente
+                $product->quantity += $cart_item->quantity;
+                $cart_item->update(['quantity' => $validated['quantity']]);
+            }
+            else { // Creazione nuovo record
+                $cart_item = Cart::make([
+                    'product_id' => $validated['product_id'],
+                    'quantity' => $validated['quantity'],
+                ]);
+                $cart_item->user_id = Auth::user()->id;
+                $cart_item->save();
+            }
+    
+            // Aggiorna disponibilità prodotto
+            $product->quantity -= $validated['quantity'];
+            $product->update();
+        });
 
         return back();    
     }
