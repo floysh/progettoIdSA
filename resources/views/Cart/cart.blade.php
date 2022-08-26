@@ -60,7 +60,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-scale-balanced"></i></span>
-                                <span>Bottega di {{ $item->product->merchant->name }}</span>
+                                <span>Bottega di {{ $item->product->merchant->name ?? "un mercante eliminato" }}</span>
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-cubes"></i></span>
@@ -94,7 +94,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                                     onchange="event.preventDefault();
                                                             document.getElementById('cart-edit-{{ $item->id }}-form').submit();">
                                                 
-                                                @for ($i = 1; $i <= ($item->quantity + $item->product->quantity); $i++)
+                                                @for ($i = 1; $i <= min(99, $item->quantity + $item->product->quantity); $i++)
                                                     <option value="{{$i}}" 
                                                         @if($item->quantity == $i)
                                                             selected

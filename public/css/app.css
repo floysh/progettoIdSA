@@ -10391,3 +10391,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.account-menu {
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
+}

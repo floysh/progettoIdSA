@@ -70,16 +70,30 @@
         </div>
         @else
        
-        <div class="navbar-item is-hidden-mobile">
-          <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
-            <i class="fas fa-shopping-cart"></i>
-          </a>
-        </div>
+        @can('create', App\Models\Cart::class)
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+          </div>
+        @endcan
+        @can('create', App\Models\Product::class)
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+              <i class="fas fa-scale-balanced"></i>
+            </a>
+          </div>
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+              <i class="fas fa-list"></i>
+            </a>
+          </div>
+        @endcan
 
 
 
         {{-- Account dropdown menu --}}
-        <div id="account-menu" class="navbar-item has-dropdown is-hoverable">
+        <div id="account-menu" class="navbar-item has-dropdown is-hoverable pl-4">
           <a class="navbar-link">
             <span class="image mr-2 is-hidden-mobile is-hidden-desktop">
               <img class="is-rounded" src="{{ asset("images/avatar-placeholder.png") }}" alt="pp">

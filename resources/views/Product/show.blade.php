@@ -9,11 +9,11 @@
     <div class="section">
         <div class="columns">
             <div class="column is-4 is-flex is-justify-content-center p-0">
-                <div class="image pt-5" style="max-width: 256px">
+                <div class="image pt-5 pb-6" style="max-width: 256px">
                     <img src="{{ $product->imagePath() }}" alt="product image">
                 </div>
             </div>
-            <div class="column section pt-4">
+            <div class="column pt-4">
                 <h3 class="title is-size-3">{{ $product->name }}</h3>
                 
                 <div class="container mb-6">
@@ -35,7 +35,7 @@
                     <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
                         <div class="column is-narrow">
                             <span class="icon"><i class="fas fa-scale-balanced"></i></span>
-                            <span>Bottega di {{ $product->merchant->name ?? "Zonko" }}</span>
+                            <span>Bottega di {{ $product->merchant->name ?? "un mercante eliminato" }}</span>
                             <span> (ID: {{ $product->merchant_id ?? null }})</span>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="is-size-5 has-text-danger">Scorte esaurite</div>
                         <p>Questo prodotto non può essere acquistato perchè il mercante non ne ha più in magazzino.</p>
                     </div>
-                @elseif(Auth::user()->can('create', App\Models\Cart::class))
+                @elsecan('create', App\Models\Cart::class)
                     <div class="container block">
                         <form action="{{ action('CartController@store') }}" method="POST">
                             @csrf()
@@ -128,7 +128,7 @@
 
             </div>
         </div>
-        <div class="notification content">
+        <div class="notification content mt-6">
             <h5 class="title is-size-5">Descrizione</h5>
             <p>{!! nl2br(e($product->description)) !!}</p>
         </div>

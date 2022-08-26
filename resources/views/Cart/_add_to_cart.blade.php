@@ -23,7 +23,7 @@
             <div class="control has-icons-left">
                 <div class="select {{ $sizeClass ?? '' }}">
                     <select id="quantity" name="quantity">
-                        @for ($i = 1; $i <= $product->quantity; $i++)
+                        @for ($i = 1; $i <= min(50, $product->quantity); $i++)
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                         </select>

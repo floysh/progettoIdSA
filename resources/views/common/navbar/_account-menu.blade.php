@@ -17,7 +17,7 @@
         <span class="icon">
           <i class="fas fa-coins"></i>
         </span>
-        <span>{{ Auth::user()->money }}</span>
+        <span> @currency(Auth::user()->money) </span>
       </span>
     </div>
   
