@@ -10,9 +10,7 @@ use Illuminate\Database\QueryException as QueryException;
 
 use App\Models\Cart;
 use App\Models\User;
-use Database\Factories\UserFactory;
 use App\Models\Product;
-use Database\Factories\ProductFactory;
 
 class CartTest extends TestCase
 {
@@ -22,54 +20,42 @@ class CartTest extends TestCase
 
     public function test_quantity_must_be_greater_than_zero() {
         
-        ProductFactory::new()->create();
+        $product = Product::factory()->create();
         
         $this->expectException(QueryException::class);
         Cart::create([
             "user_id" => User::customers()->first(),
             "quantity" => -1,
-            "product_id" => Product::first()->id
+            "product_id" => $product->id
         ]);
 
         $this->expectException(QueryException::class);
         Cart::create([
             "user_id" => User::customers()->first(),
             "quantity" => 0,
-            "product_id" => Product::first()->id
+            "product_id" => $product->id
         ]);
         
         Cart::create([
             "user_id" => User::customers()->first(),
             "quantity" => 1,
-            "product_id" => Product::first()->id
+            "product_id" => $product->id
         ]);
     }
 
-    public function test_scope_on_current_user() {
-        $user1 = UserFactory::new()->create([
-            'name' => "Ted",
-            'role' => 'customer'
-        ]);
-        $user2 = UserFactory::new()->create([
-            'name' => "Verbena",
-            'role' => 'customer'
-        ]);
+    public function test_global_scope_on_current_user() {
+        $user1 = User::factory()->customer()
+                    ->hasCart(2)
+                    ->create([
+                        'name' => "Ted",
+                    ]);
+        $user2 = User::factory()->customer()
+                    ->hasCart(2)            
+                    ->create([
+                        'name' => "Verbena",
+                    ]);
 
         $this->assertNotEquals($user1->user_id, $user2->id);
-        
-        ProductFactory::new()->create();
-        
-        Cart::create([
-            "user_id" => $user1->id,
-            "product_id" => Product::first()->id,
-            "quantity" => 10
-        ]);
-
-        Cart::create([
-            "user_id" => $user2->id,
-            "product_id" => Product::first()->id,
-            "quantity" => 20
-        ]);
 
         $this->actingAs($user2);
         foreach (Cart::all() as $cart_entry) {
@@ -90,7 +76,7 @@ class CartTest extends TestCase
             ['quantity' => 14, 'price' => 12.15],
         ];
 
-        $user = UserFactory::new()->create([
+        $user = User::factory()->create([
             'role' => "customer"
         ]);
 
@@ -98,7 +84,7 @@ class CartTest extends TestCase
 
         $expected_result = 0;
         foreach ($tests as $test) {
-            $prod = ProductFactory::new()->create([
+            $prod = Product::factory()->create([
                 "price" => $test['price']
             ]);
 
@@ -119,7 +105,7 @@ class CartTest extends TestCase
 
     public function test_checkout_price_on_empty_carts_is_zero()
     {
-        $user = UserFactory::new()->create([
+        $user = User::factory()->create([
             'role' => "customer"
         ]);
 

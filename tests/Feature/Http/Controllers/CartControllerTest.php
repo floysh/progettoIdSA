@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use Database\Factories\ProductFactory;
 use \App\Models\Product;
-
-use Database\Factories\UserFactory;
 use \App\Models\User;
 
 use \App\Models\Cart;
@@ -21,30 +18,26 @@ class CartControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $product1 = ProductFactory::new(['quantity' => 20, 'price' => 2])->create();
-        $product2 = ProductFactory::new(['quantity' => 20])->create();
-        $product3 = ProductFactory::new()->create();
-
-        $user = UserFactory::new()->create(['role' => 'customer', 'money' => 500]);
     }
 
     public function test_it_stores_carts()
     {
-        $user = User::find(1);
+        $user = User::factory()->customer()->create();
         $this->actingAs($user);
 
-        $response = $this->post('/cart', ['product_id' => 1, 'quantity' => 3]);
+        $product = Product::factory()->create(['quantity' => 20]);
+
+        $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 3]);
         $response->assertValid();
         $this->assertEquals(1, $user->cart()->count());
 
-        $this->assertEquals(20, Product::find(1)->quantity + $user->cart()->first()->quantity);
+        $this->assertEquals(20, $product->refresh()->quantity + $user->cart()->first()->quantity);
     }
 
     public function test_it_doesnt_store_the_same_product_twice()
     {
-        $product = ProductFactory::new()->create(['quantity' => 42]);
-        $user = User::find(1);
+        $product = Product::factory()->create(['quantity' => 42]);
+        $user = User::factory()->customer()->create();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 3]);
@@ -62,7 +55,7 @@ class CartControllerTest extends TestCase
     public function test_it_doesnt_store_invalid_product_quantities()
     {   
 
-        $user = User::find(1);
+        $user = User::customers()->first();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => 1, 'quantity' => -12]);
@@ -78,8 +71,8 @@ class CartControllerTest extends TestCase
 
     public function test_product_quantities_are_reserved()
     {
-        $product = ProductFactory::new()->create(['quantity' => 42]);
-        $user = User::find(1);
+        $product = Product::factory()->create(['quantity' => 42]);
+        $user = User::factory()->customer()->create();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 3]);
@@ -94,16 +87,16 @@ class CartControllerTest extends TestCase
         $this->assertEquals(42, $product->quantity + $user->cart()->first()->quantity);
     }
 
-    public function test_reserved_quantities_are_restored_on_destroy()
+    public function test_reserved_quantities_are_restored_when_products_are_removed()
     {
-        $product = ProductFactory::new()->create(['quantity' => 42]);
-        $user = User::find(1);
+        $product = Product::factory()->create(['quantity' => 42]);
+        $user = User::customers()->first();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 3]);
         $response->assertValid();
         
-        $response = $this->delete('/cart/'.$user->cart->first()->id);
+        $response = $this->delete('/cart/'.$user->cart->firstWhere('product_id', $product->id)->id);
         $response->assertValid();
 
         // Nulla si crea, nulla si distrugge
@@ -114,8 +107,8 @@ class CartControllerTest extends TestCase
 
     public function test_it_doesnt_store_unavailable_products()
     {
-        $product = ProductFactory::new()->create(['quantity' => 42, 'is_disabled' => true]);
-        $user = User::find(1);
+        $product = Product::factory()->create(['quantity' => 42, 'is_disabled' => true]);
+        $user = User::customers()->first();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 3]);
@@ -124,8 +117,8 @@ class CartControllerTest extends TestCase
 
     public function test_it_updates_entries_correctly()
     {
-        $product = ProductFactory::new()->create(['quantity' => 42]);
-        $user = User::find(1);
+        $product = Product::factory()->create(['quantity' => 42]);
+        $user = User::factory()->customer()->create();
         $this->actingAs($user);
 
         $response = $this->post('/cart', ['product_id' => $product->id, 'quantity' => 2]);
@@ -146,20 +139,19 @@ class CartControllerTest extends TestCase
 
     public function test_index_is_scoped_to_current_user() 
     {
-        $user = User::find(1);
-        $other_user = UserFactory::new()->create();
+        $user = User::factory()->customer()
+                    ->hasCart(1)
+                    ->create();
+        
+        $other_user = User::factory()->customer()
+                    ->hasCart(1)
+                    ->create();
 
-        Cart::create(['user_id' => $other_user->id, 'product_id' => 1, 'quantity' => 2]);
-        Cart::create(['user_id' => $other_user->id, 'product_id' => 2, 'quantity' => 2]);
         
         $this->actingAs($user);
 
         $response = $this->get('/cart');
-        $this->assertEmpty($response['cart']);
-
-        Cart::create(['user_id' => $user->id, 'product_id' => 2, 'quantity' => 2]);
-        $response = $this->get('/cart');
-        $this->assertEquals(1,count($response['cart']));
+        $this->assertEquals(1, count($response['cart']));
     }
 
 
