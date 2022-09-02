@@ -20,7 +20,24 @@ class CartControllerTest extends TestCase
         parent::setUp();
     }
 
-    public function test_it_stores_carts()
+    public function test_index_is_scoped_to_current_user() 
+    {
+        $user = User::factory()->customer()
+                    ->hasCart(1)
+                    ->create();
+        
+        $other_user = User::factory()->customer()
+                    ->hasCart(1)
+                    ->create();
+
+        
+        $this->actingAs($user);
+
+        $response = $this->get('/cart');
+        $this->assertEquals(1, count($response['cart']));
+    }
+
+    public function test_products_can_be_stored()
     {
         $user = User::factory()->customer()->create();
         $this->actingAs($user);
@@ -52,7 +69,7 @@ class CartControllerTest extends TestCase
     }
 
     
-    public function test_it_doesnt_store_invalid_product_quantities()
+    public function test_it_respects_product_quantity_constraints()
     {   
 
         $user = User::customers()->first();
@@ -135,23 +152,6 @@ class CartControllerTest extends TestCase
         $product->refresh();
         $this->assertEquals(42-30, $product->quantity);
 
-    }
-
-    public function test_index_is_scoped_to_current_user() 
-    {
-        $user = User::factory()->customer()
-                    ->hasCart(1)
-                    ->create();
-        
-        $other_user = User::factory()->customer()
-                    ->hasCart(1)
-                    ->create();
-
-        
-        $this->actingAs($user);
-
-        $response = $this->get('/cart');
-        $this->assertEquals(1, count($response['cart']));
     }
 
 

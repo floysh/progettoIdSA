@@ -10,24 +10,16 @@
     ])
 </div>
 
-<div class="section">
-    @include('_home_section', [
-        'title' => "Le nostre magie preferite TODO",
-        //'url' => "/search?category=spell",
-        'products' => App\Models\Product::where('category','spell')->where('price','>',100)->get()
-        ])
-</div>
 
-
-@for ($i = 0; $i < 3; $i++)
+@foreach ($reels as $reel)
     <div class="section">
         @include('_home_section', [
-            'title' => Faker\Factory::create()->sentence(),
-            'url' => "/products",
-            'products' => App\Models\Product::all()
+            'title' => $reel['title'],
+            'url' => $reel['url'],
+            'products' => $reel['products']
             ])
     </div>
-@endfor
+@endforeach
 
 
 </div>
