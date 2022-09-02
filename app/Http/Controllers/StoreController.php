@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Product;
 use App\Enums\ProductCategory;
@@ -46,5 +47,10 @@ class StoreController extends Controller
 
     public function search(Request $request) {
         return "YES";
+    }
+
+    public function catalogue(Request $request) {
+        $products = Product::all()->where('merchant_id', Auth::id());
+        return view('Store.merchant_catalogue', ['products' => $products]);
     }
 }

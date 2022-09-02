@@ -79,12 +79,12 @@
         @endcan
         @can('create', App\Models\Product::class)
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+            <a href="{{ route('UserCatalogue') ?? 'TODO'}}" class="navbar-button has-text-black">
               <i class="fas fa-scale-balanced"></i>
             </a>
           </div>
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+            <a href="{{ route('Dashboard') ?? 'TODO'}}" class="navbar-button has-text-black">
               <i class="fas fa-list"></i>
             </a>
           </div>

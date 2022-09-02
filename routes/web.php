@@ -21,6 +21,7 @@ Auth::routes();
 Route::get('/', 'StoreController@home');
 Route::get('/search', 'StoreController@search');
 Route::get('/products/category/{category}', 'StoreController@category');
+Route::get('/catalogue', 'StoreController@catalogue')->middleware('auth')->name('UserCatalogue');
 
 // Products
 Route::get('/products', 'ProductController@index');

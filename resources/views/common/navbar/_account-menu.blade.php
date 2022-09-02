@@ -24,11 +24,17 @@
     <hr class="navbar-divider"/>
   
   
-    @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
     
     @can('create', App\Models\Cart::class)
+      @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Cronologia ordini'])
       @include('common.navbar._menu-item', ['link' => action('CartController@index'),  'icon' => 'fas fa-shopping-cart', 'title' => 'Carrello'])
     @endcan
+
+    @if (Auth::user()->isMerchant())
+      @include('common.navbar._menu-item', ['link' => route('Dashboard') ?? 'TODO',  'icon' => 'fas fa-list', 'title' => 'Dashboard'])
+      @include('common.navbar._menu-item', ['link' => route('UserCatalogue') ?? 'TODO',  'icon' => 'fas fa-scale-balanced', 'title' => 'Gestione bottega'])
+      @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Ordini clienti'])
+    @endif
    
   
     <hr class="navbar-divider"/>
