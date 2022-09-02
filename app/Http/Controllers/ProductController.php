@@ -14,7 +14,7 @@ class ProductController extends Controller
         "category" => "required | in:weapon,spell,object,wearable",
         "description" => "required | min: 5",
         "price" => "numeric | min:0 | max:999999999",
-        "quantity" => "integer | max:999999999",
+        "quantity" => "integer | min: 0 | max:999999999",
         "imagepath" => "string",
         "is_disabled" => "sometimes | boolean",
         "merchant_id" => "sometimes | integer",
@@ -161,5 +161,28 @@ class ProductController extends Controller
         $product->disable();
         return back();
 
+    }
+
+    /**
+     * Increments the specified resource availability.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function refill(Request  $request, Product $product)
+    {
+        $this->authorize('update',$product);
+
+        $validated = $validated = Validator::make(
+            $request->all(),
+            ["quantity" => "integer | min: 0 | max:999999999",], 
+            $this->validationMessages, $this->attributeNames
+        )->validate();
+
+        $product->quantity += $validated['quantity'];
+        $product->save();
+
+        return back();
     }
 }

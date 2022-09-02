@@ -29,6 +29,7 @@ Route::get('/products/create', 'ProductController@create');
 Route::post('/products/create', 'ProductController@store');
 Route::get('/products/{product}', 'ProductController@show');
 Route::get('/products/{product}/edit', 'ProductController@edit');
+Route::patch('/products/{product}/refill', 'ProductController@refill');
 Route::patch('/products/{product}', 'ProductController@update');
 Route::delete('/products/{product}', 'ProductController@destroy');
 

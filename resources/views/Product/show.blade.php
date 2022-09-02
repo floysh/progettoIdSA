@@ -16,7 +16,7 @@
             <div class="column pt-4">
                 <h3 class="title is-size-3">{{ $product->name }}</h3>
                 
-                <div class="container mb-6">
+                <div class="container mb-5">
                     <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
                         <div class="column is-narrow">
                             <span class="icon"><i class="fas fa-question"></i></span>
@@ -44,13 +44,13 @@
                 
                 {{-- Aggiungi al carrello --}}
                 @if ($product->isNotAvailable())
-                    <div class="notification content is-warning is-light">
-                        <div class="is-size-5">Non disponibile</div>
+                    <div class="notification content is-grey is-light">
+                        <div class="is-size-5">Non disponibile per l'acquisto</div>
                         <p>Questo prodotto non può essere acquistato perchè il mercante non lo permette.</p>
                     </div>
                 @elseif($product->quantity == 0)
-                    <div class="notification content is-danger is-light">
-                        <div class="is-size-5 has-text-danger">Scorte esaurite</div>
+                    <div class="notification content is-warning is-light">
+                        <div class="is-size-5 has-text-warning">Scorte esaurite</div>
                         <p>Questo prodotto non può essere acquistato perchè il mercante non ne ha più in magazzino.</p>
                     </div>
                 @elsecan('create', App\Models\Cart::class)
@@ -77,7 +77,7 @@
                     <div class="field is-grouped">
                         @can('update', $product)
                             <div class="control">
-                                <a href="{{ action('ProductController@edit', $product) }}" class="button is-dark">
+                                <a href="{{ action('ProductController@edit', $product) }}" class="button">
                                     <span class="icon">
                                         <i class="fas fa-edit"></i>
                                     </span>
@@ -103,7 +103,7 @@
                 </div>
                 @can('update', $product)
                     <div class="container block">
-                        <form action="{{ action('ProductController@update', $product) }}" method="POST">
+                        <form action="{{ action('ProductController@refill', $product) }}" method="POST">
                             @csrf()
                             @method('PATCH')
 
@@ -114,11 +114,11 @@
                                 </div>
                                 <div class="control is-flex is-align-items-flex-end">
                                     <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
-                                    <button id="restock-btn" type="submit" class="button is-primary">
+                                    <button id="restock-btn" type="submit" class="button">
                                         <span class="icon">
-                                            <i class="fas fa-plus"></i>
+                                            <i class="fas fa-cubes"></i>
                                         </span>
-                                        <span>Rifornisci scorte</span>
+                                        <span>Rifornisci</span>
                                     </button>
                                 </div>
                             </div>

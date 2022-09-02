@@ -69,17 +69,23 @@
                             </div>
                         </div>
 
-                        <div class="column is-3">
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <input type="number" class="input">
-                                </div>
-                                <div class="control">
-                                    <a href="action('ProductController@update', $product)" class="button">
-                                        <span class="icon"><i class="fas fa-cubes"></i></span>
-                                        <span>Rifornisci scorte (TODO)</span>
-                                    </a>
-                                </div>
+                        <div class="column is-narrow">
+                            <div class="field">
+                                <form action="{{ action('ProductController@refill', $product) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="field has-addons">
+                                        <div class="control">
+                                            <input type="number" class="input" name="quantity" placeholder="0">
+                                        </div>
+                                        <div class="control">
+                                            <button type="submit" class="button">
+                                                <span class="icon"><i class="fas fa-cubes"></i></span>
+                                                <span>Rifornisci</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <div class="field is-grouped">
                                 <div class="control">
