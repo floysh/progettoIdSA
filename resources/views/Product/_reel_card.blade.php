@@ -1,5 +1,5 @@
 @isset ($product)
-<div class="tile">
+<div class="reel-tile">
     <a href="{{ action('ProductController@show', $product) }}">
         <div class="card p-4">
             <div class="image block m-4">

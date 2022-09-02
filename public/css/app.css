@@ -10376,9 +10376,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 /* .reel::-webkit-scrollbar {
   display: none;
 } */
-.tile {
-  min-width: 163px;
+.reel-tile {
+  display: block;
+  flex-basis: 0;
   flex-grow: 0;
+  min-width: 163px;
   margin: 0.5rem;
 }
 
