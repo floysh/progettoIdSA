@@ -28,56 +28,7 @@
         <div class="list">
             @foreach ($products as $product)
                 <div class="list-item block">
-                    <div class="columns">
-                        
-                        <div class="column">
-                            <div class="columns is-mobile">
-                                <div class="column is-narrow">
-                                    <div class="image is-64x64">
-                                        <img src="{{ $product->imagePath() }}" alt="product image">
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="mb-3 is-size-5 has-text-bold">
-                                        <a href="{{ action('ProductController@show', $product) }}">
-                                            <strong>{{ $product->name }}</strong>
-                                        </a>
-                                    </div>
-                                    
-                                    <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
-                                        <div class="column is-narrow">
-                                            <span class="icon"><i class="fas fa-question"></i></span>
-                                            <span>{{ $product->category() }}</span>
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <span class="icon"><i class="fas fa-cubes"></i></span>
-                                            <span>x {{ $product->quantity }}</span>
-                                        </div>
-                                        <span class="column is-narrow">
-                                            <span class="icon"><i class="fas fa-coins"></i></span>
-                                            <span> @currency($product->price) </span>
-                                        </span>
-                                    </div>
-                    
-                                    <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
-                                        <div class="column is-narrow">
-                                            <span class="icon"><i class="fas fa-scale-balanced"></i></span>
-                                            <span>Bottega di {{ $product->merchant->name ?? "un mercante eliminato" }}</span>
-                                        </div>
-                                    </div>
-        
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column is-narrow is-centered has-text-right">
-                            @can('create', App\Models\Cart::class)
-                                @include('Cart._add_to_cart')
-                            @elsecan('edit|delete', App\Models\Product::class)
-                                <div>TODO</div>
-                            @endcan
-                        </div>
-                    </div>
+                    @include('Product._product', ['product' => $product])
                 </div>
                 <hr/>
             @endforeach
