@@ -50,14 +50,8 @@
             <div class="control is-expanded has-icons-left">
               <input name="q" class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
               <span class="icon is-left">
-                <i class="fas fa-hat-wizard"></i>
-              </span>
-            </div>
-            
-            <div class="control">
-              <button class="button is-info" type="submit">
                 <i class="fas fa-search"></i>
-              </button>
+              </span>
             </div>
 
           </div>
@@ -74,8 +68,8 @@
         @if(!Auth::check())
         <div class="navbar-item">
           <div class="buttons">
-            {{--<a href="{{ route('register') }}" class="button is-primary">Sign up</a>--}}
-            <a href="{{ route('login') }}" class="button">Login</a>
+            <a href="{{ route('login') }}" class="button">Accedi</a>
+            <a href="{{ route('register') }}" class="button is-primary">Registrati</a>
           </div>
         </div>
         @else

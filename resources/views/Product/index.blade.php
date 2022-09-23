@@ -12,14 +12,16 @@
     
     {{-- Controlli Mercante --}}
     <div class="field mb-0 is-grouped is-grouped-right is-pulled-right">
-        <div class="control">
-            <a href="{{ action('ProductController@create') }}" class="button">
-                <span class="icon">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span>Nuovo prodotto</span>
-            </a>
-        </div>
+        @can('create', Product::class)
+            <div class="control">
+                <a href="{{ action('ProductController@create') }}" class="button">
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span>Nuovo prodotto</span>
+                </a>
+            </div>
+        @endcan
     </div>
 
     <h2 class="title is-size-3">{{ $title }}</h2>

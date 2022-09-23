@@ -16,6 +16,9 @@ class SearchController extends Controller
                     ->orWhere("category","LIKE","%{$request['q']}%")
                     ->orWhere("description","LIKE","%{$request['q']}%");
         
+        // Se c'è un solo risultato, apri direttamente la pagina del prodotto
+        if ($products->count() == 1) return redirect()->action('ProductController@show', ['product' => $products->first()]);;
+
         return view('Product.index', [
             'products' => $products->get(), 
             'title' => "Risultati per \"{$request['q']}\"",
