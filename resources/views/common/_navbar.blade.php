@@ -69,8 +69,12 @@
                     </div>
                   </div>
                   <div class="column">
-                    <div class="title is-size-6">
+                    <div class="title is-size-6 mb-1">
                       {{ Faker\Factory::create()->sentence() }}
+                    </div>
+                    <div class="label">
+                      <span class="icon"><i class="fas fa-coins"></i></span>
+                      <span>@currency(12.5)</span>
                     </div>
                   </div>
                 </div>

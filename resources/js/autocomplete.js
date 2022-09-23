@@ -11,15 +11,19 @@ function createProductSuggestion(product) {
         <div class="list-item mt-2 mb-2">
             <a href="/products/${product.id}">
             <div class="columns">
-                <div class="column is-narrow p-2">
-                <div class="image is-32x32">
-                    <img src="/images/placeholders/product.svg" alt="">
+                <div class="column is-narrow">
+                    <div class="image is-32x32">
+                        <img src="/images/placeholders/${ product.category }.svg">
+                    </div>
                 </div>
-                </div>
-                <div class="column">
-                <div class="title is-size-6">
-                    ${ product.name }
-                </div>
+                <div class="column pt-2">
+                    <div class="title is-size-6 mb-1">
+                        ${ product.name }
+                    </div>
+                    <div class="label">
+                      <span class="icon"><i class="fas fa-coins"></i></span>
+                      <span>${ product.price }</span>
+                    </div>
                 </div>
             </div>
             </a>
