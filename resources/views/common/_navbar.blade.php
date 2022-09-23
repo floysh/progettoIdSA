@@ -63,9 +63,9 @@
             <div class="list-item mt-2 mb-2">
               <a href="/products/9999">
                 <div class="columns">
-                  <div class="column is-narrow p-2">
-                    <div class="image is-32x32">
-                      <img src="{{ asset('images/placeholders/product.svg') }}" alt="product image">
+                  <div class="column is-narrow pt-2 pr-0">
+                    <div class="image is-48x48">
+                      <img src="{{ asset('images/placeholders/product.svg') }}" alt="product image" style="max-height: unset">
                     </div>
                   </div>
                   <div class="column">
