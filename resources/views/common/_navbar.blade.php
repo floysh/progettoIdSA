@@ -43,18 +43,22 @@
         </div>
       </div>
 
-      <div class="navbar-item container-fluid">
-        <div class="field has-addons">
-          <div class="control has-icons-left">
-            <input class="input" type="text" placeholder="Cerca un prodotto">
-            <span class="icon is-left">
-              <i class="fas fa-hat-wizard"></i>
-            </span>
+      <div class="navbar-item container-fluid" id="search_bar">
+        <form action="{{ route('search') }}" method="GET">
+          <div class="field has-addons mb-1" style="min-width: 22rem">
+            
+            <div class="control is-expanded has-icons-left">
+              <input name="q" class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
+              <span class="icon is-left">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+
           </div>
-          <div class="control">
-            <a class="button is-info">
-              <i class="fas fa-search"></i>
-            </a>
+        </form>
+        <div id="search_autocomplete" class="box p-4 is-hidden" style="position: absolute; top: 3.4rem; max-height: 13rem; overflow-y: auto; width: 94%;">
+          <div class="suggestions list">
+            {{-- *** autocomplete suggestions here ** --}}
           </div>
         </div>
       </div>
@@ -64,8 +68,8 @@
         @if(!Auth::check())
         <div class="navbar-item">
           <div class="buttons">
-            {{--<a href="{{ route('register') }}" class="button is-primary">Sign up</a>--}}
-            <a href="{{ route('login') }}" class="button">Login</a>
+            <a href="{{ route('login') }}" class="button">Accedi</a>
+            <a href="{{ route('register') }}" class="button is-primary">Registrati</a>
           </div>
         </div>
         @else
@@ -79,12 +83,12 @@
         @endcan
         @can('create', App\Models\Product::class)
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('UserCatalogue') ?? 'TODO'}}" class="navbar-button has-text-black">
+            <a href="{{ route('UserCatalogue') }}" class="navbar-button has-text-black">
               <i class="fas fa-scale-balanced"></i>
             </a>
           </div>
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('Dashboard') ?? 'TODO'}}" class="navbar-button has-text-black">
+            <a href="{{ route('Dashboard') }}" class="navbar-button has-text-black">
               <i class="fas fa-list"></i>
             </a>
           </div>

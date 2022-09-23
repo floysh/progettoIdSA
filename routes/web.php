@@ -19,7 +19,9 @@ Auth::routes();
 // Pagine negozio
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', 'StoreController@home');
-Route::get('/search', 'StoreController@search');
+Route::get('/dashboard', 'StoreController@home')->name('Dashboard');
+Route::get('/search', 'SearchController@search')->name('search');
+Route::get('/api/autocomplete', 'SearchController@autocomplete');
 Route::get('/products/category/{category}', 'StoreController@category');
 Route::get('/catalogue', 'StoreController@catalogue')->middleware('auth')->name('UserCatalogue');
 

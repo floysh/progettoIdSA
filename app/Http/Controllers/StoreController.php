@@ -44,11 +44,6 @@ class StoreController extends Controller
         ]);
     }
 
-
-    public function search(Request $request) {
-        return "YES";
-    }
-
     public function catalogue(Request $request) {
         $products = Product::all()->where('merchant_id', Auth::id());
         return view('Store.merchant_catalogue', ['products' => $products]);
