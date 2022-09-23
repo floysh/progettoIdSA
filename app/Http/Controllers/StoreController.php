@@ -46,7 +46,11 @@ class StoreController extends Controller
 
 
     public function search(Request $request) {
-        return "YES";
+        $data = Product::available()//select("title as name","image as img","body as desc")
+                    //->where("name","LIKE","%{$request['q']}%")
+                    ->get();
+
+        return response()->json($data);
     }
 
     public function catalogue(Request $request) {
