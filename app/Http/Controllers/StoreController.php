@@ -46,11 +46,18 @@ class StoreController extends Controller
 
 
     public function search(Request $request) {
-        $data = Product::available()//select("title as name","image as img","body as desc")
-                    //->where("name","LIKE","%{$request['q']}%")
+        $products = Product::available()
+                    ->where("name","LIKE","%{$request['q']}%")
+                    ->orWhere("category","LIKE","%{$request['q']}%")
+                    ->orWhere("description","LIKE","%{$request['q']}%")
+                    ->take(6)
                     ->get();
 
-        return response()->json($data);
+        foreach($products as $product) {
+            $product['imgpath'] = $product->imagePath();
+        }
+
+        return response()->json($products);
     }
 
     public function catalogue(Request $request) {

@@ -43,9 +43,9 @@
         </div>
       </div>
 
-      <div class="navbar-item container-fluid">
-        <div class="field has-addons is-expanded" id="search_bar">
-          <div class="control has-icons-left">
+      <div class="navbar-item container-fluid" id="search_bar">
+        <div class="field has-addons mb-1" style="min-width: 22rem">
+          <div class="control is-expanded has-icons-left">
             <input class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
             <span class="icon is-left">
               <i class="fas fa-hat-wizard"></i>
@@ -57,30 +57,9 @@
             </a>
           </div>
         </div>
-        <div id="search_autocomplete" class="box p-4 mr-3" style="position: absolute; top: 3rem; max-height: 13rem; overflow-y: scroll;">
+        <div id="search_autocomplete" class="box p-4 is-hidden" style="position: absolute; top: 3.4rem; max-height: 13rem; overflow-y: auto; width: 94%;">
           <div class="suggestions list">
-            @for ($i = 0; $i < 3; $i++)
-            <div class="list-item mt-2 mb-2">
-              <a href="/products/9999">
-                <div class="columns">
-                  <div class="column is-narrow pt-2 pr-0">
-                    <div class="image is-48x48">
-                      <img src="{{ asset('images/placeholders/product.svg') }}" alt="product image" style="max-height: unset">
-                    </div>
-                  </div>
-                  <div class="column">
-                    <div class="title is-size-6 mb-1">
-                      {{ Faker\Factory::create()->sentence() }}
-                    </div>
-                    <div class="label">
-                      <span class="icon"><i class="fas fa-coins"></i></span>
-                      <span>@currency(12.5)</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-            @endfor
+            {{-- *** autocomplete suggestions here ** --}}
           </div>
         </div>
       </div>
