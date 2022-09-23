@@ -44,9 +44,9 @@
       </div>
 
       <div class="navbar-item container-fluid">
-        <div class="field has-addons">
+        <div class="field has-addons is-expanded" id="search_bar">
           <div class="control has-icons-left">
-            <input class="input" type="text" placeholder="Cerca un prodotto">
+            <input class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
             <span class="icon is-left">
               <i class="fas fa-hat-wizard"></i>
             </span>
@@ -55,6 +55,28 @@
             <a class="button is-info">
               <i class="fas fa-search"></i>
             </a>
+          </div>
+        </div>
+        <div id="search_autocomplete" class="box p-4 mr-3" style="position: absolute; top: 3rem; max-height: 13rem; overflow-y: scroll;">
+          <div class="suggestions list">
+            @for ($i = 0; $i < 3; $i++)
+            <div class="list-item mt-2 mb-2">
+              <a href="/products/9999">
+                <div class="columns">
+                  <div class="column is-narrow p-2">
+                    <div class="image is-32x32">
+                      <img src="{{ asset('images/placeholders/product.svg') }}" alt="product image">
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="title is-size-6">
+                      {{ Faker\Factory::create()->sentence() }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            @endfor
           </div>
         </div>
       </div>
@@ -79,12 +101,12 @@
         @endcan
         @can('create', App\Models\Product::class)
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('UserCatalogue') ?? 'TODO'}}" class="navbar-button has-text-black">
+            <a href="{{ route('UserCatalogue') }}" class="navbar-button has-text-black">
               <i class="fas fa-scale-balanced"></i>
             </a>
           </div>
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('Dashboard') ?? 'TODO'}}" class="navbar-button has-text-black">
+            <a href="{{ route('Dashboard') }}" class="navbar-button has-text-black">
               <i class="fas fa-list"></i>
             </a>
           </div>
