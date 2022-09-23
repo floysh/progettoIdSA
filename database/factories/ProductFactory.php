@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\User;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
@@ -17,12 +19,13 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(),
-            'category' => 'object',
-            'quantity' => 15,
-            'price' => 23.45,//$this->faker->float(),
+            'name' => $this->faker->words(3, true),
+            'category' => $this->faker->randomElement(\App\Enums\ProductCategory::cases()),
+            'quantity' => $this->faker->randomNumber(5),
+            'price' => $this->faker->randomFloat(2, 0, 999),
             'description' => $this->faker->paragraph(),
-            'imagepath' => '/images/placeholders/product.svg'
+            'imagepath' => 'product.svg',
+            'merchant_id' => User::factory()->merchant(),
         ];
     }
 }

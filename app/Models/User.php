@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'money',
+        'role'
     ];
 
     /**
@@ -62,13 +63,18 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function products() {
+        return $this->hasMany(Product::class, 'merchant_id');
+    }
     
 
     // METODI
     public function isMerchant() {
-        if ($this->role == 'merchant') 
-            return true;
-        else 
-            return false;
+        return ($this->role == 'merchant');
+    }
+
+    public function isCustomer() {
+        return ($this->role == 'customer');
     }
 }

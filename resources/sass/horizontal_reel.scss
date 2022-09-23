@@ -1,0 +1,34 @@
+.tiles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reel {
+  display: flex;
+  min-width: 100%;
+  min-height: 200px;
+  overflow-x: auto;
+}
+/* .reel::-webkit-scrollbar {
+  display: none;
+} */
+.reel-tile {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 0;
+  min-width: 163px;
+  margin: 0.5rem;
+}
+
+.tile-title {
+  @extend .title;
+  @extend .mb-4;
+  height: 3.2rem;
+  /* Multiline text with overflow ellipsis: */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

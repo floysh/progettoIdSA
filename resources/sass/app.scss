@@ -11,6 +11,12 @@
 
 // Shared stuff
 
+.button {
+    .is_borderless {
+        border: none;
+    }
+}
+
 .is-centered {
     display:flex;
     justify-content: center;
@@ -23,4 +29,9 @@
 }
 
 @import 'authentication.scss';
-@import 'horizontal_reel';
+@import 'horizontal_reel.scss';
+
+// Navbar
+.account-menu {
+    min-width: max-content;
+}

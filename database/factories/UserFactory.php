@@ -39,4 +39,22 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function customer() 
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'customer'
+            ];
+        });
+    }
+
+    public function merchant() 
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'merchant'
+            ];
+        });
+    }
 }

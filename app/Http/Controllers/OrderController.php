@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -29,6 +30,9 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        // Chi non può usare il carrello non può creare ordini
+        $this->authorize('create', Cart::class);
+
         $user = Auth::user();
         $user_cart = $user->cart()->where('user_id', $user->id)->get();
 
@@ -45,22 +49,30 @@ class OrderController extends Controller
 
         $cart_products = Product::available()->has('cart')->with('cart:id,product_id,quantity')->get();
 
-        $order = new Order();
-        $user->orders()->save($order);
-
-        // Conversione carrello -> ordine
-        foreach ($cart_products as $product) {
-            $order->products()->attach($product, ['quantity' => $product->cart->first()->quantity]);
-        }
+        DB::transaction(function () use ($user, $cart_products): void {
+            $order = new Order();
+            $user->orders()->save($order);
+            
+            
+            // Conversione carrello -> ordine
+            foreach ($cart_products as $product) {
+                $order->products()->attach($product, ['quantity' => $product->cart->first()->quantity]);
+                // Accredito soldini al mercante
+                $product->merchant->money += $product->cart->first()->price();
+                $product->merchant->update();
+            }
+            
+            $order->save();
+            $user->cart()->delete();
+            
+            // Pagamento
+            $user = Auth::user();
+            $user->money -= $order->total();
+            $user->update();
         
-        $order->save();
-        $user->cart()->delete();
 
-        // Pagamento
-        $user = Auth::user();
-        $user->money -= $order->total();
-        $user->update();
-
+        });
+        
         return redirect('/')->with('success', "Grazie! Il tuo ordine è stato confermato");
     }
     

@@ -89,7 +89,7 @@ fieldset[disabled] .file-name, fieldset[disabled] .select select, .select fields
   width: 0.625em;
 }
 
-.tabs:not(:last-child), .pagination:not(:last-child), .message:not(:last-child), .level:not(:last-child), .breadcrumb:not(:last-child), .block:not(:last-child), .title:not(:last-child),
+.tabs:not(:last-child), .pagination:not(:last-child), .message:not(:last-child), .level:not(:last-child), .breadcrumb:not(:last-child), .block:not(:last-child), .title:not(:last-child), .tile-title:not(:last-child),
 .subtitle:not(:last-child), .table-container:not(:last-child), .table:not(:last-child), .progress:not(:last-child), .notification:not(:last-child), .content:not(:last-child), .box:not(:last-child) {
   margin-bottom: 1.5rem;
 }
@@ -1990,7 +1990,7 @@ div.icon-text {
   position: absolute;
   top: 0.5rem;
 }
-.notification .title,
+.notification .title, .notification .tile-title,
 .notification .subtitle,
 .notification .content {
   color: currentColor;
@@ -2617,61 +2617,62 @@ a.tag:hover {
   text-decoration: underline;
 }
 
-.title,
+.title, .tile-title,
 .subtitle {
   word-break: break-word;
 }
-.title em,
+.title em, .tile-title em,
 .title span,
+.tile-title span,
 .subtitle em,
 .subtitle span {
   font-weight: inherit;
 }
-.title sub,
+.title sub, .tile-title sub,
 .subtitle sub {
   font-size: 0.75em;
 }
-.title sup,
+.title sup, .tile-title sup,
 .subtitle sup {
   font-size: 0.75em;
 }
-.title .tag,
+.title .tag, .tile-title .tag,
 .subtitle .tag {
   vertical-align: middle;
 }
 
-.title {
+.title, .tile-title {
   color: hsl(0deg, 0%, 21%);
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.125;
 }
-.title strong {
+.title strong, .tile-title strong {
   color: inherit;
   font-weight: inherit;
 }
-.title:not(.is-spaced) + .subtitle {
+.title:not(.is-spaced) + .subtitle, .tile-title:not(.is-spaced) + .subtitle {
   margin-top: -1.25rem;
 }
-.title.is-1 {
+.title.is-1, .is-1.tile-title {
   font-size: 3rem;
 }
-.title.is-2 {
+.title.is-2, .is-2.tile-title {
   font-size: 2.5rem;
 }
-.title.is-3 {
+.title.is-3, .is-3.tile-title {
   font-size: 2rem;
 }
-.title.is-4 {
+.title.is-4, .is-4.tile-title {
   font-size: 1.5rem;
 }
-.title.is-5 {
+.title.is-5, .is-5.tile-title {
   font-size: 1.25rem;
 }
-.title.is-6 {
+.title.is-6, .is-6.tile-title {
   font-size: 1rem;
 }
-.title.is-7 {
+.title.is-7, .is-7.tile-title {
   font-size: 0.75rem;
 }
 
@@ -2685,7 +2686,7 @@ a.tag:hover {
   color: hsl(0deg, 0%, 21%);
   font-weight: 600;
 }
-.subtitle:not(.is-spaced) + .title {
+.subtitle:not(.is-spaced) + .title, .subtitle:not(.is-spaced) + .tile-title {
   margin-top: -1.25rem;
 }
 .subtitle.is-1 {
@@ -4060,7 +4061,7 @@ button.dropdown-item.is-active {
   flex-shrink: 0;
   justify-content: center;
 }
-.level-item .title,
+.level-item .title, .level-item .tile-title,
 .level-item .subtitle {
   margin-bottom: 0;
 }
@@ -8440,7 +8441,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin-right: 1rem !important;
 }
 
-.mb-4 {
+.mb-4, .tile-title {
   margin-bottom: 1rem !important;
 }
 
@@ -9585,7 +9586,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-white strong {
   color: inherit;
 }
-.hero.is-white .title {
+.hero.is-white .title, .hero.is-white .tile-title {
   color: hsl(0deg, 0%, 4%);
 }
 .hero.is-white .subtitle {
@@ -9648,7 +9649,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-black strong {
   color: inherit;
 }
-.hero.is-black .title {
+.hero.is-black .title, .hero.is-black .tile-title {
   color: hsl(0deg, 0%, 100%);
 }
 .hero.is-black .subtitle {
@@ -9711,7 +9712,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-light strong {
   color: inherit;
 }
-.hero.is-light .title {
+.hero.is-light .title, .hero.is-light .tile-title {
   color: rgba(0, 0, 0, 0.7);
 }
 .hero.is-light .subtitle {
@@ -9774,7 +9775,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-dark strong {
   color: inherit;
 }
-.hero.is-dark .title {
+.hero.is-dark .title, .hero.is-dark .tile-title {
   color: #fff;
 }
 .hero.is-dark .subtitle {
@@ -9837,7 +9838,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-primary strong {
   color: inherit;
 }
-.hero.is-primary .title {
+.hero.is-primary .title, .hero.is-primary .tile-title {
   color: #fff;
 }
 .hero.is-primary .subtitle {
@@ -9900,7 +9901,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-link strong {
   color: inherit;
 }
-.hero.is-link .title {
+.hero.is-link .title, .hero.is-link .tile-title {
   color: #fff;
 }
 .hero.is-link .subtitle {
@@ -9963,7 +9964,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-info strong {
   color: inherit;
 }
-.hero.is-info .title {
+.hero.is-info .title, .hero.is-info .tile-title {
   color: #fff;
 }
 .hero.is-info .subtitle {
@@ -10026,7 +10027,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-success strong {
   color: inherit;
 }
-.hero.is-success .title {
+.hero.is-success .title, .hero.is-success .tile-title {
   color: #fff;
 }
 .hero.is-success .subtitle {
@@ -10089,7 +10090,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-warning strong {
   color: inherit;
 }
-.hero.is-warning .title {
+.hero.is-warning .title, .hero.is-warning .tile-title {
   color: rgba(0, 0, 0, 0.7);
 }
 .hero.is-warning .subtitle {
@@ -10152,7 +10153,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hero.is-danger strong {
   color: inherit;
 }
-.hero.is-danger .title {
+.hero.is-danger .title, .hero.is-danger .tile-title {
   color: #fff;
 }
 .hero.is-danger .subtitle {
@@ -10313,6 +10314,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem;
 }
 
+.button .is_borderless {
+  border: none;
+}
+
 .is-centered {
   display: flex;
   justify-content: center;
@@ -10371,8 +10376,26 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 /* .reel::-webkit-scrollbar {
   display: none;
 } */
-.tile {
+.reel-tile {
+  display: block;
+  flex-basis: 0;
   flex-grow: 0;
-  margin: 5px;
-  padding: 5px;
+  min-width: 163px;
+  margin: 0.5rem;
+}
+
+.tile-title {
+  height: 3.2rem;
+  /* Multiline text with overflow ellipsis: */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-menu {
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
 }

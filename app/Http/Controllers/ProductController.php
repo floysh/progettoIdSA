@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -13,9 +14,10 @@ class ProductController extends Controller
         "category" => "required | in:weapon,spell,object,wearable",
         "description" => "required | min: 5",
         "price" => "numeric | min:0 | max:999999999",
-        "quantity" => "integer | max:999999999",
+        "quantity" => "integer | min: 0 | max:999999999",
         "imagepath" => "string",
-        "is_disabled" => "sometimes | boolean"
+        "is_disabled" => "sometimes | boolean",
+        "merchant_id" => "sometimes | integer",
     ];
     protected $validationMessages = [
         'name.required' => '\':attribute\' non può essere vuoto.',
@@ -42,22 +44,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = [];
-        $title = "";
         
-        // Vista per categoria
-        if($request['category']) {
-            if(array_key_exists($request['category'], Product::categories())) {
-                $products = Product::where('category', $request['category']);
-                $title = Product::categories()[$request['category']];
-            }
-            else return view('errors.404'); 
-        }
-        else {
-            // Tutti i prodotti acquistabili
-            $title = "Tutti i prodotti";
-            $products = Product::available();
-        }
+        // Tutti i prodotti acquistabili
+        $title = "Tutti i prodotti";
+        $products = Product::available();
         
         return view('Product.index', [
             'products' => $products->get(),
@@ -73,6 +63,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class);
+
         return view('Product.create');
     }
 
@@ -84,7 +76,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //Log::info($request);
+        // Autorizzazione con Policy!
+        $this->authorize('create', Product::class);
 
         //Validazione
         $validated = Validator::make(
@@ -99,9 +92,8 @@ class ProductController extends Controller
         if( ! $request->has('imagepath')) {
             $validated['imagepath'] = 'dummy.png'; // immagine generica
         }
-        $validated['is_disabled'] = 0;
-
-        $product = Product::create($validated);
+        // Associa il nuovo prodotto al mercante
+        $product = Auth::user()->products()->create($validated);
 
         return redirect('/products/'.$product->id);
 
@@ -127,6 +119,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update',$product);
+
         return view('Product.edit', ['product' => $product]);
     }
 
@@ -139,6 +133,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update',$product);
+
         //Validazione
         $validated = Validator::make(
             $request->all(),
@@ -160,18 +156,33 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        // TODO: permessi cancellazione
-        /* if ( Auth::user()->isMerchant() && Auth::user == $product->merchant) {
-            $product->disable();
-            return json_encode(["status" => "OK"]);
-        }
-        else return json_encode([
-            "status" => "ERROR",
-            "statusText" => "Non sei il mercante",
-        ]); */
+        $this->authorize('delete',$product);
 
         $product->disable();
-        return json_encode(["status" => "OK"]);
+        return back();
 
+    }
+
+    /**
+     * Increments the specified resource availability.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function refill(Request  $request, Product $product)
+    {
+        $this->authorize('update',$product);
+
+        $validated = $validated = Validator::make(
+            $request->all(),
+            ["quantity" => "integer | min: 0 | max:999999999",], 
+            $this->validationMessages, $this->attributeNames
+        )->validate();
+
+        $product->quantity += $validated['quantity'];
+        $product->save();
+
+        return back();
     }
 }

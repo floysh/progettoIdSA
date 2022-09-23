@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->text('description');
 
-            $table->boolean('is_disabled'); //segna i prodotti "eliminati"
+            $table->boolean('is_disabled')->default(false); //segna i prodotti "eliminati"
             $table->timestamps();
             
         });

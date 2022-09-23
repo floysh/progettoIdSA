@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [
+            'spotlightTitle' => 'Preparati per il Sentiero degli Dei',
+            'spotlightSubtitle' => 'Lorem Ipsum Dolor Sit Amet',
+            'spotlightBackground' => ''
+        ]);
     }
 }

@@ -49,7 +49,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                     <div class="columns">
                         <div class="column is-narrow">
                             <div class="image is-64x64">
-                                <img src="{{ $item->product->imagePath() }}" alt="{{ $item->product->category }}">
+                                <img src="{{ $item->product->imagePath() }}" alt="{{ $item->product->category() }}">
                             </div>
                         </div>
                         <div class="column">
@@ -59,8 +59,12 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                 </a>
                             </div>
                             <div class="is-size-6">
-                                <span class="icon"><i class="fas fa-user"></i></span>
-                                <span>$product->merchant->name</span>
+                                <span class="icon"><i class="fas fa-scale-balanced"></i></span>
+                                <span>Bottega di {{ $item->product->merchant->name ?? "un mercante eliminato" }}</span>
+                            </div>
+                            <div class="is-size-6">
+                                <span class="icon"><i class="fas fa-cubes"></i></span>
+                                <span>{{ $item->product->quantity }} disponibili</span>
                             </div>
                             <div class="is-size-6">
                                 <span class="icon"><i class="fas fa-coins"></i></span>
@@ -69,6 +73,13 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                         </div>
 
                         <div class="column is-one-quarter">
+                            {{-- DEBUG --}}
+                            <div class="field has-text-danger">
+                                <span>{{ $item->user->name }}</span>
+                            </div>
+                            <div class="field has-text-danger">
+                                <span>{{ $item->product->isNotAvailable() ? 'NON DISPONIBILE' : '' }}</span>
+                            </div>
                             <div class="block is-padding is-hidden-mobile"></div>
                             <form action="{{ action('CartController@update', $item) }}" method="POST" id="cart-edit-{{ $item->id }}-form">
                                 @method('PATCH')
@@ -83,7 +94,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                                     onchange="event.preventDefault();
                                                             document.getElementById('cart-edit-{{ $item->id }}-form').submit();">
                                                 
-                                                @for ($i = 1; $i <= ($item->quantity + $item->product->quantity); $i++)
+                                                @for ($i = 1; $i <= min(99, $item->quantity + $item->product->quantity); $i++)
                                                     <option value="{{$i}}" 
                                                         @if($item->quantity == $i)
                                                             selected

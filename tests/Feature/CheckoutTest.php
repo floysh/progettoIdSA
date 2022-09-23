@@ -19,13 +19,7 @@ class CheckoutTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $product1 = Product::Factory()::new(['quantity' => 20, 'price' => 2])->create();
-        $product2 = ProductFactory::new(['quantity' => 20])->create();
-        $product3 = ProductFactory::new()->create();
-        $product_na = ProductFactory::new(['name' => 'Missingno', 'is_disabled' => true])->create();
-
-        $user = UserFactory::new()->create(['role' => 'customer', 'money' => 500]);
+        
     }
 
     public function test_no_order_created_if_user_credit_is_not_enough()
@@ -51,7 +45,7 @@ class CheckoutTest extends TestCase
 
     public function test_checkout_fails_when_user_cart_is_empty()
     {
-        $user = User::find(1);
+        $user = User::factory()->customer()->create();
         $this->actingAs($user);
 
         $this->assertEmpty($user->cart);
@@ -66,16 +60,21 @@ class CheckoutTest extends TestCase
 
     public function test_checkout()
     {
-        $user = UserFactory::new()->create(['role' => 'customer', 'money' => 500]);
+        $user = UserFactory::new()->create(['role' => 'customer', 'money' => 10000]);
         $this->actingAs($user);
 
         $this->assertEquals(0, $user->cart()->count());
+
+        $product1 = Product::find(1);
+        $product2 = Product::find(2);
+        $product1->update(['quantity' => 20, 'price' => 100]);
+        $product2->update(['quantity' => 20, 'price' => 1000]);
         
         // Aggiunta prodotti al carrello
-        $response = $this->post('/cart', ['product_id' => 1, 'quantity' => 4]);
+        $response = $this->post('/cart', ['product_id' => $product1->id, 'quantity' => 4]);
         $response->assertValid();
         $response->assertSessionHasNoErrors();
-        $response = $this->post('/cart', ['product_id' => 2, 'quantity' => 3]);
+        $response = $this->post('/cart', ['product_id' => $product2->id, 'quantity' => 3]);
         $response->assertValid();
         $response->assertSessionHasNoErrors();
         $this->assertEquals(2, $user->cart()->count());
@@ -84,14 +83,26 @@ class CheckoutTest extends TestCase
         $response = $this->post('/orders');
         $response->assertSessionHas(['success']);
         $this->assertEquals(1, $user->orders()->count());
+
+        // Controlla se il carrello è stato svuotato
+        $this->assertEmpty($user->cart->count());
         
         // Controlla se le scorte sono diminuite
-        $product1 = Product::find(1); // lascia qui per recuperare il record aggiornato dal DB
-        $product2 = Product::find(2);
+        $product1->refresh(); // per recuperare i record aggiornati dal DB
+        $product2->refresh();
         $this->assertEquals(20-4, $product1->quantity);
         $this->assertEquals(20-3, $product2->quantity);
 
         // Controlla se l'utente ha pagato
-        $this->assertNotEquals(500, $user->money);
+        $this->assertEquals(6600, $user->money);
+
+        // Controlla se i mercanti han ricevuto i soldi
+        if($product1->merchant->is($product2->merchant)) {
+            $this->assertEquals(3400, $product1->merchant->money);
+        }
+        else {
+            $this->assertEquals(400, $product1->merchant->money);
+            $this->assertEquals(3000, $product2->merchant->money);
+        }
     }
 }

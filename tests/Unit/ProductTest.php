@@ -7,27 +7,29 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\Product;
-use Database\Factories\ProductFactory;
 
 class ProductTest extends TestCase
 {
 
     use RefreshDatabase;
 
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    
+
+    public function test_it_has_a_merchant()
     {
-        $this->assertTrue(true);
+        $product = Product::factory()->create();
+        $this->assertTrue($product->merchant()->exists());
     }
 
+    public function test_it_has_a_cart_entry()
+    {
+        $product = Product::factory()->create();
+        $this->assertTrue($product->merchant()->exists());
+    }
 
     public function test_availability_methods()
     {
-        $product = ProductFactory::new()->make();
+        $product = Product::factory()->make();
         
         $this->assertTrue($product->isAvailable());
         $this->assertFalse($product->isNotAvailable());
@@ -45,9 +47,8 @@ class ProductTest extends TestCase
 
     public function test_scope_available()
     {
-        ProductFactory::new()->create();
-        ProductFactory::new()->create();
-        ProductFactory::new(['is_disabled' => true])->create();
+        Product::factory()->create();
+        Product::factory()->create();
 
         $products = Product::available()->get();
 
@@ -60,9 +61,9 @@ class ProductTest extends TestCase
 
     public function test_scope_not_available()
     {
-        ProductFactory::new()->create();
-        ProductFactory::new()->create();
-        ProductFactory::new(['is_disabled' => true])->create();
+        Product::factory()->create();
+        Product::factory()->create();
+        Product::factory()->create(['is_disabled' => true]);
 
         $products = Product::notAvailable()->get();
 

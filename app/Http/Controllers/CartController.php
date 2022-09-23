@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -16,9 +17,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::with('product')->get();
-        return view('Store.cart', ['cart' => $cart]);
+        // Se l'utente non ha un carrello non c'è niente da vedere
+        $this->authorize('create', Cart::class);
 
+        $cart = Cart::with('product')->get();
+        return view('Cart.cart', ['cart' => $cart]);
     }
 
     /**
@@ -29,6 +32,8 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Cart::class);
+
         // Validazione
         $validated = $request->validate([
             'product_id' => 'required | numeric | min:1',
@@ -51,22 +56,25 @@ class CartController extends Controller
                     ->where('product_id', $validated['product_id'])
                     ->first();
         
-        if($cart_item) { // Aggiornamento record esistente
-            $product->quantity += $cart_item->quantity;
-            $cart_item->update(['quantity' => $validated['quantity']]);
-        }
-        else { // Creazione nuovo record
-            $cart_item = Cart::make([
-                'product_id' => $validated['product_id'],
-                'quantity' => $validated['quantity'],
-            ]);
-            $cart_item->user_id = Auth::user()->id;
-            $cart_item->save();
-        }
-
-        // Aggiorna disponibilità prodotto
-        $product->quantity -= $validated['quantity'];
-        $product->update();
+        DB::transaction(function () use ($cart_item, $product, $validated): void {
+            
+            if($cart_item) { // Aggiornamento record esistente
+                $product->quantity += $cart_item->quantity;
+                $cart_item->update(['quantity' => $validated['quantity']]);
+            }
+            else { // Creazione nuovo record
+                $cart_item = Cart::make([
+                    'product_id' => $validated['product_id'],
+                    'quantity' => $validated['quantity'],
+                ]);
+                $cart_item->user_id = Auth::user()->id;
+                $cart_item->save();
+            }
+    
+            // Aggiorna disponibilità prodotto
+            $product->quantity -= $validated['quantity'];
+            $product->update();
+        });
 
         return back();    
     }
@@ -80,24 +88,21 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
+        $this->authorize('update', $cart);
+
         // Validazione
         $validated = $request->validate([
             'quantity' => 'required | numeric | min:1'
             ]);
-
-        // Aggiornamento
-        if ($cart->user_id == Auth::id()) {
             
-            // Rimetti a posto i prodotti rimossi
-            $cart->product->quantity += $cart->quantity;
-            $cart->product->quantity -= $validated['quantity'];
-            $cart->product->update();
-            
-            // Aggiorna il carrello
-            $cart->update(['quantity' => $validated['quantity']]);
-            return back();
-        }
-        else return back()->withErrors(['user' => 'Questo carrello non è tuo!']);
+        // Rimetti a posto i prodotti rimossi
+        $cart->product->quantity += $cart->quantity;
+        $cart->product->quantity -= $validated['quantity'];
+        $cart->product->update();
+        
+        // Aggiorna il carrello
+        $cart->update(['quantity' => $validated['quantity']]);
+        return back();
     }
 
     /**
@@ -108,18 +113,16 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        // Permessi
-        if ($cart->user_id == Auth::id()) {
-            // Rimetti a posto l'oggetto
-            $cart->product->quantity += $cart->quantity;
-            $cart->product->update();
-            
-            // Elimina record
-            $cart->delete();
-            
-            return back();
-        }
-        else return back()->withErrors(['user' => 'Questo carrello non è tuo!']);
+        $this->authorize('delete', $cart);
+        
+        // Rimetti a posto l'oggetto
+        $cart->product->quantity += $cart->quantity;
+        $cart->product->update();
+        
+        // Elimina record
+        $cart->delete();
+        
+        return back();
         
     }
 }

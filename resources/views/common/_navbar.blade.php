@@ -3,7 +3,7 @@
   <div class="container is-widescreen">
     <div class="navbar-brand is-unselectable">
       <a class="navbar-item" href="/">
-        <img src={{ asset('images/zonkologo.png') }} style="max-height: 3.5rem;">
+        <img src={{ asset('images/zonkologo.png') }} style="max-height: 3rem;">
       </a>
       
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" 
@@ -24,12 +24,21 @@
             Prodotti
           </a>
           <div class="navbar-dropdown is-boxed">
-            @php
-              $categories = App\Models\Product::categories()
-            @endphp
-            @foreach ($categories as $cat_id => $category)
-            <a class="navbar-item" href="{{ action('ProductController@index', ['category' => $cat_id]) }}" >{{ $category }}</a>
+
+            @foreach (App\Enums\ProductCategory::cases() as $category)
+            <a class="navbar-item" href="{{ action('StoreController@category', ['category' => $category->value]) }}" >{{ $category->name }}</a>
             @endforeach
+
+            @can('create', App\Models\Product::class)
+            <hr class="navbar-divider"/>
+              <div class="navbar-item">
+                <a href="{{action('ProductController@create')}}" class="button">
+                  <span class="icon"><i class="fas fa-plus"></i></span>
+                  <span>Nuovo prodotto</span>
+                </a>
+              </div>
+            @endcan
+            
           </div>
         </div>
       </div>
@@ -61,32 +70,55 @@
         </div>
         @else
        
-        <div class="navbar-item is-hidden-mobile">
-          <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
-            <i class="fas fa-shopping-cart"></i>
-          </a>
-        </div>
+        @can('create', App\Models\Cart::class)
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('CartPage') }}" class="navbar-button has-text-black">
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+          </div>
+        @endcan
+        @can('create', App\Models\Product::class)
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('UserCatalogue') ?? 'TODO'}}" class="navbar-button has-text-black">
+              <i class="fas fa-scale-balanced"></i>
+            </a>
+          </div>
+          <div class="navbar-item is-hidden-mobile">
+            <a href="{{ route('Dashboard') ?? 'TODO'}}" class="navbar-button has-text-black">
+              <i class="fas fa-list"></i>
+            </a>
+          </div>
+        @endcan
 
 
 
         {{-- Account dropdown menu --}}
-        <div id="account-menu" class="navbar-item has-dropdown is-hoverable">
+        <div id="account-menu" class="navbar-item has-dropdown is-hoverable pl-4">
           <a class="navbar-link">
             <span class="image mr-2 is-hidden-mobile is-hidden-desktop">
               <img class="is-rounded" src="{{ asset("images/avatar-placeholder.png") }}" alt="pp">
             </span>
             <span class="is-hidden-touch">
               <div><strong>{{ Auth::user()->name }}</strong></div>
-             @if (Auth::user()->isMerchant())
-             <div>
-               <div class="tag is-black">
-                <span class="icon">
-                  <i class="fas fa-basket"></i>
-                </span>
-                <span>Mercante</span>
-               </div>
-             </div>
-             @endif
+              @if (Auth::user()->isMerchant())
+                <div>
+                  <div class="tag is-info is-light">
+                    <span class="icon">
+                      <i class="fas fa-scale-balanced"></i>
+                    </span>
+                    <span>Mercante</span>
+                  </div>
+                </div>
+              @elseif (Auth::user()->isCustomer())
+                <div>
+                  <div class="tag is-success is-light">
+                  <span class="icon">
+                    <i class="fas fa-coins"></i>
+                  </span>
+                  <span>@currency(Auth::user()->money)</span>
+                  </div>
+                </div>
+              @endif
             </span>
           </a>
           

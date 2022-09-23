@@ -13,20 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Pagine negozio
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', 'StoreController@home');
+Route::get('/search', 'StoreController@search');
+Route::get('/products/category/{category}', 'StoreController@category');
+Route::get('/catalogue', 'StoreController@catalogue')->middleware('auth')->name('UserCatalogue');
 
 // Products
 Route::get('/products', 'ProductController@index');
 Route::get('/products/create', 'ProductController@create');
 Route::post('/products/create', 'ProductController@store');
-Route::get('/products/{product}', 'ProductController@show')->name('ShowProduct');
-Route::get('/products/{product}/edit', 'ProductController@edit')->name('EditProduct');
+Route::get('/products/{product}', 'ProductController@show');
+Route::get('/products/{product}/edit', 'ProductController@edit');
+Route::patch('/products/{product}/refill', 'ProductController@refill');
 Route::patch('/products/{product}', 'ProductController@update');
 Route::delete('/products/{product}', 'ProductController@destroy');
 
