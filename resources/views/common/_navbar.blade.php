@@ -44,19 +44,24 @@
       </div>
 
       <div class="navbar-item container-fluid" id="search_bar">
-        <div class="field has-addons mb-1" style="min-width: 22rem">
-          <div class="control is-expanded has-icons-left">
-            <input class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
-            <span class="icon is-left">
-              <i class="fas fa-hat-wizard"></i>
-            </span>
+        <form action="{{ route('search') }}" method="GET">
+          <div class="field has-addons mb-1" style="min-width: 22rem">
+            
+            <div class="control is-expanded has-icons-left">
+              <input name="q" class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
+              <span class="icon is-left">
+                <i class="fas fa-hat-wizard"></i>
+              </span>
+            </div>
+            
+            <div class="control">
+              <button class="button is-info" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+
           </div>
-          <div class="control">
-            <a class="button is-info">
-              <i class="fas fa-search"></i>
-            </a>
-          </div>
-        </div>
+        </form>
         <div id="search_autocomplete" class="box p-4 is-hidden" style="position: absolute; top: 3.4rem; max-height: 13rem; overflow-y: auto; width: 94%;">
           <div class="suggestions list">
             {{-- *** autocomplete suggestions here ** --}}
