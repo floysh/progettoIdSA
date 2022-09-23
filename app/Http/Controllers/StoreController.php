@@ -44,22 +44,6 @@ class StoreController extends Controller
         ]);
     }
 
-
-    public function search(Request $request) {
-        $products = Product::available()
-                    ->where("name","LIKE","%{$request['q']}%")
-                    ->orWhere("category","LIKE","%{$request['q']}%")
-                    ->orWhere("description","LIKE","%{$request['q']}%")
-                    ->take(6)
-                    ->get();
-
-        foreach($products as $product) {
-            $product['imgpath'] = $product->imagePath();
-        }
-
-        return response()->json($products);
-    }
-
     public function catalogue(Request $request) {
         $products = Product::all()->where('merchant_id', Auth::id());
         return view('Store.merchant_catalogue', ['products' => $products]);

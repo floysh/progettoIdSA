@@ -59,7 +59,7 @@ inputBox.addEventListener('input', event => {
         return;
     }
 
-    fetch(`/search?q=${input}`)
+    fetch(`/api/autocomplete?q=${input}`)
         .then(response => response.json())
         .then(results => {
             suggestionList.replaceChildren();
