@@ -15,13 +15,29 @@ class OrderController extends Controller
         // Recupera anche i prodotti associati agli ordini
         // per accesso a DB più efficiente (eager loading)
         //$orders = Order::with('products')->where('user_id', Auth::user()->id)->limit(15);
-        $orders = Order::with('products')->where('user_id', Auth::id())->orderBy('created_at','desc')->get();
-        return view('Order.index', ['orders' => $orders]);
+        $orders = Order::with('products');
+        
+        if (Auth::user()->isMerchant()) {
+            # ordini dell'utente
+            $orders = $orders
+                ->with('user')
+                ->whereHas('products', function($productQuery) { 
+                    $productQuery->whereHas('merchant', function($userQuery){  $userQuery->where('id', Auth::user()->id); });
+                });
+        } 
+        else {
+            # mostra gli ordini dei clienti
+            $orders = $orders
+                ->where('user_id', Auth::id());
+        }
+     
+        
+        return view('Order.index', ['orders' => $orders->orderBy('created_at','desc')->get()]);
     }
 
     public function show(Order $order)
     {
-        if ($order->user == Auth::user()){
+        if (Auth::user()->is($order->user)){
             return view('Order.show', ['order' => $order]);
         }
         else return redirect('/orders');
