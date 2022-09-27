@@ -24,13 +24,16 @@
 <hr/>
 {{-- Elenco prodotti --}}
 <div class="content">
-<table class="table">
+<table class="table is-hoverable">
     <thead>
         <th></th>
         <th>Prodotto</th>
-        <th>Quantità</th>
+        <th>Q.tà ordinate</th>
         @if (Auth::user()->isCustomer())
-        <th>Mercante</th>
+            <th>Mercante</th>
+        @endif
+        @if (Auth::user()->isMerchant())
+            <th>Q.tà rimaste</th>
         @endif
         <th></th>
     </thead>
@@ -48,7 +51,10 @@
                 </td>
                 <td>{{ $product->order_properties->quantity }}</td>
                 @if (Auth::user()->isCustomer())
-                <td>{{ $product->merchant->name ?? "mercante eliminato" }}</td>
+                    <td>{{ $product->merchant->name ?? "mercante eliminato" }}</td>
+                @endif
+                @if (Auth::user()->isMerchant())
+                <td>{{ $product->quantity }}</td>
                 @endif
                 <td>
                     @can('create', App\Models\Cart::class)

@@ -10,9 +10,9 @@ const suggestionList = autocompleteWrapper.querySelector(".suggestions");
 function createProductSuggestion(product) {
     const elem = document.createElement('div');
     elem.innerHTML = `
-        <div class="list-item mt-2 mb-2">
+        <div class="list-item pt-2 pb-2 mt-2 mb-2">
             <a href="/products/${product.id}">
-            <div class="columns">
+            <div class="columns is-mobile">
                 <div class="column is-narrow pt-2 pr-0">
                     <div class="image is-48x48">
                         <img src="${ product.imgpath }" style="max-height: unset">

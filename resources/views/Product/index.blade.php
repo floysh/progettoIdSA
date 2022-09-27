@@ -28,12 +28,16 @@
     
     <div class="container">
         <div class="list">
-            @foreach ($products as $product)
+            @forelse ($products as $product)
                 <div class="list-item block">
                     @include('Product._product', ['product' => $product])
                 </div>
                 <hr/>
-            @endforeach
+            @empty
+                <div class="section has-text-centered">
+                    <h4 class="subtitle block">Nessun prodotto</h4>
+                </div>
+            @endforelse
         </div>
     </div>
 

@@ -26,10 +26,6 @@
                             <span class="icon"><i class="fas fa-cubes"></i></span>
                             <span>{{ $product->quantity }} unità disponibili</span>
                         </div>
-                        <span class="column is-narrow">
-                            <span class="icon"><i class="fas fa-coins"></i></span>
-                            <span>{{ $product->price }}</span>
-                        </span>
                     </div>
     
                     <div class="columns is-multiline is-mobile is-size-5 has-text-bold">
@@ -38,6 +34,13 @@
                             <span>Bottega di {{ $product->merchant->name ?? "un mercante eliminato" }}</span>
                             <span> (ID: {{ $product->merchant_id ?? null }})</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="container block p-4">
+                    <div class="content is-size-3">
+                        <span class="icon mr-2"><i class="fas fa-coins"></i></span>
+                        <span> @currency($product->price) </span>
                     </div>
                 </div>
 

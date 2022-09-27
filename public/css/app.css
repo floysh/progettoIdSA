@@ -10399,3 +10399,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   min-width: -moz-max-content;
   min-width: max-content;
 }
+
+.search-suggestions-container {
+  position: absolute;
+  top: 3.4rem;
+  max-height: 13rem;
+  overflow-y: auto;
+  width: 94%;
+  z-index: 6;
+}

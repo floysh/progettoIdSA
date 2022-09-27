@@ -1,7 +1,7 @@
 <div class="account-menu">
 
-    <div class="navbar-item is-justify-content-left">
-      <span class="image pr-3 is-hidden-mobile">
+    <div class="navbar-item is-justify-content-left is-hidden-mobile">
+      <span class="image pr-3">
         <img class="is-rounded" src="{{ asset('images/avatar-placeholder.png') }}" alt="pp">
       </span>
       <span>
@@ -31,9 +31,8 @@
     @endcan
 
     @if (Auth::user()->isMerchant())
-      @include('common.navbar._menu-item', ['link' => route('Dashboard') ?? 'TODO',  'icon' => 'fas fa-list', 'title' => 'Dashboard'])
       @include('common.navbar._menu-item', ['link' => route('UserCatalogue') ?? 'TODO',  'icon' => 'fas fa-scale-balanced', 'title' => 'Gestione bottega'])
-      @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-receipt', 'title' => 'Ordini clienti'])
+      @include('common.navbar._menu-item', ['link' => action('OrderController@index'),  'icon' => 'fas fa-list', 'title' => 'Ordini clienti'])
     @endif
    
   

@@ -88,7 +88,7 @@
                                 @foreach (App\Enums\ProductCategory::cases() as $category)
         
                                     <option value="{{ $category->value }}" 
-                                        {{ ( old('category') == $category->value || $category->value == $product->category ) ? 'selected' : ''}} 
+                                        {{ ( old('category') == $category->value || $category->value == $product->category->value ) ? 'selected' : ''}} 
                                         >
                                         {{ $category->name }}
                                     </option>

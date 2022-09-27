@@ -35,7 +35,7 @@
     {{-- Elenco ordini --}}
     <div class="list">
       @foreach($orders as $order)
-        <div class="list-item box pt-6 mb-6">
+        <div class="list-item box mb-6">
           @include('Order._order')
         </div>
       @endforeach

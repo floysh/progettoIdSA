@@ -19,7 +19,7 @@
         </div>
 
         <div class="content block mb-6">
-            <a href="{{ action('ProductController@create') }}" class="button">
+            <a href="{{ action('ProductController@create') }}" class="button is-primary">
                 <span class="icon"><i class="fas fa-plus"></i></span>
                 <span>Nuovo prodotto</span>
             </a>
@@ -32,7 +32,7 @@
                 </div>
                 <hr>
             @empty
-                <div class="section">
+                <div class="section has-text-centered">
                     <h4 class="subtitle block">Non hai ancora inserito prodotti nel catalogo</h4>
                 </div>
             @endforelse

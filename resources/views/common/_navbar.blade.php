@@ -20,11 +20,12 @@
       {{-- LEFT SIDE --}}
       <div class="navbar-start has-text-weight-bold">
         <div class="navbar-item has-dropdown is-hoverable is-boxed">
-          <a class="navbar-link" href="/products">
+          <div class="navbar-link">
             Prodotti
-          </a>
+          </div>
           <div class="navbar-dropdown is-boxed">
 
+            <a class="navbar-item" href="{{ action('ProductController@index') }}" >Tutti i prodotti</a>
             @foreach (App\Enums\ProductCategory::cases() as $category)
             <a class="navbar-item" href="{{ action('StoreController@category', ['category' => $category->value]) }}" >{{ $category->name }}</a>
             @endforeach
@@ -45,10 +46,10 @@
 
       <div class="navbar-item container-fluid" id="search_bar">
         <form action="{{ route('search') }}" method="GET">
-          <div class="field has-addons mb-1" style="min-width: 22rem">
+          <div class="field has-addons" style="min-width: 20rem">
             
             <div class="control is-expanded has-icons-left">
-              <input name="q" class="input is-fullwidth" type="text" placeholder="Cerca un prodotto">
+              <input name="q" class="input is-fullwidth" type="text" placeholder="Cerca un prodotto" value="{{ Request::get("q") }}">
               <span class="icon is-left">
                 <i class="fas fa-search"></i>
               </span>
@@ -56,7 +57,7 @@
 
           </div>
         </form>
-        <div id="search_autocomplete" class="box p-4 is-hidden" style="position: absolute; top: 3.4rem; max-height: 13rem; overflow-y: auto; width: 94%;">
+        <div id="search_autocomplete" class="search-suggestions-container box p-4 is-hidden">
           <div class="suggestions list">
             {{-- *** autocomplete suggestions here ** --}}
           </div>
@@ -88,7 +89,7 @@
             </a>
           </div>
           <div class="navbar-item is-hidden-mobile">
-            <a href="{{ route('Dashboard') }}" class="navbar-button has-text-black">
+            <a href="{{ action('OrderController@index') }}" class="navbar-button has-text-black">
               <i class="fas fa-list"></i>
             </a>
           </div>
@@ -99,31 +100,38 @@
         {{-- Account dropdown menu --}}
         <div id="account-menu" class="navbar-item has-dropdown is-hoverable pl-4">
           <a class="navbar-link">
-            <span class="image mr-2 is-hidden-mobile is-hidden-desktop">
-              <img class="is-rounded" src="{{ asset("images/avatar-placeholder.png") }}" alt="pp">
-            </span>
-            <span class="is-hidden-touch">
-              <div><strong>{{ Auth::user()->name }}</strong></div>
-              @if (Auth::user()->isMerchant())
-                <div>
-                  <div class="tag is-info is-light">
+
+            <div class="columns is-gapless is-mobile">
+              <div class="column is-narrow">
+                <span class="image mr-2 is-hidden">
+                  <img class="is-rounded" src="{{ asset("images/avatar-placeholder.png") }}" alt="pp">
+                </span>
+              </div>
+              <div class="column">
+                <strong>{{ Auth::user()->name }}</strong>
+                
+                @if (Auth::user()->isMerchant())
+                  <div>
+                    <div class="tag is-info is-light">
+                      <span class="icon">
+                        <i class="fas fa-scale-balanced"></i>
+                      </span>
+                      <span>Mercante</span>
+                    </div>
+                  </div>
+                @elseif (Auth::user()->isCustomer())
+                  <div>
+                    <div class="tag is-success is-light">
                     <span class="icon">
-                      <i class="fas fa-scale-balanced"></i>
+                      <i class="fas fa-coins"></i>
                     </span>
-                    <span>Mercante</span>
+                    <span>@currency(Auth::user()->money)</span>
+                    </div>
                   </div>
-                </div>
-              @elseif (Auth::user()->isCustomer())
-                <div>
-                  <div class="tag is-success is-light">
-                  <span class="icon">
-                    <i class="fas fa-coins"></i>
-                  </span>
-                  <span>@currency(Auth::user()->money)</span>
-                  </div>
-                </div>
-              @endif
-            </span>
+                @endif
+              </div>
+              
+            </div>
           </a>
           
           <div class="navbar-dropdown is-right is-boxed mr-2">
