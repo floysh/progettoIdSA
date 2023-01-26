@@ -22,7 +22,7 @@ class CheckoutTest extends TestCase
         
     }
 
-    public function test_no_order_created_if_user_credit_is_not_enough()
+    public function test__checkout_fails_when_user_credit_is_not_enough()
     {
         $user = UserFactory::new()->create(['role' => 'customer', 'money' => 5]);
         $this->actingAs($user);
@@ -57,8 +57,39 @@ class CheckoutTest extends TestCase
         $this->assertEmpty($user->orders);
     }
 
+    public function test_checkout_fails_when_user_cart_contains_unavailable_products()
+    {
+        $user = User::factory()->customer()->create();
+        $this->actingAs($user);
 
-    public function test_checkout()
+        $this->assertEmpty($user->cart);
+
+        $product1 = Product::factory()->create();
+        $product2 = Product::find(2);
+        
+        // Aggiunta prodotti al carrello
+        $response = $this->post('/cart', ['product_id' => $product1->id, 'quantity' => 4]);
+        $response->assertValid();
+        $response->assertSessionHasNoErrors();
+        $response = $this->post('/cart', ['product_id' => $product2->id, 'quantity' => 3]);
+        $response->assertValid();
+        $response->assertSessionHasNoErrors();
+        $this->assertEquals(2, $user->cart()->count());
+
+        // Il mercante blocca le vendite di un prodotto nel carrello
+        $product1->disable();
+        $product1->refresh();
+        
+        // Conferma ordine
+        $response = $this->post('/orders');
+        $response->assertInvalid();
+
+        // Eventuali ordini temporanei non devono restare nel DB
+        $this->assertEmpty($user->orders);
+    }
+
+
+    public function test_checkout_money_transaction_and_products_quantities_update()
     {
         $user = UserFactory::new()->create(['role' => 'customer', 'money' => 10000]);
         $this->actingAs($user);

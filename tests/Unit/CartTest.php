@@ -64,11 +64,11 @@ class CartTest extends TestCase
 
     }
 
-    public function test_scope_empty_when_unauthenticated() {
+    public function test_scope_is_empty_when_unauthenticated() {
         $this->assertEmpty(Cart::all());
     }
 
-    public function test_checkout_price()
+    public function test_checkout_price_is_computed_correctly()
     {
         $tests = [
             ['quantity' => 1, 'price' => 5],

@@ -37,7 +37,7 @@ class CartControllerTest extends TestCase
         $this->assertEquals(1, count($response['cart']));
     }
 
-    public function test_products_can_be_stored()
+    public function test_it_can_store_products()
     {
         $user = User::factory()->customer()->create();
         $this->actingAs($user);
@@ -132,7 +132,7 @@ class CartControllerTest extends TestCase
         $response->assertInvalid();
     }
 
-    public function test_it_updates_entries_correctly()
+    public function test_it_updates_entries()
     {
         $product = Product::factory()->create(['quantity' => 42]);
         $user = User::factory()->customer()->create();
