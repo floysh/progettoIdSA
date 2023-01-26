@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class CreateProductTest extends DuskTestCase
+class ProductTest extends DuskTestCase
 {
     
     public function testProductCreation() {
@@ -19,7 +19,7 @@ class CreateProductTest extends DuskTestCase
             'name' => 'Pozione di Test', 
             'category' => 'object', 
             'imagepath' => 'blue-potion.svg',
-            'price' => 49.99    // per evitare errori con la formattazione
+            'price' => 49.99    // per evitare errori con la formattazione (le direttive Blade non funzionano qui)
         ]);
         
         $this->browse(function (Browser $browser) use ($product, $merchant) {
@@ -49,6 +49,38 @@ class CreateProductTest extends DuskTestCase
         });
     }
 
+
+    public function testProductEdit() {
+        $product = Product::first();
+        $edited_product = Product::factory()->make();
+
+        $this->browse(function (Browser $browser) use ($product, $edited_product) {
+            $browser->loginAs($product->merchant)
+                    ->visit('/products/'.$product->id)
+                    ->assertSeeLink('Modifica')
+                    ->clickLink('Modifica')
+                    ->assertPathIs('/products/'.$product->id.'/edit')
+
+                    // Controlla se il form di modifica cambia tutti i campi
+                    ->type('name', $edited_product->name)
+                    ->type('imagepath', $edited_product->imagepath)
+                    ->type('price', '90.45')
+                    ->type('quantity', $edited_product->quantity)
+                    ->select('category', $edited_product->category->value)
+                    ->type('description', $product->description)
+                    ->press('@edit-product-button')
+
+                    ->assertPathIs('/products/'.$product->id)
+                    ->assertSee($edited_product->name)
+                    ->assertSee($product->merchant->name)
+                    ->assertSee('90,45')
+                    ->assertSee($edited_product->quantity)
+                    ->assertSee($edited_product->category->name)
+                    ;
+        });
+    }
+
+
     public function testProductDisable() {
         $product = Product::first();
 
@@ -68,6 +100,7 @@ class CreateProductTest extends DuskTestCase
                     
         });
     }
+
 
     public function testProductEnable() {
         $product = Product::notAvailable()->first();
