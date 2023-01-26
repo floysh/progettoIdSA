@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="control is-flex is-align-items-flex-end">
                                     <input name="product_id" id="product_id" value="{{ $product->id }}" hidden>
-                                    <button id="add-to-cart-btn" type="submit" class="button is-primary">Aggiungi al carrello</button>
+                                    <button id="add-to-cart-btn" dusk="add-to-cart" type="submit" class="button is-primary">Aggiungi al carrello</button>
                                 </div>
                             </div>
                         </form>
