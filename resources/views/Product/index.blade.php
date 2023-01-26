@@ -14,7 +14,7 @@
     <div class="field mb-0 is-grouped is-grouped-right is-pulled-right">
         @can('create', Product::class)
             <div class="control">
-                <a href="{{ action('ProductController@create') }}" class="button">
+                <a href="{{ action('ProductController@create') }}" class="button" dusk="create-product-button">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>
@@ -28,12 +28,16 @@
     
     <div class="container">
         <div class="list">
-            @foreach ($products as $product)
+            @forelse ($products as $product)
                 <div class="list-item block">
                     @include('Product._product', ['product' => $product])
                 </div>
                 <hr/>
-            @endforeach
+            @empty
+                <div class="section has-text-centered">
+                    <h4 class="subtitle block">Nessun prodotto</h4>
+                </div>
+            @endforelse
         </div>
     </div>
 

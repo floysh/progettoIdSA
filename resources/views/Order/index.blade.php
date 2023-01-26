@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Cronologia ordini - {{ config('app.name', 'ZonkoShop') }}
+    {{ Auth::user()->isCustomer() ? "Cronologia ordini " : "Ordini dei clienti" }} - {{ config('app.name', 'Laravel') }}  
 @endsection
 
 @section('content')
@@ -26,11 +26,11 @@
     </div>
     
     @else
-    <h3 class="title is-size-3">I tuoi ordini</h3>
+    <h3 class="title is-size-3">{{ Auth::user()->isCustomer() ? "I tuoi ordini" : "Ordini clienti" }}</h3>
     {{-- Elenco ordini --}}
     <div class="list">
       @foreach($orders as $order)
-        <div class="list-item mt-6 mb-6">
+        <div class="list-item box mb-6">
           @include('Order._order')
         </div>
       @endforeach

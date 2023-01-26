@@ -82,7 +82,7 @@ Registrati su {{ config('app.name') }}
 
                 <div class="field mt-4">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Conferma registrazione</button>
+                        <button class="button is-primary" name="registration_confirm" type="submit">Conferma registrazione</button>
                     </div>
                 </div>
                 

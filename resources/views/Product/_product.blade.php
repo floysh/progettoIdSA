@@ -23,26 +23,32 @@
                         <span class="icon"><i class="fas fa-cubes"></i></span>
                         <span>x {{ $product->quantity }}</span>
                     </div>
-                    <span class="column is-narrow">
-                        <span class="icon"><i class="fas fa-coins"></i></span>
-                        <span> @currency($product->price) </span>
-                    </span>
                     @if ($product->isNotAvailable())
                         <span class="column is-narrow">
                             <span class="icon"><i class="fas fa-user-ninja"></i></span>
                             <span> Non acquistabile </span>
                         </span>
                     @endif
+                    @unless ($product->merchant->is(Auth::user()))
+                        <div class="column is-narrow">
+                            <span class="icon"><i class="fas fa-scale-balanced"></i></span>
+                            <span>Bottega di {{ $product->merchant->name ?? "un mercante eliminato" }}</span>
+                        </div>
+                    @endunless
                 </div>
 
-                @unless ($product->merchant->is(Auth::user()))
+                {{-- @unless ($product->merchant->is(Auth::user()))
                     <div class="columns is-multiline is-mobile is-size-6 has-text-bold">
                         <div class="column is-narrow">
                             <span class="icon"><i class="fas fa-scale-balanced"></i></span>
                             <span>Bottega di {{ $product->merchant->name ?? "un mercante eliminato" }}</span>
                         </div>
                     </div>
-                @endunless
+                @endunless --}}
+                <div class="is-size-4">
+                    <span class="icon"><i class="fas fa-coins"></i></span>
+                    <span> @currency($product->price) </span>
+                </div>
 
             </div>
         </div>

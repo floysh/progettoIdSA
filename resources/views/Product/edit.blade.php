@@ -88,7 +88,7 @@
                                 @foreach (App\Enums\ProductCategory::cases() as $category)
         
                                     <option value="{{ $category->value }}" 
-                                        {{ ( old('category') == $category->value || $category->value == $product->category ) ? 'selected' : ''}} 
+                                        {{ ( old('category') == $category->value || $category->value == $product->category->value ) ? 'selected' : ''}} 
                                         >
                                         {{ $category->name }}
                                     </option>
@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="field is-grouped is-inline">
-                    <button type="submit" class="button is-primary">Salva modifiche</button>
+                    <button type="submit" class="button is-primary" dusk="edit-product-button">Salva modifiche</button>
                     <a href="." class="button">Annulla</a>
                 </div>
 

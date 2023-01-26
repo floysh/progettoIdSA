@@ -31,7 +31,8 @@ class SearchController extends Controller
                     ->where("name","LIKE","%{$request['q']}%")
                     ->orWhere("category","LIKE","%{$request['q']}%")
                     ->orWhere("description","LIKE","%{$request['q']}%")
-                    ->take(6)->get();
+                    ->take(6)
+                    ->get();
 
         foreach($products as $product) {
             $product['imgpath'] = $product->imagePath();

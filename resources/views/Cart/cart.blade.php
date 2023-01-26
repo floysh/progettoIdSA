@@ -102,7 +102,7 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                                     </div>
                                     <div class="control ml-5">
                                         <label class="label">Subtotale</label>
-                                        <div class="is-size-5">
+                                        <div class="is-size-4">
                                             <span><i class="fas fa-coins"></i></span>
                                             <span><strong>@currency($item->quantity * $item->product->price)</strong></span>
                                         </div>
