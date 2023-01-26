@@ -13,7 +13,11 @@
       <div class="container">
           <h1 class="title is-size-3">Nessun ordine</h1>
           <p>
+            @if (Auth::user()->isCustomer())
               Gli acquisti che farai su {{ config('app.name', 'Laravel') }} saranno elencati qui.
+            @else
+              Gli acquisti dei tuoi clienti saranno elencati qui.
+            @endif
           </p>
           <p class="mt-5">
               <a class="is-link" href="/products"><strong>Torna al negozio</strong></a>

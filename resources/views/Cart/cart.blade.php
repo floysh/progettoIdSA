@@ -73,10 +73,6 @@ Carrello ({{$cart->count()}}) - {{ config('app.name', 'ZonkoShop') }}
                         </div>
 
                         <div class="column is-one-quarter">
-                            {{-- DEBUG --}}
-                            <div class="field has-text-danger">
-                                <span>{{ $item->user->name }}</span>
-                            </div>
                             <div class="field has-text-danger">
                                 <span>{{ $item->product->isNotAvailable() ? 'NON DISPONIBILE' : '' }}</span>
                             </div>
