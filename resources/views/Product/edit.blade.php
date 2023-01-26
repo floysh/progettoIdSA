@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="field is-grouped is-inline">
-                    <button type="submit" class="button is-primary">Salva modifiche</button>
+                    <button type="submit" class="button is-primary" dusk="edit-product-button">Salva modifiche</button>
                     <a href="." class="button">Annulla</a>
                 </div>
 

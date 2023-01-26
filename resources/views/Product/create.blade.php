@@ -122,7 +122,7 @@
             </div>
 
             <div class="field is-grouped is-inline">
-                <button type="submit" class="button is-primary">Crea prodotto</button>
+                <button type="submit" class="button is-primary" dusk="create-product-button">Crea prodotto</button>
                 <a href="." class="button">Annulla</a>
             </div>
 
