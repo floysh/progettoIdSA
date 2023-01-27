@@ -1,64 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# ZonkoShop
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ZonkoShop è un ecommerce di articoli per maghi e avventurieri.
+Gli articoli nel negozio sono suddivisi in quattro categorie: accessori, armi, magie e oggetti. Ogni articolo è dotato di prezzo, descrizione e disponibilità (limitata).
+Ci sono due tipologie di utenti: gli avventurieri e i mercanti. 
 
-## About Laravel
+Gli avventurieri sono i clienti del negozio, possono acquistare gli articoli pubblicati dai mercanti e consultare il proprio storico ordini.
+Ogni cliente è dotato di un carrello per poter acquistare più articoli in un unico ordine.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+I mercanti possono mettere in vendita i propri articoli, modificarli e rifornire le scorte. Ogni mercante può controllare lo storico degli ordini che ha ricevuto dai propri clienti.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installazione e configurazione
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Questo progetto richiede NPM 8.19, PHP 8.1 (o superiore) e il gestore di pacchetti  `composer` installato. 
+Per eseguire i test di Laravel Dusk è necessario aver installato Chrome o Chromium.
 
-## Learning Laravel
+Clonare il repository:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    git clone https://github.com/floysh/progettoIdSA
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Installare le dipendenze:
 
-## Laravel Sponsors
+    composer require
+    npm install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Creare un file di configurazione per l'ambiente locale:
 
-### Premium Partners
+    cp .env.example .env
+    php artisan key:generate
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Compilare SCSS e JS con Laravel Mix:
 
-## Contributing
+    npx mix
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+*Nota: (per lo sviluppo) Si può usare `npx mix --watch` per ricompilare automaticamente tutti gli asset ogni volta che il bundler rivela cambiamenti*
 
-## Code of Conduct
+Creare il database per l'ambiente locale:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    php artisan migrate
 
-## Security Vulnerabilities
+Popolare il database con dati di esempio: *(facoltativo)*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    `php artisan db:seed`
 
-## License
+A questo punto l'app è pronta per essere utilizzata. Avviare il server 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    php artisan serve
+
+### Configurare Laravel Dusk
+Questa parte non è necessaria per eseguire l'applicazione. Per eseguire i test di Laravel Dusk sono necessari alcuni passaggi in più:
+
+1. Installare una versione di ChromeDriver compatibile con la propria versione di Chrome. Per installare l'ultima versione disponibile:
+
+    ``` php artisan dusk:chrome-driver ```
+
+    Per installare una versione diversa, fare riferimento alla [guida di Laravel Dusk](https://laravel.com/docs/9.x/dusk#managing-chromedriver-installations)
+
+2. Creare un database di test separato
+
+    ``` touch database/test-dusk.sqlite```
+
+**Nota:** Potrebbe essere necessario modificare il percorso al file di database specificato in `env.dusk.local` inserendo il percorso assoluto al posto di quello relativo.
+
+---
+
+## Requisiti
+* ZonkoShop è un e-commerce di prodotti per avventurieri di mondi fantasy.
+* I prodotti sono suddivisi in quattro categorie: accessori, armi, magie e oggetti. 
+* Ogni prodotto è dotato di nome, prezzo, descrizione e di una disponibilità limitata.
+* Il negozio è dotato di una barra di ricerca per trovare i prodotti nel catalogo
+    * La barra di ricerca è dotata di autocompletamento
+    * Mentre l’utente scrive, sono suggeriti alcuni prodotti che fanno match con la query di ricerca
+    * Il match viene fatto sul nome e sulla descrizione del prodotto
+    * Cliccando su un suggerimento si viene reindirizzati alla pagina del prodotto
+    * Premendo il tasto Invio sono visualizzati tutti i risultati della 
+    ricerca
+
+### Utenti
+* Ogni utente deve autenticarsi per svolgere operazioni diverse dalla consultazione del catalogo
+* Ogni utente ha un nome, un saldo e un ruolo
+* Ci sono due ruoli: avventuriero (cliente) e mercante
+---
+* I mercanti non possono fare acquisti
+* Ogni mercante può inserire, modificare, rifornire e rimuovere dal catalogo i propri prodotti
+* I prodotti rimossi dal catalogo sono nascosti e non possono essere acquistati
+* Un mercante non può modificare o rimuovere dal catalogo prodotti di mercanti concorrenti
+---
+* Gli avventurieri sono i clienti del negozio. Possono solo acquistare i prodotti messi in vendita dai mercanti
+* Ogni avventuriero può acquistare più oggetti contemporaneamente, anche di mercanti diversi
+* La procedura di acquisto avviene in due fasi:
+    1. Inserimento di uno o più articoli nel carrello
+    2. Conferma ordine
+* Non è possibile confermare ordini vuoti
+
+
+### Carrello e procedura d'acquisto
+* Il carrello può essere usato solo dagli avventurieri
+* Il carrello può essere vuoto o contenere uno o più prodotti
+* Nei carrelli non devono esserci prodotti duplicati.
+* Gli avventurieri possono inserire e rimuovere i prodotti dal carrello
+* Gli avventurieri possono inserire nel carrello più unità dello stesso prodotto
+* Gli avventurieri possono modificare il numero di unità desiderate per ogni prodotto nel carrello
+* I prodotti nel carrello vengono riservati per l'acquisto da parte dell'avventuriero finchè questi non li rimuove o completa l'ordine
+---
+* Quando l'avventuriero completa l'acquisto, viene creato un nuovo ordine contenente tutti i prodotti nel suo carrello
+* Quando l'avventuriero completa l'acquisto, il carrello viene svuotato
+* Quando l'avventuriero completa l'acquisto, parte del suo saldo viene trasferito ai mercanti, in base ai prezzi e alle quantità dei prodotti acquistati
+---
+* L’avventuriero non può completare l’acquisto:
+    * se il suo saldo è inferiore al totale del carrello
+    * se nel suo carrello sono presenti eventuali prodotti rimossi dal catalogo
+
+
+### Ordini
+* Un ordine deve contenere almeno un prodotto
+* Un ordine può contenere più prodotti, anche di mercanti diversi
+* Gli avventurieri possono consultare il proprio storico ordini
+* I Mercanti possono consultare lo storico ordini dei propri clienti
+* Se nell’ordine sono presenti prodotti di diversi mercanti, al mercante sono mostrati solo i propri prodotti
+

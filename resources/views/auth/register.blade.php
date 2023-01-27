@@ -39,7 +39,7 @@ Registrati su {{ config('app.name') }}
                         <label for="role" class="label">Che cosa sei?</label>
                         <div class="select">
                             <select name="role" id="role">
-                                <option value="customer" selected>Cliente</option>
+                                <option value="customer" selected>Avventuriero</option>
                                 <option value="merchant">Mercante</option>
                             </select>
                         </div>

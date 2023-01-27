@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="field">
+            {{-- <div class="field">
                 <label class="label">Immagine NEW!</label>
                 <div class="control has-icons-left">
                     <div class="select">
@@ -52,7 +52,7 @@
                         <i class="fas fa-images"></i>
                     </span>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="columns">
                 <div class="column">
