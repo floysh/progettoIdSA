@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Pagine negozio
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', 'StoreController@home');
 Route::get('/dashboard', 'StoreController@home')->name('Dashboard');
 Route::get('/search', 'SearchController@search')->name('search');
