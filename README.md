@@ -20,7 +20,7 @@ Clonare il repository:
 
 Installare le dipendenze:
 
-    composer require
+    composer install
     npm install
 
 Creare un file di configurazione per l'ambiente locale:
@@ -36,9 +36,10 @@ Compilare SCSS e JS con Laravel Mix:
 
 Creare il database per l'ambiente locale:
 
+    touch database/database.sqlite
     php artisan migrate
 
-Popolare il database con dati di esempio: *(facoltativo)*
+ *(facoltativo)* Popolare il database con dati di esempio:
 
     `php artisan db:seed`
 
